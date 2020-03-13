@@ -23,12 +23,12 @@ namespace ProyectoFinalAplicada2.Controller
                     paso = Insertar(usuario);
                 }
 
-                else
+                //else
 
-                if (Buscar(usuario.UsuarioId) == null)
-                {
-                    paso = false;
-                }
+                //if (Buscar(usuario.UsuarioId) == null)
+                //{
+                //    paso = false;
+                //}
 
                 else
                 {
