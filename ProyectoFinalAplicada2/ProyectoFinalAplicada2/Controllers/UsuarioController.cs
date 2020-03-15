@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace ProyectoFinalAplicada2.Controller
+namespace ProyectoFinalAplicada2.Controllers
 {
     public class UsuarioController
     {
