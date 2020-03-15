@@ -10,11 +10,18 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int UsuarioId { get; set; }
+        [Required(ErrorMessage = "El campo Nombres obligatorio.")]
+
         public string  Nombres { get; set; }
-        [Required(ErrorMessage = "<font color='red'>El campo Correo electronico es obligatorio.</ font>")]
+        [Required(ErrorMessage = "El campo Correo electronico es obligatorio.")]
         public string Email { get; set; }
+
         public string  NivelUsuario { get; set; }
+        [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
+
         public string Usuario { get; set; }
+        [Required(ErrorMessage = "El campo Contraseña es obligatorio.")]
+
         public string Contraseña { get; set; }
         public DateTime FechaIngreso { get; set; }
 
