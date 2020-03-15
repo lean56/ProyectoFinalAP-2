@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,8 +17,9 @@ namespace ProyectoFinalAplicada2.Models
         public decimal Total { get; set; }
         public DateTime Fecha { get; set; }
 
+        [ForeignKey("FacturaId")]
 
-        public virtual List<FacturaDetalles> Detalle { get; set; }
+        public List<FacturaDetalles> Detalle { get; set; }
 
         public Facturas()
         {
