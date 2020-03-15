@@ -1,151 +1,154 @@
 ﻿@page "/rUsuario"
 
 
-<EditForm Model="Usuario" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
+	<EditForm Model="Usuario" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
+
+		<div class="card ">
+
+			<center>
+				<h5>Registrar usuarios</h5>
+			</center>
 
 
-    <center>
-        <h5>Registrar usuarios</h5>
-    </center>
+
+			<div class="form-group row">
+				<!--Inscripcion Id-->
+				<label for="usuarioId " class="col-auto">Inscripcion Id</label>
+				<div class="input-group  col-sm-3">
+					<InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
+					<ValidationMessage For="@(()=>Usuario.UsuarioId)" />
+					<div class="input-group-append">
+						<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+					</div>
+				</div>
+				<!--Fecha-->
+				<label for="fecha">Fecha</label>
+				<div align="right" class="input-group col-md-6">
+					<div class="col-sm-6">
+						<InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
+						<ValidationMessage For="@(()=>Usuario.FechaIngreso)" />
+					</div>
+				</div>
+			</div>
+
+			<label for="nombre">Nombres</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
+				<ValidationMessage For="@(()=>Usuario.Nombres)" />
+			</div>
+
+			<div class="input-field col s6">
+				<label for="email">Email</label>
+				<input type="email" @bind="@Usuario.Email" class="form-control" />
+				<ValidationMessage For="@(()=>Usuario.Email)" />
+			</div>
+
+			<label for="nivelUser">Nivel de Usuario</label>
+
+			<div class="input-field col s6">
+				<InputSelect @bind-Value="NivelSelect" class="form-control">
+					<option value="" disabled selected>Seleccione Tipo de Usuario</option>
+					<option value="Usuario">Usuario</option>
+					<option value="Administrador">Administrador</option>
+				</InputSelect>
+			</div>
 
 
+			<div class="input-field col s6">
+				<label for="Usuario">Usuario</label>
+				<InputText @bind-Value="@Usuario.Usuario" class="form-control" />
+				<ValidationMessage For="@(()=>Usuario.Usuario)" />
+			</div>
 
-    <div class="form-group row">
-        <!--Inscripcion Id-->
-        <label for="usuarioId " class="col-auto">Inscripcion Id</label>
-        <div class="input-group  col-sm-3">
-            <InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
-            <ValidationMessage For="@(()=>Usuario.UsuarioId)" />
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
-            </div>
-        </div>
-        <!--Fecha-->
-        <label for="fecha">Fecha</label>
-        <div align="right" class="input-group col-md-6">
-            <div class="col-sm-6">
-                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
-                <ValidationMessage For="@(()=>Usuario.FechaIngreso)" />
-            </div>
-        </div>
-    </div>
-
-    <label for="nombre">Nombres</label>
-    <div class="input-field col s4">
-        <InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
-        <ValidationMessage For="@(()=>Usuario.Nombres)" />
-    </div>
-
-    <div class="input-field col s6">
-        <label for="email">Email</label>
-        <input type="email" @bind="@Usuario.Email" class="form-control" />
-        <ValidationMessage For="@(()=>Usuario.Email)" />
-    </div>
-
-    <label for="nivelUser">Nivel de Usuario</label>
-
-    <div class="input-field col s6">
-        <InputSelect @bind-Value="NivelSelect" class="form-control">
-            <option value="" disabled selected>Seleccione Tipo de Usuario</option>
-            <option value="Usuario">Usuario</option>
-            <option value="Administrador">Administrador</option>
-        </InputSelect>
-    </div>
+			<div class="input-field col s6">
+				<label for="Contraseña">Contraseña</label>
+				<input type="password" @bind="@Usuario.Contraseña" class="form-control" />
+				<ValidationMessage For="@(()=>Usuario.Contraseña)" />
+			</div>
 
 
-    <div class="input-field col s6">
-        <label for="Usuario">Usuario</label>
-        <InputText @bind-Value="@Usuario.Usuario" class="form-control" />
-        <ValidationMessage For="@(()=>Usuario.Usuario)" />
-    </div>
+			<br />
+			<br />
+			<div class="input-field col s6">
+				<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+				<button type="submit" class="btn btn-outline-secondary">Guardar</button>
+				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+			</div>
 
-    <div class="input-field col s6">
-        <label for="Contraseña">Contraseña</label>
-        <input type="password" @bind="@Usuario.Contraseña" class="form-control" />
-        <ValidationMessage For="@(()=>Usuario.Contraseña)" />
-    </div>
+			<h5 class="text-success">@mensaje</h5>
 
-
-    <br />
-    <br />
-    <div class="input-field col s6">
-        <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-        <button type="submit" class="btn btn-outline-secondary">Guardar</button>
-        <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-    </div>
-
-
-    <h5 class="text-success">@mensaje</h5>
-</EditForm>
+		</div>
+	
+	</EditForm>
 
 
 @code {
 
-    protected override void OnInitialized()
-    {
-        Usuario = new Usuarios();
-    }
+	protected override void OnInitialized()
+	{
+		Usuario = new Usuarios();
+	}
 
-    public Usuarios Usuario { get; set; }
-    public string mensaje;
+	public Usuarios Usuario { get; set; }
+	public string mensaje;
 
-    private string NivelSelect;
+	private string NivelSelect;
 
-    UsuarioController controller = new UsuarioController();
+	UsuarioController controller = new UsuarioController();
 
-    public void Guardar()
-    {
-        Usuario.NivelUsuario = NivelSelect;
-        if (controller.Guardar(Usuario))
-        {
-            Limpiar();
-            mensaje = "Usuario Guardado con Exito!!!";
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Error al guardar usuario";
-        }
-    }
+	public void Guardar()
+	{
+		Usuario.NivelUsuario = NivelSelect;
+		if (controller.Guardar(Usuario))
+		{
+			Limpiar();
+			mensaje = "Usuario Guardado con Exito!!!";
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Error al guardar usuario";
+		}
+	}
 
-    public void Buscar()
-    {
-        var usuario = controller.Buscar(Usuario.UsuarioId);
+	public void Buscar()
+	{
+		var usuario = controller.Buscar(Usuario.UsuarioId);
 
-        if (usuario != null)
-        {
-            Usuario = usuario;
-            NivelSelect = Usuario.NivelUsuario;
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Usuario no Existe";
-        }
-    }
+		if (usuario != null)
+		{
+			Usuario = usuario;
+			NivelSelect = Usuario.NivelUsuario;
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Usuario no Existe";
+		}
+	}
 
-    public void Eliminar()
-    {
-        var usuario = controller.Buscar(Usuario.UsuarioId);
+	public void Eliminar()
+	{
+		var usuario = controller.Buscar(Usuario.UsuarioId);
 
-        if (usuario != null)
-        {
-            controller.Eliminar(Usuario.UsuarioId);
-            Limpiar();
-            mensaje = "Usuario Eliminado";
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Error al eliminar";
-        }
-    }
+		if (usuario != null)
+		{
+			controller.Eliminar(Usuario.UsuarioId);
+			Limpiar();
+			mensaje = "Usuario Eliminado";
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Error al eliminar";
+		}
+	}
 
-    public void Limpiar()
-    {
-        this.Usuario = new Usuarios();
-        mensaje = "";
-        NivelSelect = "";
-    }
+	public void Limpiar()
+	{
+		this.Usuario = new Usuarios();
+		mensaje = "";
+		NivelSelect = "";
+	}
 }
