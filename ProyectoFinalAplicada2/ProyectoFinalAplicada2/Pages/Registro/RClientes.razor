@@ -1,7 +1,7 @@
 ﻿@page "/rClientes"
 
 <EditForm Model="Cliente" OnValidSubmit="Guardar">
-        <DataAnnotationsValidator />
+    <DataAnnotationsValidator />
 
     <div class="center-align">
 
@@ -68,11 +68,11 @@
 
             <label for="Deuda">Deuda</label>
             <div class="input-field col s4">
-                <InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled/>
+                <InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
                 <ValidationMessage For="@(()=>Cliente.Deuda)" />
             </div>
         </div>
-         
+
         <br />
 
         <h5>@mensaje</h5>

@@ -3,83 +3,83 @@
 
 	<EditForm Model="Usuario" OnValidSubmit="Guardar">
 		<DataAnnotationsValidator />
+		<div class="center-align">
+			<div class="card ">
 
-		<div class="card ">
-
-			<center>
-				<h5>Registrar usuarios</h5>
-			</center>
+				<center>
+					<h5>Registrar usuarios</h5>
+				</center>
 
 
 
-			<div class="form-group row">
-				<!--Inscripcion Id-->
-				<label for="usuarioId " class="col-auto">Inscripcion Id</label>
-				<div class="input-group  col-sm-3">
-					<InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
-					<ValidationMessage For="@(()=>Usuario.UsuarioId)" />
-					<div class="input-group-append">
-						<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+				<div class="form-group row">
+					<!--Usuario Id-->
+					<label for="usuarioId " class="col-auto">Usuario Id</label>
+					<div class="input-group  col-sm-3">
+						<InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
+						<ValidationMessage For="@(()=>Usuario.UsuarioId)" />
+						<div class="input-group-append">
+							<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+						</div>
+					</div>
+					<!--Fecha-->
+					<label for="fecha">Fecha</label>
+					<div align="right" class="input-group col-md-6">
+						<div class="col-sm-6">
+							<InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
+							<ValidationMessage For="@(()=>Usuario.FechaIngreso)" />
+						</div>
 					</div>
 				</div>
-				<!--Fecha-->
-				<label for="fecha">Fecha</label>
-				<div align="right" class="input-group col-md-6">
-					<div class="col-sm-6">
-						<InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
-						<ValidationMessage For="@(()=>Usuario.FechaIngreso)" />
-					</div>
+
+				<label for="nombre">Nombres</label>
+				<div class="input-field col s4">
+					<InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
+					<ValidationMessage For="@(()=>Usuario.Nombres)" />
 				</div>
+
+				<div class="input-field col s6">
+					<label for="email">Email</label>
+					<input type="email" @bind="@Usuario.Email" class="form-control" />
+					<ValidationMessage For="@(()=>Usuario.Email)" />
+				</div>
+
+				<label for="nivelUser">Nivel de Usuario</label>
+
+				<div class="input-field col s6">
+					<InputSelect @bind-Value="NivelSelect" class="form-control">
+						<option value="" disabled selected>Seleccione Tipo de Usuario</option>
+						<option value="Usuario">Usuario</option>
+						<option value="Administrador">Administrador</option>
+					</InputSelect>
+				</div>
+
+
+				<div class="input-field col s6">
+					<label for="Usuario">Usuario</label>
+					<InputText @bind-Value="@Usuario.Usuario" class="form-control" />
+					<ValidationMessage For="@(()=>Usuario.Usuario)" />
+				</div>
+
+				<div class="input-field col s6">
+					<label for="Contraseña">Contraseña</label>
+					<input type="password" @bind="@Usuario.Contraseña" class="form-control" />
+					<ValidationMessage For="@(()=>Usuario.Contraseña)" />
+				</div>
+
+
+				<br />
+				<br />
+				<div class="input-field col s6">
+					<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+					<button type="submit" class="btn btn-outline-secondary">Guardar</button>
+					<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+				</div>
+
+				<h5 class="text-success">@mensaje</h5>
+
 			</div>
-
-			<label for="nombre">Nombres</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
-				<ValidationMessage For="@(()=>Usuario.Nombres)" />
 			</div>
-
-			<div class="input-field col s6">
-				<label for="email">Email</label>
-				<input type="email" @bind="@Usuario.Email" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Email)" />
-			</div>
-
-			<label for="nivelUser">Nivel de Usuario</label>
-
-			<div class="input-field col s6">
-				<InputSelect @bind-Value="NivelSelect" class="form-control">
-					<option value="" disabled selected>Seleccione Tipo de Usuario</option>
-					<option value="Usuario">Usuario</option>
-					<option value="Administrador">Administrador</option>
-				</InputSelect>
-			</div>
-
-
-			<div class="input-field col s6">
-				<label for="Usuario">Usuario</label>
-				<InputText @bind-Value="@Usuario.Usuario" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Usuario)" />
-			</div>
-
-			<div class="input-field col s6">
-				<label for="Contraseña">Contraseña</label>
-				<input type="password" @bind="@Usuario.Contraseña" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Contraseña)" />
-			</div>
-
-
-			<br />
-			<br />
-			<div class="input-field col s6">
-				<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-				<button type="submit" class="btn btn-outline-secondary">Guardar</button>
-				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-			</div>
-
-			<h5 class="text-success">@mensaje</h5>
-
-		</div>
-	
 	</EditForm>
 
 
