@@ -1,6 +1,6 @@
-﻿@*@page "/rPagos"
+﻿@page "/rPagos"
 
-<EditForm Model="Pago" OnValidSubmit="Guardar">
+@*<EditForm Model="Pago" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
 
     <div class="center-align">
@@ -60,16 +60,23 @@
 
 @code {
 
+    //Pagos Pago = new Pagos;
+    //PagosController pagosController = new PagosController();
+
+    //List<Clientes> ListadoClientes = new List<Clientes>();
+    //ClientesController clientesController = new ClientesController();
     //string ClienteSeleccionado;
+
     //protected override void OnInitialized()
     //{
     //    Pago = new Pagos();
+    //    ListadoClientes = clientesController.GetList(e => true);
     //}
 
     //public Pagos Pago { get; set; }
     //public string mensaje;
 
-    //PagosController PagosController = new PagosController();
+
 
     //private void Guardar()
     //{
