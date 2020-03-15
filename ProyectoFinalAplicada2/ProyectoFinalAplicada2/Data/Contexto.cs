@@ -13,6 +13,7 @@ namespace ProyectoFinalAplicada2.Data
         public DbSet<Clientes> Clientes { get; set; }
         public DbSet<Productos> Productos { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Pagos> Pagos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
