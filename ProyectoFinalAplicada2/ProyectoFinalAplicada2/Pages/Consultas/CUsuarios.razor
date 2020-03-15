@@ -20,6 +20,18 @@
 	</div>
 </div>
 
+<div class="form-group row">
+	<input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
+	<div class="input-group  col-sm-6">
+		<!--Desde-->
+		<label for="DesdeFecha" class="col-auto">Desde</label>
+		<input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
+		<!--Hasta-->
+		<label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
+		<input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
+	</div>
+</div>
+
 
 <table class="table">
 	<thead class="thead-light">
@@ -28,6 +40,7 @@
 			<th>Nombres</th>
 			<th>Nivel de Usuario</th>
 			<th>Usuario</th>
+			<th>Fecha Ingreso</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -39,6 +52,7 @@
 				<th>@item.Nombres</th>
 				<th>@item.NivelUsuario</th>
 				<th>@item.Usuario</th>
+				<th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
 				<td><a class="btn btn-sm btn-outline-primary" href="estudiante/@item.UsuarioId">Ver</a></td>
 			</tr>
 		}
@@ -56,10 +70,16 @@
 	private string Criterio { get; set; }
 	private string mensaje;
 
+	public bool BuscarFecha { get; set; }
+	public DateTime DesdeFecha { get; set; }
+	public DateTime HastaFecha { get; set; }
+
 
 	protected override void OnInitialized()
 	{
 		lista = new List<Usuarios>();
+		DesdeFecha = DateTime.Now;
+		HastaFecha = DateTime.Now;
 	}
 
 	private void Buscar()
@@ -97,7 +117,11 @@
 						case "Usuario":
 							lista = controller.GetList(e => e.Usuario == Criterio);
 							break;
+					}if (BuscarFecha == true)
+					{
+						lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
 					}
+
 				}
 			}
 		}

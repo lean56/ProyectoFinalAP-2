@@ -17,7 +17,7 @@ namespace ProyectoFinalAplicada2.Models
         public DateTime Fecha { get; set; }
 
 
-        public virtual List<FacturaDetalle> Detalle { get; set; }
+        public virtual List<FacturaDetalles> Detalle { get; set; }
 
         public Facturas()
         {
@@ -27,7 +27,7 @@ namespace ProyectoFinalAplicada2.Models
             ProductoId = 0;
             Total = 0;
             Fecha = DateTime.Now;
-            this.Detalle = new List<FacturaDetalle>();
+            this.Detalle = new List<FacturaDetalles>();
         }
     }
 }
