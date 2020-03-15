@@ -1,0 +1,359 @@
+﻿@page "/rfactura"
+<h3>Registro de Factura</h3>
+
+<EditForm Model="Factura" OnValidSubmit="Guardar">
+	<DataAnnotationsValidator />
+
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+
+				<div class="form-group row">
+					<!--Factura Id-->
+					<label for="FacturaId " class="col-auto">Factura Id</label>
+					<div class="input-group  col-sm-3">
+						<InputNumber @bind-Value="@Factura.FacturaId" class="form-control" />
+						<ValidationMessage For="@(()=>Factura.FacturaId)" />
+						<div class="input-group-append">
+							<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+						</div>
+					</div>
+					<!--Fecha-->
+					<label for="fecha">Fecha</label>
+					<div align="right" class="input-group col-md-6">
+						<div class="col-sm-6">
+							<InputDate @bind-Value="@Factura.Fecha" class="form-control" />
+							<ValidationMessage For="@(()=>Factura.Fecha)" />
+						</div>
+					</div>
+				</div>
+				<!--Estudianteid-->
+				<div class="form-group row">
+					<label for="estudianteid">Estudiante</label>
+					<div class="col-md-6 no-padding">
+						@*<InputSelect @bind-Value="@EstudianteSelect" class="form-control " @onchange="CargarEstudiante" @onclick="CargarEstudiante">
+								<option value="" disabled selected>Seleccione un Estudiante</option>
+								@foreach (var item in ListaEstudiante)
+								{
+									<option value="@item.EstudianteId">@item.Nombres</option>
+								}
+							</InputSelect>*@
+					</div>
+				</div>
+
+				<div class="form-group row">
+					<!--Semestre-->
+					<label class="col-auto" for="Semestre">Semestre:</label>
+					@*<div class="col-4">
+							<InputText @bind-Value="@Factura.Semestre" class="form-control" />
+							<ValidationMessage For="@(()=>Factura.Semestre)" />
+						</div>*@
+					<!--Limite de credito-->
+					<label class="col-auto" for="Limite">Limite de Creditos:</label>
+					@*<div class="col-4">
+							<InputNumber @bind-Value="@Factura.Limite" class="form-control" @onfocusin="CalcularCreditos" @onfocusout="CalcularCreditos" />
+							<ValidationMessage For="@(()=>Factura.Limite)" />
+						</div>*@
+				</div>
+
+				<div class="form-group row">
+					<label for="Asignatura">Asignatura</label>
+					<div class="col-md-6 no-padding">
+						<!--Asignaturas-->
+						@*<InputSelect @bind-Value="@AsignaturaSelect" class="form-control" @onchange="CargarAsignatura" @onclick="CargarAsignatura">
+
+								@if (ListaAsignatura.Count == 0)
+								{
+									<option value="">No hay Asigntura Agregada</option>
+								}
+								else
+								{
+									<option value="" disabled selected>Seleccione una Asignatura</option>
+
+									@foreach (var item in ListaAsignatura)
+									{
+										<option value="@item.AsignaturaId">@item.Descripcion</option>
+									}
+
+								}
+							</InputSelect>*@
+					</div>
+					<!--Precio-->
+					<label class="col-auto" for="Precio">Precio:</label>
+					<div class="col-2">
+						<InputNumber @bind-Value="@Precio" class="form-control"></InputNumber>
+					</div>
+					<button type="button" class="btn btn-outline-primary" @onclick="AgregarAsignatura">Agregar</button>
+				</div>
+
+				<div class="card">
+					<div class="card-body">
+						<table class="table">
+							<thead class="thead-dark">
+								<tr>
+									<th>Id</th>
+									<th>Descripcion</th>
+									<th>Credito</th>
+									<th>Subtotal</th>
+									<th></th>
+								</tr>
+							</thead>
+							@*<tbody>
+									@foreach (var item in Factura.Detalles)
+									{
+										<tr>
+											<th>@item.AsignaturaId</th>
+											<th>@item.DescripcionAsignatura</th>
+											<th>@item.Creditos</th>
+											<th>@item.Subtotal</th>
+											<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarAsigantura(item))">Eliminar</button></th>
+
+										</tr>
+									}
+								</tbody>*@
+						</table>
+
+						@*<div class="col-md-2 no-padding">
+								<label>Balance</label>
+								<InputNumber @bind-Value="@Factura.Monto" class="form-control" disabled></InputNumber>
+							</div>*@
+					</div>
+				</div>
+				<br />
+
+				<div class="text-center">
+					<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+					<button type="submit" class="btn btn-outline-success">Guardar</button>
+					<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title">Atencion</h5>
+									<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									¿Desea eliminar Esta Factura?
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
+									<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">Si</button>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--fin de modal-->
+				</div>
+
+				<h5 class="text-success">@mensaje</h5>
+			</div>
+		</div>
+	</div>
+	<br />
+
+
+</EditForm>
+@code {
+
+
+	[Parameter]
+	public int FacturaId { get; set; }
+
+	public Facturas Factura { get; set; }
+
+	ClientesController clientesController = new ClientesController();
+	ProductosController productosController = new ProductosController();
+	FacturaController controller = new FacturaController();
+	private string AsignaturaSelect { get; set; }
+	private string EstudianteSelect { get; set; }
+
+
+	private string mensaje = "";
+
+	private int Precio = 0;
+	private int credito = 0;
+
+	private List<Productos> ListaProducto = new List<Productos>();
+	private List<Clientes> ListaCliente = new List<Clientes>();
+
+	private Clientes Cliente { get; set; }
+	private Productos Producto { get; set; }
+
+	protected override void OnInitialized()
+	{
+		ListaCliente = clientesController.GetList(e => true);
+		ListaProducto = productosController.GetList(e => true);
+		Factura = new Facturas();
+		Cliente = new Clientes();
+		Producto = new Productos();
+
+		if (FacturaId != 0)
+		{
+			Factura.FacturaId = FacturaId;
+			Buscar();
+		}
+	}
+
+
+	private void CargarAsignatura()
+	{
+		//try
+		//{
+		//	Asignatura = controllerAsign.Buscar(Convert.ToInt32(AsignaturaSelect));
+		//}
+		//catch (Exception ex)
+		//{
+		//	mensaje = ex.ToString();
+		//}
+	}
+
+	private void CargarEstudiante()
+	{
+		try
+		{
+			//Estudiante = controllerEst.Buscar(Convert.ToInt32(EstudianteSelect));
+		}
+		catch (Exception ex)
+		{
+			mensaje = ex.ToString();
+		}
+	}
+
+	private void AgregarAsignatura()
+	{
+
+		//if (AsignaturaSelect == null)
+		//{
+		//	mensaje = "debe seleccionar una asignatura";
+		//}
+		//else
+		//{
+		//	if (Precio <= 0)
+		//	{
+		//		mensaje = "El precio es Obligatorio";
+		//	}
+		//	else
+		//	{
+		//		if (Factura.Detalles.Any(i => i.AsignaturaId == Asignatura.AsignaturaId))
+		//		{
+		//			mensaje = "Esta Asignatura ya esta agregada";
+		//		}
+		//		else
+		//		{
+		//			mensaje = "";
+		//			Factura.Detalles.Add(new FacturaDetalle()
+		//			{
+		//				FacturaId = Factura.FacturaId,
+		//				AsignaturaId = Asignatura.AsignaturaId,
+		//				DescripcionAsignatura = Asignatura.Descripcion,
+		//				Creditos = Asignatura.Creditos,
+		//				Subtotal = (Asignatura.Creditos * Precio)
+		//			});
+		//			Asignatura = new Asignaturas();
+
+		//			int total = 0;
+
+		//			foreach (var item in Factura.Detalles)
+		//			{
+		//				total += item.Subtotal;
+		//				credito += item.Creditos;
+		//			}
+
+		//			Factura.Monto = total;
+		//			Factura.Tomados = credito;
+		//		}
+		//	}
+		//}
+	}
+
+	//private void EliminarAsigantura(FacturaDetalle detalle)
+	//{
+	//	//Factura.Detalles.Remove(detalle);
+	//}
+
+	public void Guardar()
+	{
+		//InscripncionController controller = new InscripncionController();
+		//EstudianteController controllerEst = new EstudianteController();
+
+		Factura.ClienteId = Convert.ToInt32(EstudianteSelect);
+		//if (credito > Factura.Limite)
+		//{
+		//	mensaje = "Los Credito Tomados no pueden ser Mayor a los Limites";
+		//}
+		//else
+		//{
+		mensaje = "";
+		CalcularCreditos();
+		if (controller.Guardar(Factura))
+		{
+			Limpiar();
+			mensaje = "Factura Guardada";
+			//toastService.ShowSuccess("Guardada  Exito", "Atencion");
+		}
+		else
+		{
+			mensaje = "Error al guardar Factura";
+		}
+		//}
+	}
+
+	public void Buscar()
+	{
+		FacturaController controller = new FacturaController();
+
+		var factura = controller.Buscar(Factura.FacturaId);
+
+		if (factura != null)
+		{
+			Factura = factura;
+			//EstudianteSelect = Convert.ToString(Factura.EstudianteId);
+		}
+		else
+		{
+			Factura = new Facturas();
+			mensaje = "Factura no existe";
+		}
+	}
+
+	public void Eliminar()
+	{
+		FacturaController controller = new FacturaController();
+
+
+		var factura = controller.Buscar(Factura.FacturaId);
+
+		if (Factura != null)
+		{
+			controller.Eliminar(Factura.FacturaId);
+			Limpiar();
+			mensaje = "Factura Eliminada";
+		}
+		else
+		{
+			mensaje = "Error al Eliminar";
+		}
+	}
+
+	public void Limpiar()
+	{
+		mensaje = "";
+		this.Factura = new Facturas();
+	}
+
+	public void CalcularCreditos()
+	{
+		////if (Factura != null)
+		////{
+		////	Factura.Disponible = Factura.Limite - credito;
+		////}
+		////else
+		////{
+		////	mensaje = "Error al Calcular";
+		////}
+	}
+}
