@@ -5,11 +5,10 @@
 @inject NavigationManager UriHelper
 @inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
 <h3>Call Server Side</h3>
-<p>Current User: @CurrentUser.UserName</p>
-<p>IsAuthenticated: @CurrentUser.IsAuthenticated</p>
+
 <button class="btn btn-primary" @onclick="GetUser">Get User</button>
 @code {
-	UserModel CurrentUser = new UserModel();
+	//UserModel CurrentUser = new UserModel();
 	async Task GetUser()
 	{
 		// Call the server side controller
