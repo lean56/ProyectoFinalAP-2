@@ -11,7 +11,10 @@ namespace ProyectoFinalAplicada2.Models
         [Key]
         public int PagoId { get; set; }
         public DateTime Fecha { get; set; }
+        [Required]
         public int ClienteId { get; set; }
+        [Required]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El monto a pagar debe ser mayor a 0.00!")]
         public decimal MontoPago { get; set; }
 
         public Pagos()

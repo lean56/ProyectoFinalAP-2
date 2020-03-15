@@ -1,0 +1,129 @@
+﻿@*@page "/rPagos"
+
+<EditForm Model="Pago" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <div class="center-align">
+
+        <center>
+            <h2>Registro de Pagos</h2>
+        </center>
+
+        <label for="PagoId " class="col-auto">Codigo del Pago</label>
+        <div class="input-group  col-sm-3">
+            <InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
+            <div class="input-group-append">
+                <button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+            </div>
+        </div>
+
+        <label for="Fecha">Fecha</label>
+        <div align="right" class="input-group col-md-6">
+            <div class="col-sm-6">
+                <InputDate @bind-Value="@Pago.Fecha" class="form-control" />
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label for="ClienteId">Cliente</label>
+            <div class="col-md-6 no-padding">
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarEstudiante" @onclick="CargarEstudiante">
+                    <option value="" disabled selected>Seleccione un Estudiante</option>
+                    @foreach (var item in ListaEstudiante)
+                    {
+                        <option value="@item.EstudianteId">@item.Nombres</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+
+        <label for="Deuda">Deuda</label>
+        <div class="input-field col s4">
+            <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" disabled />
+            <ValidationMessage For="@(()=>Pago.MontoPago)" />
+        </div>
+
+        <br />
+
+        <h5>@mensaje</h5>
+
+        <div class="input-field col s6">
+            <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+            <button type="submit" class="btn btn-outline-success">Guardar</button>
+            <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+        </div>
+
+
+    </div>
+</EditForm>*@
+
+
+@code {
+
+    //string ClienteSeleccionado;
+    //protected override void OnInitialized()
+    //{
+    //    Pago = new Pagos();
+    //}
+
+    //public Pagos Pago { get; set; }
+    //public string mensaje;
+
+    //PagosController PagosController = new PagosController();
+
+    //private void Guardar()
+    //{
+    //    if (PagosController.Guardar(Pago))
+    //    {
+    //        Limpiar();
+    //        mensaje = "Pago Guardado con Exito!!!";
+    //    }
+    //    else
+    //    {
+    //        Limpiar();
+    //        mensaje = "Error al guardar el Pago";
+    //    }
+    //}
+
+    //private void Buscar()
+    //{
+    //    Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
+
+    //    if (PagoTemporal != null)
+    //    {
+    //        Pago = PagoTemporal;
+
+    //    }
+    //    else
+    //    {
+    //        Limpiar();
+    //        mensaje = "Este Pago no existe";
+
+    //    }
+    //}
+
+    //private void Eliminar()
+    //{
+    //    Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
+
+    //    if (PagoTemporal != null)
+    //    {
+    //        PagosController.Eliminar(Pago.PagoId);
+    //        Limpiar();
+    //        mensaje = "Pago Eliminado";
+
+    //    }
+    //    else
+    //    {
+    //        Limpiar();
+    //        mensaje = "Error al eliminar";
+
+    //    }
+    //}
+
+    //private void Limpiar()
+    //{
+    //    this.Pago = new Pagos();
+    //    mensaje = string.Empty;
+    //}
+}
