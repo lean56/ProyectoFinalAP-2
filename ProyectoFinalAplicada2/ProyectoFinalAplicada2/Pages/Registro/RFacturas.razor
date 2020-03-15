@@ -27,63 +27,61 @@
 						</div>
 					</div>
 				</div>
-				<!--Estudianteid-->
+				<!--Cliente-->
 				<div class="form-group row">
-					<label for="estudianteid">Estudiante</label>
+					<label class="col-auto" for="cliente">Cliente</label>
 					<div class="col-md-6 no-padding">
-						@*<InputSelect @bind-Value="@EstudianteSelect" class="form-control " @onchange="CargarEstudiante" @onclick="CargarEstudiante">
-								<option value="" disabled selected>Seleccione un Estudiante</option>
-								@foreach (var item in ListaEstudiante)
-								{
-									<option value="@item.EstudianteId">@item.Nombres</option>
-								}
-							</InputSelect>*@
+						<InputSelect @bind-Value="@ClienteSelect" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
+							<option value="" disabled selected>Seleccione un Cliente</option>
+							@foreach (var item in ListaCliente)
+							{
+								<option value="@item.ClienteId">@item.Nombres</option>
+							}
+						</InputSelect>
 					</div>
 				</div>
 
 				<div class="form-group row">
-					<!--Semestre-->
-					<label class="col-auto" for="Semestre">Semestre:</label>
-					@*<div class="col-4">
-							<InputText @bind-Value="@Factura.Semestre" class="form-control" />
-							<ValidationMessage For="@(()=>Factura.Semestre)" />
-						</div>*@
-					<!--Limite de credito-->
-					<label class="col-auto" for="Limite">Limite de Creditos:</label>
-					@*<div class="col-4">
-							<InputNumber @bind-Value="@Factura.Limite" class="form-control" @onfocusin="CalcularCreditos" @onfocusout="CalcularCreditos" />
-							<ValidationMessage For="@(()=>Factura.Limite)" />
-						</div>*@
-				</div>
+					<div class="col-md-4 no-padding">
+						<label for="producto">Producto</label>
 
-				<div class="form-group row">
-					<label for="Asignatura">Asignatura</label>
-					<div class="col-md-6 no-padding">
-						<!--Asignaturas-->
-						@*<InputSelect @bind-Value="@AsignaturaSelect" class="form-control" @onchange="CargarAsignatura" @onclick="CargarAsignatura">
+						<!--Producto-->
+						<InputSelect @bind-Value="@ProductoSelect" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
 
-								@if (ListaAsignatura.Count == 0)
+							@if (ListaProducto.Count == 0)
+							{
+								<option value="">No hay Producto Registrado</option>
+							}
+							else
+							{
+								<option value="" disabled selected>Seleccione un Producto</option>
+
+								@foreach (var item in ListaProducto)
 								{
-									<option value="">No hay Asigntura Agregada</option>
+									<option value="@item.ProductoId">@item.Descripcion</option>
 								}
-								else
-								{
-									<option value="" disabled selected>Seleccione una Asignatura</option>
-
-									@foreach (var item in ListaAsignatura)
-									{
-										<option value="@item.AsignaturaId">@item.Descripcion</option>
-									}
-
-								}
-							</InputSelect>*@
+							}
+						</InputSelect>
+					</div>
+					<!--Cantidad-->
+					<div class="col-2">
+						<label class="col-auto" for="Cantidad">Cantidad:</label>
+						<InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
 					</div>
 					<!--Precio-->
-					<label class="col-auto" for="Precio">Precio:</label>
 					<div class="col-2">
+						<label class="col-auto" for="precio">Precio:</label>
 						<InputNumber @bind-Value="@Precio" class="form-control"></InputNumber>
 					</div>
-					<button type="button" class="btn btn-outline-primary" @onclick="AgregarAsignatura">Agregar</button>
+					<!--Importe-->
+					<div class="col-2">
+						<label class="col-auto" for="importe">Importe:</label>
+						<InputNumber @bind-Value="@Importe" class="form-control "></InputNumber>
+					</div>
+					<div class="form-group">
+						<br />
+						<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
+					</div>
 				</div>
 
 				<div class="card">
@@ -92,33 +90,36 @@
 							<thead class="thead-dark">
 								<tr>
 									<th>Id</th>
+									<th>ProductoId</th>
 									<th>Descripcion</th>
-									<th>Credito</th>
-									<th>Subtotal</th>
+									<th>Cantidad</th>
+									<th>Precio</th>
 									<th></th>
 								</tr>
 							</thead>
-							@*<tbody>
-									@foreach (var item in Factura.Detalles)
-									{
-										<tr>
-											<th>@item.AsignaturaId</th>
-											<th>@item.DescripcionAsignatura</th>
-											<th>@item.Creditos</th>
-											<th>@item.Subtotal</th>
-											<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarAsigantura(item))">Eliminar</button></th>
-
-										</tr>
-									}
-								</tbody>*@
+							<tbody>
+								@foreach (var item in Factura.Detalle)
+								{
+									<tr>
+										<th>@item.FacturaId</th>
+										<th>@item.ProductoId</th>
+										<th>@item.Descripcion</th>
+										<th>@item.Cantidad</th>
+										<th>@item.Precio</th>
+										<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+									</tr>
+								}
+							</tbody>
 						</table>
 
-						@*<div class="col-md-2 no-padding">
-								<label>Balance</label>
-								<InputNumber @bind-Value="@Factura.Monto" class="form-control" disabled></InputNumber>
-							</div>*@
+						<label>Total</label>
+						<div class="col-2 ">
+							<InputNumber @bind-Value="@Factura.Total" class="form-control" disabled></InputNumber>
+						</div>
 					</div>
+
 				</div>
+
 				<br />
 
 				<div class="text-center">
@@ -168,14 +169,15 @@
 	ClientesController clientesController = new ClientesController();
 	ProductosController productosController = new ProductosController();
 	FacturaController controller = new FacturaController();
-	private string AsignaturaSelect { get; set; }
-	private string EstudianteSelect { get; set; }
+	private string ProductoSelect { get; set; }
+	private string ClienteSelect { get; set; }
 
 
 	private string mensaje = "";
 
+	private int Cantidad = 0;
 	private int Precio = 0;
-	private int credito = 0;
+	private int Importe = 0;
 
 	private List<Productos> ListaProducto = new List<Productos>();
 	private List<Clientes> ListaCliente = new List<Clientes>();
@@ -199,23 +201,11 @@
 	}
 
 
-	private void CargarAsignatura()
-	{
-		//try
-		//{
-		//	Asignatura = controllerAsign.Buscar(Convert.ToInt32(AsignaturaSelect));
-		//}
-		//catch (Exception ex)
-		//{
-		//	mensaje = ex.ToString();
-		//}
-	}
-
-	private void CargarEstudiante()
+	private void CargarProducto()
 	{
 		try
 		{
-			//Estudiante = controllerEst.Buscar(Convert.ToInt32(EstudianteSelect));
+			Producto = productosController.Buscar(Convert.ToInt32(ProductoSelect));
 		}
 		catch (Exception ex)
 		{
@@ -223,64 +213,77 @@
 		}
 	}
 
-	private void AgregarAsignatura()
+	private void CargarCliente()
 	{
-
-		//if (AsignaturaSelect == null)
-		//{
-		//	mensaje = "debe seleccionar una asignatura";
-		//}
-		//else
-		//{
-		//	if (Precio <= 0)
-		//	{
-		//		mensaje = "El precio es Obligatorio";
-		//	}
-		//	else
-		//	{
-		//		if (Factura.Detalles.Any(i => i.AsignaturaId == Asignatura.AsignaturaId))
-		//		{
-		//			mensaje = "Esta Asignatura ya esta agregada";
-		//		}
-		//		else
-		//		{
-		//			mensaje = "";
-		//			Factura.Detalles.Add(new FacturaDetalle()
-		//			{
-		//				FacturaId = Factura.FacturaId,
-		//				AsignaturaId = Asignatura.AsignaturaId,
-		//				DescripcionAsignatura = Asignatura.Descripcion,
-		//				Creditos = Asignatura.Creditos,
-		//				Subtotal = (Asignatura.Creditos * Precio)
-		//			});
-		//			Asignatura = new Asignaturas();
-
-		//			int total = 0;
-
-		//			foreach (var item in Factura.Detalles)
-		//			{
-		//				total += item.Subtotal;
-		//				credito += item.Creditos;
-		//			}
-
-		//			Factura.Monto = total;
-		//			Factura.Tomados = credito;
-		//		}
-		//	}
-		//}
+		try
+		{
+			Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSelect));
+		}
+		catch (Exception ex)
+		{
+			mensaje = ex.ToString();
+		}
 	}
 
-	//private void EliminarAsigantura(FacturaDetalle detalle)
-	//{
-	//	//Factura.Detalles.Remove(detalle);
-	//}
+	private void AgregarProducto()
+	{
+
+		if (ProductoSelect == null)
+		{
+			mensaje = "debe seleccionar un Producto";
+		}
+		else
+		{
+			if (Precio <= 0)
+			{
+				mensaje = "El precio es Obligatorio";
+			}
+			else
+			{
+				if (Factura.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
+				{
+					mensaje = "Este Producto ya esta agregado";
+				}
+				else
+				{
+					mensaje = "";
+					Factura.Detalle.Add(new FacturaDetalles()
+					{
+						FacturaId = Factura.FacturaId,
+						ProductoId = Producto.ProductoId,
+						Descripcion = Producto.Descripcion,
+						Cantidad = Cantidad,
+						Precio = Precio,
+						Importe =(Cantidad *Precio)
+					});
+					Producto = new Productos();
+
+					int total = 0;
+
+					foreach (var item in Factura.Detalle)
+					{
+						//total += item.Subtotal;
+						//credito += item.Creditos;
+					}
+
+					Factura.Total = total;
+					//Factura.Tomados = credito;
+				}
+			}
+		}
+	}
+
+	private void EliminarProducto(FacturaDetalles detalle)
+	{
+		Factura.Detalle.Remove(detalle);
+	}
 
 	public void Guardar()
 	{
 		//InscripncionController controller = new InscripncionController();
 		//EstudianteController controllerEst = new EstudianteController();
 
-		Factura.ClienteId = Convert.ToInt32(EstudianteSelect);
+		Factura.ClienteId = Convert.ToInt32(ClienteSelect);
 		//if (credito > Factura.Limite)
 		//{
 		//	mensaje = "Los Credito Tomados no pueden ser Mayor a los Limites";
