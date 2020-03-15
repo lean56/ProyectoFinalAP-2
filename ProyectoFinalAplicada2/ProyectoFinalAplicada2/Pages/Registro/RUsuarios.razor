@@ -1,9 +1,10 @@
 ﻿@page "/rUsuario"
 
 
-<EditForm Model="Usuario" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
+	<EditForm Model="Usuario" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
 
+		<div class="card ">
 
 			<center>
 				<h5>Registrar usuarios</h5>
@@ -75,9 +76,11 @@
 				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
 			</div>
 
+			<h5 class="text-success">@mensaje</h5>
 
-	<h5 class="text-success">@mensaje</h5>
-</EditForm>
+		</div>
+	
+	</EditForm>
 
 
 @code {

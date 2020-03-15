@@ -11,6 +11,8 @@ namespace ProyectoFinalAplicada2.Data
     {
         public DbSet<Usuarios> Usuarios { get; set; }
         public DbSet<Clientes> Clientes { get; set; }
+        public DbSet<Productos> Productos { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlite(@"Data Source = Database/ProyectoFinalDb.db");
