@@ -8,7 +8,7 @@ namespace ProyectoFinalAplicada2.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class UserController 
     {
         // /api/User/GetUser
         [HttpGet("[action]")]

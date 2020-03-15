@@ -1,4 +1,4 @@
-﻿@*@page "/rPagos"
+﻿@page "/rPagos"
 
 <EditForm Model="Pago" OnValidSubmit="Guardar">
     <DataAnnotationsValidator />
@@ -55,75 +55,82 @@
 
 
     </div>
-</EditForm>*@
+</EditForm>
 
 
 @code {
 
-    //string ClienteSeleccionado;
-    //protected override void OnInitialized()
-    //{
-    //    Pago = new Pagos();
-    //}
+    Pagos Pago = new Pagos;
+    PagosController pagosController = new PagosController();
 
-    //public Pagos Pago { get; set; }
-    //public string mensaje;
+    List<Clientes> ListadoClientes = new List<Clientes>();
+    ClientesController clientesController = new ClientesController();
+    string ClienteSeleccionado;
 
-    //PagosController PagosController = new PagosController();
+    protected override void OnInitialized()
+    {
+        Pago = new Pagos();
+        ListadoClientes = clientesController.GetList(e => true);
+    }
 
-    //private void Guardar()
-    //{
-    //    if (PagosController.Guardar(Pago))
-    //    {
-    //        Limpiar();
-    //        mensaje = "Pago Guardado con Exito!!!";
-    //    }
-    //    else
-    //    {
-    //        Limpiar();
-    //        mensaje = "Error al guardar el Pago";
-    //    }
-    //}
+    public Pagos Pago { get; set; }
+    public string mensaje;
 
-    //private void Buscar()
-    //{
-    //    Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
 
-    //    if (PagoTemporal != null)
-    //    {
-    //        Pago = PagoTemporal;
 
-    //    }
-    //    else
-    //    {
-    //        Limpiar();
-    //        mensaje = "Este Pago no existe";
+    private void Guardar()
+    {
+        if (PagosController.Guardar(Pago))
+        {
+            Limpiar();
+            mensaje = "Pago Guardado con Exito!!!";
+        }
+        else
+        {
+            Limpiar();
+            mensaje = "Error al guardar el Pago";
+        }
+    }
 
-    //    }
-    //}
+    private void Buscar()
+    {
+        Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
 
-    //private void Eliminar()
-    //{
-    //    Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
+        if (PagoTemporal != null)
+        {
+            Pago = PagoTemporal;
 
-    //    if (PagoTemporal != null)
-    //    {
-    //        PagosController.Eliminar(Pago.PagoId);
-    //        Limpiar();
-    //        mensaje = "Pago Eliminado";
+        }
+        else
+        {
+            Limpiar();
+            mensaje = "Este Pago no existe";
 
-    //    }
-    //    else
-    //    {
-    //        Limpiar();
-    //        mensaje = "Error al eliminar";
+        }
+    }
 
-    //    }
-    //}
+    private void Eliminar()
+    {
+        Pagos PagoTemporal = PagosController.Buscar(Pago.PagoId);
 
-    //private void Limpiar()
-    //{
-    //    this.Pago = new Pagos();
-    //    mensaje = string.Empty;
-    //}
+        if (PagoTemporal != null)
+        {
+            PagosController.Eliminar(Pago.PagoId);
+            Limpiar();
+            mensaje = "Pago Eliminado";
+
+        }
+        else
+        {
+            Limpiar();
+            mensaje = "Error al eliminar";
+
+        }
+    }
+
+    private void Limpiar()
+    {
+        this.Pago = new Pagos();
+        mensaje = string.Empty;
+    }
 }
