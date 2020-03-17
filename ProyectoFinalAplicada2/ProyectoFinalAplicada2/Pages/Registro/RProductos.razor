@@ -19,6 +19,14 @@
 						<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
 					</div>
 				</div>
+				<!--Fecha-->
+				<label for="fecha">Fecha</label>
+				<div align="right" class="input-group col-md-6">
+					<div class="col-sm-6">
+						<InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" />
+						<ValidationMessage For="@(()=>Producto.FechaCreacion)" />
+					</div>
+				</div>
 			</div>
 
 			<label for="descripcion">Descripcion</label>
