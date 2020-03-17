@@ -66,7 +66,7 @@
 					<!--Cantidad-->
 					<div class="col-2">
 						<label class="col-auto" for="Cantidad">Cantidad:</label>
-						<InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
+						<InputNumber @bind-Value="@Cantidad" class="form-control"@onfocusin="CalcularImporte"  @onfocusout="CalcularImporte" @onclick="CalcularImporte"/>
 					</div>
 					<!--Precio-->
 					<div class="col-2">
@@ -76,7 +76,7 @@
 					<!--Importe-->
 					<div class="col-2">
 						<label class="col-auto" for="importe">Importe:</label>
-						<InputNumber @bind-Value="@Importe" class="form-control "></InputNumber>
+						<InputNumber @bind-Value="@Importe" class="form-control " disabled @onfocusin="CalcularImporte"  @onfocusout="CalcularImporte" @onclick="CalcularImporte"/>
 					</div>
 					<div class="form-group">
 						<br />
@@ -206,11 +206,11 @@
 		try
 		{
 			Producto = productosController.Buscar(Convert.ToInt32(ProductoSelect));
-			Precio=	 Producto.Precio;
+			Precio =  Producto.Precio;
 		}
 		catch (Exception ex)
 		{
-			mensaje = ex.ToString();
+		//	mensaje = ex.ToString();
 		}
 	}
 
@@ -259,16 +259,14 @@
 					});
 					Producto = new Productos();
 
-					int total = 0;
+					decimal total = 0;
 
 					foreach (var item in Factura.Detalle)
 					{
-						//total += item.Subtotal;
-						//credito += item.Creditos;
+						total += item.Importe;
 					}
 
 					Factura.Total = total;
-					//Factura.Tomados = credito;
 				}
 			}
 		}
@@ -281,18 +279,11 @@
 
 	public void Guardar()
 	{
-		//InscripncionController controller = new InscripncionController();
-		//EstudianteController controllerEst = new EstudianteController();
 
 		Factura.ClienteId = Convert.ToInt32(ClienteSelect);
-		//if (credito > Factura.Limite)
-		//{
-		//	mensaje = "Los Credito Tomados no pueden ser Mayor a los Limites";
-		//}
-		//else
-		//{
+
 		mensaje = "";
-		CalcularCreditos();
+		CalcularImporte();
 		if (controller.Guardar(Factura))
 		{
 			Limpiar();
@@ -315,7 +306,7 @@
 		if (factura != null)
 		{
 			Factura = factura;
-			//EstudianteSelect = Convert.ToString(Factura.EstudianteId);
+			ClienteSelect = Convert.ToString(Factura.ClienteId);
 		}
 		else
 		{
@@ -347,17 +338,21 @@
 	{
 		mensaje = "";
 		this.Factura = new Facturas();
+		ClienteSelect = "";
+		ProductoSelect = "";
+		Precio = 0;
+		Cantidad = 0;
 	}
 
-	public void CalcularCreditos()
+	public void CalcularImporte()
 	{
-		////if (Factura != null)
-		////{
-		////	Factura.Disponible = Factura.Limite - credito;
-		////}
-		////else
-		////{
-		////	mensaje = "Error al Calcular";
-		////}
+		if (Factura != null)
+		{
+			Importe = Convert.ToInt32( Precio )* Cantidad;
+		}
+		else
+		{
+			mensaje = "Error al Calcular";
+		}
 	}
 }
