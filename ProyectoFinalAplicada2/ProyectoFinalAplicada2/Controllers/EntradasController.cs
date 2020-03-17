@@ -51,10 +51,10 @@ namespace ProyectoFinalAplicada2.Controllers
             {
                 if (contexto.Entradas.Add(Entrada) != null)
                 {
-                    //foreach (var item in Entrada.Detalle)
-                    //{
-                    //    contexto.Productos.Find(item.ProductoId).
-                    //}
+                    foreach (var item in Entrada.Detalle)
+                    {
+                        contexto.Productos.Find(item.ProductoId).Cantidad += item.Cantidad;
+                    }
                 }
                 paso = contexto.SaveChanges() > 0;
             }
@@ -78,14 +78,31 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                contexto.Database.ExecuteSqlRaw($"Delete from EntradasDetalles where EntradaId={Entrada.EntradaId}");
+                Entradas EntradaAnterior = contexto.Entradas.Where(e => e.EntradaId == Entrada.EntradaId).Include(d => d.Detalle).FirstOrDefault();
+                contexto = new Contexto();
+                foreach (var item in EntradaAnterior.Detalle)
+                {
+                    if (!Entrada.Detalle.Any(d => d.EntradaDetalleId == item.EntradaDetalleId))
+                    {
+                        contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad; 
+                        contexto.Entry(item).State = EntityState.Deleted;
+                    }
+                }
 
                 foreach (var item in Entrada.Detalle)
                 {
-                    contexto.Entry(item).State = EntityState.Added;
+                    if (item.EntradaDetalleId == 0)
+                    {
+                        contexto.Productos.Find(item.ProductoId).Cantidad += item.Cantidad;
+                        contexto.Entry(item).State = EntityState.Added;
 
+                    }
+                    else
+                    {
+                        contexto.Entry(item).State = EntityState.Modified;
+
+                    }
                 }
-                contexto.Entradas.Add(Entrada);
                 contexto.Entry(Entrada).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
 
@@ -130,12 +147,17 @@ namespace ProyectoFinalAplicada2.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-            Entradas Entrada = new Entradas();
 
             try
             {
-                Entrada = contexto.Entradas.Find(id);
-                contexto.Entry(Entrada).State = EntityState.Deleted;
+                Entradas Entrada = contexto.Entradas.Where(e => e.EntradaId == id).Include(d => d.Detalle).FirstOrDefault();
+
+                foreach (var item in Entrada.Detalle)
+                {
+                    contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad;
+
+                }
+                contexto.Entradas.Remove(Entrada);
                 paso = contexto.SaveChanges() > 0;
 
             }
