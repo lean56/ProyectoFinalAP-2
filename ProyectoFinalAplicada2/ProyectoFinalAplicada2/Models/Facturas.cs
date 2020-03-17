@@ -14,6 +14,7 @@ namespace ProyectoFinalAplicada2.Models
         public int ClienteId { get; set; }
         public string Usuario { get; set; }
         public int ProductoId { get; set; }
+        //[Range(minimum:1,maximum:1000000,ErrorMessage ="El total debe se mayor a cero")]
         public decimal Total { get; set; }
         public DateTime Fecha { get; set; }
 

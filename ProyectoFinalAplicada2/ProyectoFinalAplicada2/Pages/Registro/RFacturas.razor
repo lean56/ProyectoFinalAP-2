@@ -223,7 +223,7 @@
 		}
 		catch (Exception ex)
 		{
-			mensaje = ex.ToString();
+			//mensaje = ex.ToString();
 		}
 	}
 
@@ -242,33 +242,41 @@
 			}
 			else
 			{
-				if (Factura.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
+				if (Cantidad <= 0)
 				{
-					mensaje = "Este Producto ya esta agregado";
+					mensaje = "debes indicar la cantidad";
 				}
 				else
 				{
-					mensaje = "";
-					Factura.Detalle.Add(new FacturaDetalles()
+					if (Factura.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
 					{
-						FacturaId = Factura.FacturaId,
-						ProductoId = Producto.ProductoId,
-						Descripcion = Producto.Descripcion,
-						Cantidad = Cantidad,
-						Precio = Precio,
-						Importe = (Cantidad * Precio)
-					});
-					Producto = new Productos();
-
-					decimal total = 0;
-
-					foreach (var item in Factura.Detalle)
-					{
-						total += item.Importe;
+						mensaje = "Este Producto ya esta agregado";
 					}
+					else
+					{
+						mensaje = "";
+						Factura.Detalle.Add(new FacturaDetalles()
+						{
+							FacturaId = Factura.FacturaId,
+							ProductoId = Producto.ProductoId,
+							Descripcion = Producto.Descripcion,
+							Cantidad = Cantidad,
+							Precio = Precio,
+							Importe = (Cantidad * Precio)
+						});
+						Producto = new Productos();
 
-					Factura.Total = total;
+						decimal total = 0;
+
+						foreach (var item in Factura.Detalle)
+						{
+							total += item.Importe;
+						}
+
+						Factura.Total = total;
+					}
 				}
+
 			}
 		}
 	}
@@ -281,21 +289,37 @@
 	public void Guardar()
 	{
 
-		Factura.ClienteId = Convert.ToInt32(ClienteSelect);
 
 		mensaje = "";
 		CalcularImporte();
-		if (controller.Guardar(Factura))
+		if (ClienteSelect == null)
 		{
-			Limpiar();
-			mensaje = "Factura Guardada";
-			toastService.ShowSuccess("Factura Guardada", "Exito");
+			mensaje = "debe seleccionar un Cliente";
 		}
 		else
 		{
-			mensaje = "Error al guardar Factura";
+			Factura.ClienteId = Convert.ToInt32(ClienteSelect);
+			if (Factura.Detalle.Count ==0)
+			{
+				mensaje = "Debes agregar un producto al detalle";
+			}
+			else
+			{
+				if (controller.Guardar(Factura))
+				{
+					Limpiar();
+					mensaje = "Factura Guardada";
+					toastService.ShowSuccess("Factura Guardada", "Exito");
+				}
+				else
+				{
+					mensaje = "Error al guardar Factura";
+				}
+			}
+
 		}
-		//}
+
+
 	}
 
 	public void Buscar()
@@ -306,6 +330,7 @@
 
 		if (factura != null)
 		{
+			Limpiar();
 			Factura = factura;
 			ClienteSelect = Convert.ToString(Factura.ClienteId);
 		}
