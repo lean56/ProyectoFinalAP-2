@@ -21,15 +21,12 @@ namespace ProyectoFinalAplicada2.Pages.Login
             string returnUrl = Url.Content("~/");
             try
             {
-                // Clear the existing external cookie
                 await HttpContext
                     .SignOutAsync(
                     CookieAuthenticationDefaults.AuthenticationScheme);
             }
             catch { }
-            // *** !!! This is where you would validate the user !!! ***
-            // In this example we just log the user in
-            // (Always log the user in for this demo)
+          
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.Name, paramUsername),
