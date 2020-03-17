@@ -49,9 +49,14 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                contexto.Entradas.Add(Entrada);
+                if (contexto.Entradas.Add(Entrada) != null)
+                {
+                    //foreach (var item in Entrada.Detalle)
+                    //{
+                    //    contexto.Productos.Find(item.ProductoId).
+                    //}
+                }
                 paso = contexto.SaveChanges() > 0;
-
             }
             catch (Exception)
             {

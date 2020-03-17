@@ -19,6 +19,7 @@ namespace ProyectoFinalAplicada2.Models
         public decimal Ganancia { get; set; }
         public DateTime FechaCreacion { get; set; }
         public int Categoria { get; set; }
+        public int Cantidad { get; set; }
 
         public Productos()
         {
@@ -29,6 +30,7 @@ namespace ProyectoFinalAplicada2.Models
             Ganancia = 0;
             FechaCreacion = DateTime.Now;
             Categoria = 0;
+            Cantidad = 0;
         }
     }
 }

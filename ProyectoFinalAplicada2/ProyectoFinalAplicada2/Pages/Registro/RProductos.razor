@@ -67,6 +67,11 @@
 				<ValidationMessage For="@(()=>Producto.Precio)" />
 			</div>
 
+			<div class="input-field col s6">
+				<label for="Cantidad">Cantidad</label>
+				<InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
+			</div>
+
 			<br />
 			<br />
 			<div class="input-field col s6">
