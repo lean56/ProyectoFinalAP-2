@@ -8,8 +8,7 @@
 			<option value="" disabled selected>Seleccione un Criterio</option>
 			<option value="Todo">Todo</option>
 			<option value="Id">Id</option>
-			<option value="Nombres">Nombres</option>
-			<option value="Usuario">Usuario</option>
+			<option value="Descripcion">Descripcion</option>
 		</select>
 
 		<div align="right" class="input-group col-md-8">
@@ -36,11 +35,12 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th>Usuario Id</th>
-			<th>Nombres</th>
-			<th>Nivel de Usuario</th>
-			<th>Usuario</th>
-			<th>Fecha Ingreso</th>
+			<th>Producto Id</th>
+			<th>Descripcion</th>
+			<th>Costo</th>
+			<th>Precio</th>
+			<th>Ganancia</th>
+			<th>Fecha Creacion</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -48,12 +48,13 @@
 		@foreach (var item in lista)
 		{
 			<tr>
-				<th>@item.UsuarioId</th>
-				<th>@item.Nombres</th>
-				<th>@item.NivelUsuario</th>
-				<th>@item.Usuario</th>
-				<th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
-				<td><a class="btn btn-sm btn-outline-primary" href="rUsuario/@item.UsuarioId">Ver</a></td>
+				<th>@item.ProductoId</th>
+				<th>@item.Descripcion</th>
+				<th>@item.Costo</th>
+				<th>@item.Precio</th>
+				<th>@item.Ganancia</th>
+				<th>@item.FechaCreacion.ToString("dd/MM/yyyy")</th>
+				<td><a class="btn btn-sm btn-outline-primary" href="rProductos/@item.ProductoId">Ver</a></td>
 			</tr>
 		}
 	</tbody>
@@ -64,7 +65,7 @@
 
 @code {
 
-	private List<Usuarios> lista { get; set; }
+	private List<Productos> lista { get; set; }
 
 	private string Filtro { get; set; }
 	private string Criterio { get; set; }
@@ -77,14 +78,14 @@
 
 	protected override void OnInitialized()
 	{
-		lista = new List<Usuarios>();
+		lista = new List<Productos>();
 		DesdeFecha = DateTime.Now;
 		HastaFecha = DateTime.Now;
 	}
 
 	private void Buscar()
 	{
-		UsuarioController controller = new UsuarioController();
+		ProductosController controller = new ProductosController();
 
 		try
 		{
@@ -98,7 +99,7 @@
 
 				if (lista.Count == 0)
 				{
-					mensaje = "No hay Usuarios Registrado";
+					mensaje = "No hay Producto Registrado";
 				}
 				else
 				{
@@ -109,18 +110,15 @@
 							lista = controller.GetList(e => true);
 							break;
 						case "Id":
-							lista = controller.GetList(e => e.UsuarioId == Convert.ToInt32(Criterio));
+							lista = controller.GetList(e => e.ProductoId == Convert.ToInt32(Criterio));
 							break;
-						case "Nombres":
-							lista = controller.GetList(e => e.Nombres == Criterio);
-							break;
-						case "Usuario":
-							lista = controller.GetList(e => e.Usuario == Criterio);
+						case "Descripcion":
+							lista = controller.GetList(e => e.Descripcion == Criterio);
 							break;
 					}
 					if (BuscarFecha == true)
 					{
-						lista = controller.GetList(p => p.FechaIngreso >= DesdeFecha.Date && p.FechaIngreso <= HastaFecha.Date);
+						lista = controller.GetList(p => p.FechaCreacion >= DesdeFecha.Date && p.FechaCreacion <= HastaFecha.Date);
 					}
 				}
 			}
