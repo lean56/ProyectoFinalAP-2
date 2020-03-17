@@ -1,0 +1,225 @@
+﻿@page "/rEntradas"
+
+<EditForm Model="Entrada" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
+
+    <h3>Registro de entrada de Productos</h3>
+    <div class="container">
+        <div class="card">
+            <div class="card-body">
+                <div class="form-group row">
+                    <label for="EntradaId " class="col-auto">Codigo de la entrada</label>
+                    <div class="input-group  col-sm-3">
+                        <InputNumber @bind-Value="@Entrada.EntradaId" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+                        </div>
+                    </div>
+
+                    <label for="Fecha">Fecha</label>
+                    <div align="right" class="input-group col-md-6">
+                        <div class="col-sm-6">
+                            <InputDate @bind-Value="@Entrada.Fecha" class="form-control" />
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <div class="col-md-4 no-padding">
+                        <label for="producto">Producto</label>
+                        <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
+
+                            @if (ListadoProductos.Count == 0)
+                            {
+                                <option value="">No hay Producto Registrado</option>
+                            }
+                            else
+                            {
+                                <option value="0" disabled selected>Seleccione un Producto</option>
+
+                                @foreach (var item in ListadoProductos)
+                                {
+                                    <option value="@item.ProductoId">@item.Descripcion</option>
+                                }
+                            }
+                        </InputSelect>
+                    </div>
+
+                    <div class="col-2">
+                        <label class="col-auto" for="Cantidad">Cantidad:</label>
+                        <InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
+                </div>
+
+
+                <div class="card">
+                    <div class="card-body">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Codigo</th>
+                                    <th>Descripcion</th>
+                                    <th>Cantidad</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Entrada.Detalle)
+                                {
+                                    <tr>
+                                        <th>@item.ProductoId</th>
+                                        <th>@item.Descripcion</th>
+                                        <th>@item.Cantidad</th>
+                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+                    <button type="submit" class="btn btn-outline-success">Guardar</button>
+                    <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <h3>@mensaje</h3>
+
+</EditForm>
+
+@code {
+    [Parameter]
+    public int EntradaId { get; set; }
+
+    Entradas Entrada { get; set; }
+    EntradasController entradasController = new EntradasController();
+
+    Productos Producto { get; set; }
+    ProductosController productosController = new ProductosController();
+    List<Productos> ListadoProductos = new List<Productos>();
+
+    int Cantidad = 0;
+    string mensaje = string.Empty;
+    string ProductoSeleccionado = "0";
+
+    protected override void OnInitialized()
+    {
+        ListadoProductos = productosController.GetList(e => true);
+        Entrada = new Entradas();
+        Producto = new Productos();
+
+        if (EntradaId != 0)
+        {
+            Entrada.EntradaId = EntradaId;
+            Buscar();
+        }
+    }
+
+    public void Guardar()
+    {
+
+        if (entradasController.Guardar(Entrada))
+        {
+            Limpiar();
+            mensaje = "Entrada Guardada";
+        }
+        else
+        {
+            mensaje = "La entrada no se pudo guardar";
+        }
+    }
+
+    public void Buscar()
+    {
+        Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
+
+        if (EntradaTemporal != null)
+        {
+            Entrada = EntradaTemporal;
+        }
+        else
+        {
+            Limpiar();
+            mensaje = "Esta entrada no existe";
+        }
+    }
+
+    public void Eliminar()
+    {
+        Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
+
+        if (EntradaTemporal != null)
+        {
+            if (entradasController.Eliminar(Entrada.EntradaId))
+            {
+                Limpiar();
+                mensaje = "Entrada Eliminada";
+            }
+            else
+            {
+                mensaje = "Error al Eliminar";
+            }
+        }
+
+    }
+
+    public void Limpiar()
+    {
+        mensaje = string.Empty;
+        this.Entrada = new Entradas();
+    }
+
+    private void CargarProducto()
+    {
+        try
+        {
+            Producto = productosController.Buscar(Convert.ToInt32(ProductoSeleccionado));
+        }
+        catch (Exception ex)
+        {
+            mensaje = ex.ToString();
+        }
+    }
+
+    private void AgregarProducto()
+    {
+
+        if (ProductoSeleccionado == "0")
+        {
+            mensaje = "Debe seleccionar un Producto!";
+        }
+        else
+        {
+            if (Entrada.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
+            {
+                mensaje = "Este Producto ya esta agregado";
+            }
+            else if (Cantidad < 1)
+            {
+                mensaje = "La catidad debe ser mayor a 0!";
+            }
+            else
+            {
+                mensaje = string.Empty;
+                Entrada.Detalle.Add(new EntradasDetalles()
+                {
+                    EntradaId = Entrada.EntradaId,
+                    ProductoId = Producto.ProductoId,
+                    Descripcion = Producto.Descripcion,
+                    Cantidad = Cantidad,
+                });
+
+            }
+        }
+    }
+
+    private void EliminarProducto(EntradasDetalles detalle)
+    {
+        Entrada.Detalle.Remove(detalle);
+    }
+}
