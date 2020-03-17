@@ -24,22 +24,22 @@
             </div>
         </div>
 
-        @*<div class="form-group row">
+        <div class="form-group row">
             <label for="ClienteId">Cliente</label>
             <div class="col-md-6 no-padding">
-                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarEstudiante" @onclick="CargarEstudiante">
-                    <option value="" disabled selected>Seleccione un Estudiante</option>
-                    @foreach (var item in ListaEstudiante)
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
+                    <option value="0" disabled selected>Seleccione un Estudiante</option>
+                    @foreach (var item in ListadoClientes)
                     {
-                        <option value="@item.EstudianteId">@item.Nombres</option>
+                        <option value="@item.ClienteId">@item.Nombres</option>
                     }
                 </InputSelect>
             </div>
-        </div>*@
+        </div>
 
         <label for="Deuda">Deuda</label>
         <div class="input-field col s4">
-            <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" disabled />
+            <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
             <ValidationMessage For="@(()=>Pago.MontoPago)" />
         </div>
 
@@ -60,77 +60,93 @@
 
 @code {
 
-	Pagos Pago = new Pagos();
-	PagosController pagosController = new PagosController();
+    Pagos Pago = new Pagos();
+    PagosController pagosController = new PagosController();
 
-	List<Clientes> ListadoClientes = new List<Clientes>();
-	ClientesController clientesController = new ClientesController();
-	string ClienteSeleccionado;
+    Clientes Cliente = new Clientes();
+    List<Clientes> ListadoClientes = new List<Clientes>();
+    ClientesController clientesController = new ClientesController();
+    string ClienteSeleccionado;
 
-	protected override void OnInitialized()
-	{
-		Pago = new Pagos();
-		ListadoClientes = clientesController.GetList(e => true);
-	}
+    protected override void OnInitialized()
+    {
+        Pago = new Pagos();
+        ListadoClientes = clientesController.GetList(e => true);
+    }
 
-	public Pagos Pagos { get; set; }
-	public string mensaje;
+    public Pagos Pagos { get; set; }
+    public string mensaje;
 
 
 
-	private void Guardar()
-	{
-		if (pagosController.Guardar(Pago))
-		{
-			Limpiar();
-			mensaje = "Pago Guardado con Exito!!!";
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Error al guardar el Pago";
-		}
-	}
+    private void Guardar()
+    {
+        Pago.ClienteId = (Cliente.ClienteId != 0) ? Cliente.ClienteId : 0;
+        if (pagosController.Guardar(Pago))
+        {
+            Limpiar();
+            mensaje = "Pago Guardado con Exito!!!";
 
-	private void Buscar()
-	{
-		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
-		if (PagoTemporal != null)
-		{
-			Pago = PagoTemporal;
+        }
+        else
+        {
+            mensaje = "Error al guardar el Pago";
 
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Este Pago no existe";
+        }
+    }
 
-		}
-	}
+    private void Buscar()
+    {
+        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+        if (PagoTemporal != null)
+        {
+            Limpiar();
+            Pago = PagoTemporal;
 
-	private void Eliminar()
-	{
-		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+        }
+        else
+        {
+            Limpiar();
+            mensaje = "Este Pago no existe";
 
-		if (PagoTemporal != null)
-		{
-			pagosController.Eliminar(Pago.PagoId);
-			Limpiar();
-			mensaje = "Pago Eliminado";
+        }
+    }
 
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Error al eliminar";
+    private void Eliminar()
+    {
+        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
 
-		}
-	}
+        if (PagoTemporal != null)
+        {
+            pagosController.Eliminar(Pago.PagoId);
+            Limpiar();
+            mensaje = "Pago Eliminado";
 
-	private void Limpiar()
-	{
-		this.Pago = new Pagos();
-		mensaje = string.Empty;
-	}
+        }
+        else
+        {
+            mensaje = "Error al eliminar";
+
+        }
+    }
+
+    private void CargarCliente()
+    {
+        try
+        {
+            Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+        }
+        catch (Exception ex)
+        {
+            mensaje = ex.ToString();
+        }
+    }
+
+    private void Limpiar()
+    {
+        this.Pago = new Pagos();
+        mensaje = string.Empty;
+        ClienteSeleccionado = "0";
+    }
 
 }
