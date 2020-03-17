@@ -1,21 +1,27 @@
 ﻿@inherits LayoutComponentBase
+@using Blazored.Toast.Configuration
 
-    <div class="col-12">
-        <NavMenu />
-        <LoginControl />
+<BlazoredToasts Position="ToastPosition.BottomRight"
+                Timeout="5"
+                SuccessClass="success-toast-override"
+                SuccessIconClass="fa fa-thumbs-up"
+                ErrorIconClass="fa fa-bug" />
+<div class="col-12">
+    <NavMenu />
+    <LoginControl />
 
-        <br />
-        <br />
+    <br />
+    <br />
 
-        @Body
-    </div>
+    @Body
+</div>
 
 @*<div class="main">
-    <div class="top-row px-4">
-        <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-    </div>
+        <div class="top-row px-4">
+            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
+        </div>
 
-    <div class="content px-4">
-        @Body
-    </div>
-</div>*@
+        <div class="content px-4">
+            @Body
+        </div>
+    </div>*@
