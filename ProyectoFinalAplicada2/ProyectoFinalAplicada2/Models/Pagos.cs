@@ -12,6 +12,7 @@ namespace ProyectoFinalAplicada2.Models
         public int PagoId { get; set; }
         public DateTime Fecha { get; set; }
         [Required]
+        [Range(minimum: 2, maximum: 999999999999, ErrorMessage = "Debe seleccionar un cliente!")]
         public int ClienteId { get; set; }
         [Required]
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El monto a pagar debe ser mayor a 0.00!")]
