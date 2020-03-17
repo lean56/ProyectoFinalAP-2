@@ -71,7 +71,7 @@
 					<!--Precio-->
 					<div class="col-2">
 						<label class="col-auto" for="precio">Precio:</label>
-						<InputNumber @bind-Value="@Precio" class="form-control"></InputNumber>
+						<InputNumber @bind-Value="@Precio" class="form-control" disabled></InputNumber>
 					</div>
 					<!--Importe-->
 					<div class="col-2">
@@ -176,7 +176,7 @@
 	private string mensaje = "";
 
 	private int Cantidad = 0;
-	private int Precio = 0;
+	private decimal Precio = 0;
 	private int Importe = 0;
 
 	private List<Productos> ListaProducto = new List<Productos>();
@@ -206,6 +206,7 @@
 		try
 		{
 			Producto = productosController.Buscar(Convert.ToInt32(ProductoSelect));
+			Precio=	 Producto.Precio;
 		}
 		catch (Exception ex)
 		{
