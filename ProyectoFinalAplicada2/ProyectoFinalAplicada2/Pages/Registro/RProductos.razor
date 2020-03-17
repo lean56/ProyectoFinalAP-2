@@ -42,21 +42,21 @@
 
 			<div class="input-field col s6">
 				<label for="costo">Costo</label>
-				<InputNumber @bind-Value="@Producto.Costo" class="form-control" />
+				<InputNumber @bind-Value="@Producto.Costo" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
 				<ValidationMessage For="@(()=>Producto.Costo)" />
-			</div>
-			<div class="input-field col s6">
-				<label for="precio">Precio</label>
-				<InputNumber @bind-Value="@Producto.Precio" class="form-control" />
-				<ValidationMessage For="@(()=>Producto.Precio)" />
 			</div>
 
 			<div class="input-field col s6">
 				<label for="ganancia">Ganancia</label>
-				<InputNumber @bind-Value="@Producto.Ganancia" class="form-control" />
+				<InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
 				<ValidationMessage For="@(()=>Producto.Ganancia)" />
 			</div>
 
+			<div class="input-field col s6">
+				<label for="precio">Precio</label>
+				<InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
+				<ValidationMessage For="@(()=>Producto.Precio)" />
+			</div>
 
 			<br />
 			<br />
@@ -95,6 +95,8 @@
 
 	public void Guardar()
 	{
+		Producto.Categoria = Convert.ToInt32(CategoriaSelect);
+
 		if (controller.Guardar(Producto))
 		{
 			Limpiar();
@@ -114,6 +116,7 @@
 		if (producto != null)
 		{
 			Producto = producto;
+			CategoriaSelect =Convert.ToString(Producto.Categoria);
 		}
 		else
 		{
@@ -143,9 +146,10 @@
 	{
 		this.Producto = new Productos();
 		mensaje = "";
+		CategoriaSelect = "";
 	}
 
-		private void CargarCategoria()
+	private void CargarCategoria()
 	{
 		try
 		{
@@ -155,6 +159,11 @@
 		{
 			mensaje = ex.ToString();
 		}
+	}
+
+	public void CalculoPrecio()
+	{
+		Producto.Precio = Producto.Costo + (Producto.Costo * (Producto.Ganancia / 100));
 	}
 }
 
