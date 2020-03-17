@@ -27,7 +27,7 @@
         <div class="form-group row">
             <label for="ClienteId">Cliente</label>
             <div class="col-md-6 no-padding">
-                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
                     <option value="0" disabled selected>Seleccione un Estudiante</option>
                     @foreach (var item in ListadoClientes)
                     {
@@ -49,7 +49,7 @@
 
         <div class="input-field col s6">
             <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-            <button type="submit" class="btn btn-outline-success">Guardar</button>
+            <button type="submit" class="btn btn-outline-success"  @onclick="Guardar">Guardar</button>
             <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
         </div>
 
@@ -60,13 +60,13 @@
 
 @code {
 
-    Pagos Pago = new Pagos();
-    PagosController pagosController = new PagosController();
+        Pagos Pago = new Pagos();
+        PagosController pagosController = new PagosController();
 
-    Clientes Cliente = new Clientes();
-    List<Clientes> ListadoClientes = new List<Clientes>();
-    ClientesController clientesController = new ClientesController();
-    string ClienteSeleccionado;
+        Clientes Cliente = new Clientes();
+        List<Clientes> ListadoClientes = new List<Clientes>();
+        ClientesController clientesController = new ClientesController();
+        string ClienteSeleccionado;
 
     protected override void OnInitialized()
     {
@@ -81,7 +81,6 @@
 
     private void Guardar()
     {
-        Pago.ClienteId = (Cliente.ClienteId != 0) ? Cliente.ClienteId : 0;
         if (pagosController.Guardar(Pago))
         {
             Limpiar();
@@ -102,7 +101,8 @@
         {
             Limpiar();
             Pago = PagoTemporal;
-
+            //ClienteSeleccionado = Convert.ToString(Pago.ClienteId);
+            CargarCliente();
         }
         else
         {
@@ -132,14 +132,15 @@
 
     private void CargarCliente()
     {
-        try
-        {
-            Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
-        }
-        catch (Exception ex)
-        {
-            mensaje = ex.ToString();
-        }
+        //try
+        //{
+        Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+        Pago.ClienteId = (Cliente != null) ? Cliente.ClienteId : 0;
+        //}
+        //catch (Exception ex)
+        //{
+        //    mensaje = ex.ToString();
+        ////}
     }
 
     private void Limpiar()

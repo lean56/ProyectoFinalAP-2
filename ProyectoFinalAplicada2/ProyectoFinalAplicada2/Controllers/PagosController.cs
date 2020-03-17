@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using ProyectoFinalAplicada2.Controllers;
 using ProyectoFinalAplicada2.Data;
 using ProyectoFinalAplicada2.Models;
 using System;
@@ -49,9 +50,12 @@ namespace ProyectoFinalAplicada2.Controller
 
             try
             {
-                contexto.Pagos.Add(Pago);
-                paso = contexto.SaveChanges() > 0;
+                if (contexto.Pagos.Add(Pago) != null)
+                {
+                    contexto.Clientes.Find(Pago.ClienteId).Deuda -= Pago.MontoPago;
+                    paso = contexto.SaveChanges() > 0;
 
+                }
             }
             catch (Exception)
             {
@@ -71,12 +75,23 @@ namespace ProyectoFinalAplicada2.Controller
         {
             Contexto contexto = new Contexto();
             bool paso = false;
+            ClientesController clientesController = new ClientesController();
 
             try
             {
-                contexto.Entry(Pago).State = EntityState.Modified;
+                Pagos PagoTemporal = contexto.Pagos.Find(Pago.PagoId);
+                Clientes Cliente = clientesController.Buscar(PagoTemporal.ClienteId);
+                Cliente.Deuda += PagoTemporal.MontoPago;
+                contexto.Entry(Cliente).State = EntityState.Modified;
                 paso = contexto.SaveChanges() > 0;
 
+                if (paso)
+                {
+                    contexto = new Contexto();
+                    contexto.Clientes.Find(Pago.ClienteId).Deuda -= Pago.MontoPago;
+                    contexto.Entry(Pago).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
             }
             catch (Exception)
             {
@@ -125,6 +140,7 @@ namespace ProyectoFinalAplicada2.Controller
             try
             {
                 Pago = contexto.Pagos.Find(id);
+                contexto.Clientes.Find(Pago.ClienteId).Deuda += Pago.MontoPago;
                 contexto.Entry(Pago).State = EntityState.Deleted;
                 paso = contexto.SaveChanges() > 0;
 
