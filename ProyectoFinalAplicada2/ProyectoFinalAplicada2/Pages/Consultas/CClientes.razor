@@ -1,5 +1,5 @@
-﻿@page "/cFactura"
-<h3>Consulta de Factura</h3>
+﻿@page "/cCliente"
+<h3>Consulta de Clientes</h3>
 
 <div class="form-group row">
 	<label for="filtro">Filtro</label>
@@ -8,7 +8,7 @@
 			<option value="" disabled selected>Seleccione un Criterio</option>
 			<option value="Todo">Todo</option>
 			<option value="Id">Id</option>
-			<option value="Cliente">Cliente</option>
+			<option value="Nombres">Nombres</option>
 		</select>
 
 		<div align="right" class="input-group col-md-8">
@@ -35,10 +35,13 @@
 <table class="table">
 	<thead class="thead-light">
 		<tr>
-			<th>Factura Id</th>
-			<th>Cliente</th>
-			<th>Total</th>
-			<th>Fecha</th>
+			<th>Cliente Id</th>
+			<th>Nombres</th>
+			<th>Direccion</th>
+			<th>Telefono</th>
+			<th>Email</th>
+			<th>Deuda</th>
+			<th>Fecha Creacion</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -46,11 +49,14 @@
 		@foreach (var item in lista)
 		{
 			<tr>
-				<th>@item.FacturaId</th>
 				<th>@item.ClienteId</th>
-				<th>@item.Total</th>
+				<th>@item.Nombres</th>
+				<th>@item.Direccion</th>
+				<th>@item.Telefono</th>
+				<th>@item.Email</th>
+				<th>@item.Deuda</th>
 				<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-				<td><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></td>
+				<td><a class="btn btn-sm btn-outline-primary" href="rClientes/@item.ClienteId">Ver</a></td>
 			</tr>
 		}
 	</tbody>
@@ -61,7 +67,7 @@
 
 @code {
 
-	private List<Facturas> lista { get; set; }
+	private List<Clientes> lista { get; set; }
 
 	private string Filtro { get; set; }
 	private string Criterio { get; set; }
@@ -74,14 +80,14 @@
 
 	protected override void OnInitialized()
 	{
-		lista = new List<Facturas>();
+		lista = new List<Clientes>();
 		DesdeFecha = DateTime.Now;
 		HastaFecha = DateTime.Now;
 	}
 
 	private void Buscar()
 	{
-		FacturaController controller = new FacturaController();
+		ClientesController controller = new ClientesController();
 
 		try
 		{
@@ -95,7 +101,7 @@
 
 				if (lista.Count == 0)
 				{
-					mensaje = "No hay Factura Registrada";
+					mensaje = "No hay Producto Registrado";
 				}
 				else
 				{
@@ -106,15 +112,15 @@
 							lista = controller.GetList(e => true);
 							break;
 						case "Id":
-							lista = controller.GetList(e => e.FacturaId == Convert.ToInt32(Criterio));
-							break;
-						case "Cliente":
 							lista = controller.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
-							break;	
+							break;
+						case "Nombres":
+							lista = controller.GetList(e => e.Nombres == Criterio);
+							break;
 					}
 					if (BuscarFecha == true)
 					{
-						lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <=  HastaFecha.Date);
+						lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
 					}
 				}
 			}

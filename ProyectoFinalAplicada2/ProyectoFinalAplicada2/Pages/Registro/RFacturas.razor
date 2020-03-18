@@ -120,16 +120,13 @@
 							<InputNumber @bind-Value="@Factura.Total" class="form-control" disabled></InputNumber>
 						</div>
 					</div>
-
 				</div>
-
 				<br />
 
 				<div class="text-center">
 					<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
 					<button type="submit" class="btn btn-outline-success">Guardar</button>
 					<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
-
 					<!-- Modal -->
 					<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 						<div class="modal-dialog" role="document">
@@ -302,8 +299,7 @@
 		}
 		else
 		{
-			Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSelect));
-			Factura.Cliente = Cliente.Nombres;
+			Factura.ClienteId = Convert.ToInt32(ClienteSelect);
 			if (Factura.Detalle.Count == 0)
 			{
 				mensaje = "Debes agregar un producto al detalle";
@@ -333,7 +329,7 @@
 		{
 			Limpiar();
 			Factura = factura;
-			ClienteSelect = Factura.Cliente;
+			ClienteSelect = Convert.ToString(Factura.ClienteId);
 		}
 		else
 		{

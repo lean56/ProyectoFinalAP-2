@@ -1,158 +1,164 @@
 ﻿@page "/rClientes"
+@page "/rClientes/{ClienteId:int}"
+
+@inject IToastService toastService
 
 <EditForm Model="Cliente" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
 
-    <div class="center-align">
+	<div class="center-align">
+		<center>
+			<h2>Registro de Clientes</h2>
+		</center>
 
-        <center>
-            <h2>Registro de Clientes</h2>
-        </center>
+		<div class="form-group row">
+			<label for="ClienteId " class="col-auto">Codigo del cliente</label>
+			<div class="input-group  col-sm-3">
+				<InputNumber @bind-Value="@Cliente.ClienteId" class="form-control" />
+				<div class="input-group-append">
+					<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+				</div>
+			</div>
 
-        <div class="form-group row">
-            <label for="ClienteId " class="col-auto">Codigo del cliente</label>
-            <div class="input-group  col-sm-3">
-                <InputNumber @bind-Value="@Cliente.ClienteId" class="form-control" />
-                <div class="input-group-append">
-                    <button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-                </div>
-            </div>
+			<!--Fecha-->
+			<label for="Fecha">Fecha</label>
+			<div align="right" class="input-group col-md-6">
+				<div class="col-sm-6">
+					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" />
+				</div>
+			</div>
+		</div>
 
-            <!--Fecha-->
-            <label for="Fecha">Fecha</label>
-            <div align="right" class="input-group col-md-6">
-                <div class="col-sm-6">
-                    <InputDate @bind-Value="@Cliente.Fecha" class="form-control" />
-                </div>
-            </div>
-        </div>
+		<div class="form-group row">
+			<label for="Nombres">Nombres</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Cliente.Nombres" class="form-control" placeholder="Nombres y Apellidos" />
+			</div>
+		</div>
 
-        <div class="form-group row">
-            <label for="Nombres">Nombres</label>
-            <div class="input-field col s4">
-                <InputText @bind-Value="@Cliente.Nombres" class="form-control" placeholder="Nombres y Apellidos" />
-                <ValidationMessage For="@(()=>Cliente.Nombres)" />
-            </div>
+		<div class="form-group row">
+			<label for="Telefono">Teléfono</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="Teléfono" />
+			</div>
 
+			<label for="Celular">Celular</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="Celular" />
+			</div>
+		</div>
 
-        </div>
+		<div class="form-group row">
+			<label for="Direccion">Direccion</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Dirección" />
+			</div>
+		</div>
 
-        <div class="form-group row">
-            <label for="Telefono">Teléfono</label>
-            <div class="input-field col s4">
-                <InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="Teléfono" />
-                <ValidationMessage For="@(()=>Cliente.Telefono)" />
-            </div>
+		<div class="form-group row">
+			<label for="Email">Email</label>
+			<div class="input-field col s4">
+				<InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="Email" />
+			</div>
 
-            <label for="Celular">Celular</label>
-            <div class="input-field col s4">
-                <InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="Celular" />
-                <ValidationMessage For="@(()=>Cliente.Celular)" />
-            </div>
-        </div>
+			<label for="Deuda">Deuda</label>
+			<div class="input-field col s4">
+				<InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
+			</div>
+		</div>
+		<br />
 
-        <div class="form-group row">
-            <label for="Direccion">Direccion</label>
-            <div class="input-field col s4">
-                <InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Dirección" />
-                <ValidationMessage For="@(()=>Cliente.Direccion)" />
-            </div>
-        </div>
+		<h5>@mensaje</h5>
 
-        <div class="form-group row">
-            <label for="Email">Email</label>
-            <div class="input-field col s4">
-                <InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="Dirección" />
-                <ValidationMessage For="@(()=>Cliente.Email)" />
-            </div>
+		<div class="input-field col s6">
+			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+			<button type="submit" class="btn btn-outline-success">Guardar</button>
+			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+		</div>
+		<DataAnnotationsValidator />
+		<ValidationSummary />
 
-            <label for="Deuda">Deuda</label>
-            <div class="input-field col s4">
-                <InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
-                <ValidationMessage For="@(()=>Cliente.Deuda)" />
-            </div>
-        </div>
-
-        <br />
-
-        <h5>@mensaje</h5>
-
-        <div class="input-field col s6">
-            <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-            <button type="button" class="btn btn-outline-success" @onclick="Guardar">Guardar</button>
-            <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-        </div>
-
-
-    </div>
+	</div>
 </EditForm>
 
 
 @code {
+		[Parameter]
+	public int ClienteId { get; set; }
 
-    protected override void OnInitialized()
-    {
-        Cliente = new Clientes();
-    }
+	protected override void OnInitialized()
+	{
+		Cliente = new Clientes();
 
-    public Clientes Cliente { get; set; }
-    public string mensaje;
+		if (ClienteId != 0)
+		{
+			Cliente.ClienteId = ClienteId;
+			Buscar();
+		}
+	}
 
-    ClientesController clientesController = new ClientesController();
+	public Clientes Cliente { get; set; }
+	public string mensaje;
 
-    private void Guardar()
-    {
-        if (clientesController.Guardar(Cliente))
-        {
-            Limpiar();
-            mensaje = "Cliente Guardado con Exito!!!";
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Error al guardar el Cliente";
-        }
-    }
+	ClientesController clientesController = new ClientesController();
 
-    private void Buscar()
-    {
-        Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
+	private void Guardar()
+	{
+		if (clientesController.Guardar(Cliente))
+		{
+			Limpiar();
+			mensaje = "Cliente Guardado con Exito!!!";
+			toastService.ShowSuccess("Cliente Guardado", "Exito");
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Error al guardar el Cliente";
+		}
+	}
 
-        if (ClienteTemporal != null)
-        {
-            Cliente = ClienteTemporal;
+	private void Buscar()
+	{
+		Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
 
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Este Cliente no existe";
+		if (ClienteTemporal != null)
+		{
+			mensaje = "";
+			Cliente = ClienteTemporal;
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Este Cliente no existe";
+		}
+	}
 
-        }
-    }
+	private void Eliminar()
+	{
+		Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
 
-    private void Eliminar()
-    {
-        Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
+		if (ClienteTemporal != null)
+		{
+			if (Cliente.Deuda > 0)
+			{
+				mensaje = "No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda;
+			}
+			else
+			{
+				clientesController.Eliminar(Cliente.ClienteId);
+				Limpiar();
+				mensaje = "Cliente Eliminado";
+			}
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Error al eliminar";
+		}
+	}
 
-        if (ClienteTemporal != null)
-        {
-            clientesController.Eliminar(Cliente.ClienteId);
-            Limpiar();
-            mensaje = "Cliente Eliminado";
-
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Error al eliminar";
-
-        }
-    }
-
-    private void Limpiar()
-    {
-        this.Cliente = new Clientes();
-        mensaje = string.Empty;
-    }
+	private void Limpiar()
+	{
+		this.Cliente = new Clientes();
+		mensaje = string.Empty;
+	}
 }

@@ -27,10 +27,10 @@ namespace ProyectoFinalAplicada2.Migrations
                     ClienteId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Nombres = table.Column<string>(nullable: false),
-                    Cedula = table.Column<string>(nullable: false),
+                    Cedula = table.Column<string>(nullable: true),
                     Direccion = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(nullable: false),
-                    Celular = table.Column<string>(nullable: false),
+                    Telefono = table.Column<string>(maxLength: 10, nullable: false),
+                    Celular = table.Column<string>(maxLength: 10, nullable: false),
                     Email = table.Column<string>(nullable: false),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Deuda = table.Column<decimal>(nullable: false)
@@ -59,7 +59,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 {
                     FacturaId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Cliente = table.Column<string>(nullable: true),
+                    ClienteId = table.Column<int>(nullable: false),
                     Usuario = table.Column<string>(nullable: true),
                     ProductoId = table.Column<int>(nullable: false),
                     Total = table.Column<decimal>(nullable: false),
@@ -110,9 +110,9 @@ namespace ProyectoFinalAplicada2.Migrations
                 {
                     ProveedorId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombre = table.Column<string>(nullable: true),
-                    Direccion = table.Column<string>(nullable: true),
-                    Telefono = table.Column<string>(nullable: true)
+                    Nombre = table.Column<string>(nullable: false),
+                    Direccion = table.Column<string>(nullable: false),
+                    Telefono = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,153 +1,158 @@
 ﻿@page "/rPagos"
+@inject IToastService toastService
 
 <EditForm Model="Pago" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
+	<DataAnnotationsValidator />
 
-    <div class="center-align">
+	<div class="center-align">
 
-        <center>
-            <h2>Registro de Pagos</h2>
-        </center>
+		<center>
+			<h2>Registro de Pagos</h2>
+		</center>
 
-        <label for="PagoId " class="col-auto">Codigo del Pago</label>
-        <div class="input-group  col-sm-3">
-            <InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-            </div>
-        </div>
+		<label for="PagoId " class="col-auto">Codigo del Pago</label>
+		<div class="input-group  col-sm-3">
+			<InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
+			<div class="input-group-append">
+				<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+			</div>
+		</div>
 
-        <label for="Fecha">Fecha</label>
-        <div align="right" class="input-group col-md-6">
-            <div class="col-sm-6">
-                <InputDate @bind-Value="@Pago.Fecha" class="form-control" />
-            </div>
-        </div>
+		<label for="Fecha">Fecha</label>
+		<div align="right" class="input-group col-md-6">
+			<div class="col-sm-6">
+				<InputDate @bind-Value="@Pago.Fecha" class="form-control" />
+			</div>
+		</div>
 
-        <div class="form-group row">
-            <label for="ClienteId">Cliente</label>
-            <div class="col-md-6 no-padding">
-                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
-                    <option value="0" disabled selected>Seleccione un Estudiante</option>
-                    @foreach (var item in ListadoClientes)
-                    {
-                        <option value="@item.ClienteId">@item.Nombres</option>
-                    }
-                </InputSelect>
-            </div>
-        </div>
+		<div class="form-group row">
+			<label for="ClienteId">Cliente</label>
+			<div class="col-md-6 no-padding">
+				<InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
+					<option value="0" disabled selected>Seleccione un Estudiante</option>
+					@foreach (var item in ListadoClientes)
+					{
+						<option value="@item.ClienteId">@item.Nombres</option>
+					}
+				</InputSelect>
+			</div>
+		</div>
 
-        <label for="Deuda">Deuda</label>
-        <div class="input-field col s4">
-            <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
-            <ValidationMessage For="@(()=>Pago.MontoPago)" />
-        </div>
+		<label for="Deuda">Deuda</label>
+		<div class="input-field col s4">
+			<InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
+			<ValidationMessage For="@(()=>Pago.MontoPago)" />
+		</div>
 
-        <br />
+		<br />
 
-        <h5>@mensaje</h5>
+		<h5>@mensaje</h5>
 
-        <div class="input-field col s6">
-            <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-            <button type="submit" class="btn btn-outline-success" @onclick="Guardar">Guardar</button>
-            <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-        </div>
+		<div class="input-field col s6">
+			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+			<button type="submit" class="btn btn-outline-success">Guardar</button>
+			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+		</div>
 
 
-    </div>
+	</div>
 </EditForm>
 
 
 @code {
 
-        Pagos Pago = new Pagos();
-        PagosController pagosController = new PagosController();
+	Pagos Pago = new Pagos();
+	PagosController pagosController = new PagosController();
 
-        Clientes Cliente = new Clientes();
-        List<Clientes> ListadoClientes = new List<Clientes>();
-        ClientesController clientesController = new ClientesController();
-        string ClienteSeleccionado;
+	Clientes Cliente = new Clientes();
+	List<Clientes> ListadoClientes = new List<Clientes>();
+	ClientesController clientesController = new ClientesController();
+	string ClienteSeleccionado;
 
-    protected override void OnInitialized()
-    {
-        Pago = new Pagos();
-        ListadoClientes = clientesController.GetList(e => true);
-    }
+	protected override void OnInitialized()
+	{
+		Pago = new Pagos();
+		ListadoClientes = clientesController.GetList(e => true);
+	}
 
-    public Pagos Pagos { get; set; }
-    public string mensaje;
+	public Pagos Pagos { get; set; }
+	public string mensaje;
 
 
 
-    private void Guardar()
-    {
-        if (pagosController.Guardar(Pago))
-        {
-            Limpiar();
-            mensaje = "Pago Guardado con Exito!!!";
+	private void Guardar()
+	{
+		if (Pago.MontoPago > Cliente.Deuda)
+		{
+			mensaje = "El pago es mayor a la Deuda, El Balance es: " + Cliente.Deuda;
+		}
+		else
+		{
+			if (pagosController.Guardar(Pago))
+			{
+				Limpiar();
+				mensaje = "Pago Guardado con Exito!!!";
+				toastService.ShowSuccess("Pago Guardada", "Exito");
+			}
+			else
+			{
+				mensaje = "Error al guardar el Pago";
+			}
+		}
 
-        }
-        else
-        {
-            mensaje = "Error al guardar el Pago";
+	}
 
-        }
-    }
+	private void Buscar()
+	{
+		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+		if (PagoTemporal != null)
+		{
+			Limpiar();
+			Pago = PagoTemporal;
+			CargarCliente();
+		}
+		else
+		{
+			Limpiar();
+			mensaje = "Este Pago no existe";
 
-    private void Buscar()
-    {
-        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
-        if (PagoTemporal != null)
-        {
-            Limpiar();
-            Pago = PagoTemporal;
-            //ClienteSeleccionado = Convert.ToString(Pago.ClienteId);
-            CargarCliente();
-        }
-        else
-        {
-            Limpiar();
-            mensaje = "Este Pago no existe";
+		}
+	}
 
-        }
-    }
+	private void Eliminar()
+	{
+		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
 
-    private void Eliminar()
-    {
-        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+		if (PagoTemporal != null)
+		{
+			pagosController.Eliminar(Pago.PagoId);
+			Limpiar();
+			mensaje = "Pago Eliminado";
+		}
+		else
+		{
+			mensaje = "Error al eliminar";
+		}
+	}
 
-        if (PagoTemporal != null)
-        {
-            pagosController.Eliminar(Pago.PagoId);
-            Limpiar();
-            mensaje = "Pago Eliminado";
+	private void CargarCliente()
+	{
+		//try
+		//{
+		Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+		Pago.ClienteId = (Cliente != null) ? Cliente.ClienteId : 0;
+		//}
+		//catch (Exception ex)
+		//{
+		//    mensaje = ex.ToString();
+		////}
+	}
 
-        }
-        else
-        {
-            mensaje = "Error al eliminar";
-
-        }
-    }
-
-    private void CargarCliente()
-    {
-        //try
-        //{
-        Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
-        Pago.ClienteId = (Cliente != null) ? Cliente.ClienteId : 0;
-        //}
-        //catch (Exception ex)
-        //{
-        //    mensaje = ex.ToString();
-        ////}
-    }
-
-    private void Limpiar()
-    {
-        this.Pago = new Pagos();
-        mensaje = string.Empty;
-        ClienteSeleccionado = "0";
-    }
+	private void Limpiar()
+	{
+		this.Pago = new Pagos();
+		mensaje = string.Empty;
+		ClienteSeleccionado = "0";
+	}
 
 }

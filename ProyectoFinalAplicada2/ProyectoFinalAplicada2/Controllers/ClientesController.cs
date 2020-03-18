@@ -68,7 +68,7 @@ namespace ProyectoFinalAplicada2.Controllers
             return paso;
         }
 
-        private bool Modificar(Clientes cliente)
+        public bool Modificar(Clientes cliente)
         {
             Contexto contexto = new Contexto();
             bool paso = false;

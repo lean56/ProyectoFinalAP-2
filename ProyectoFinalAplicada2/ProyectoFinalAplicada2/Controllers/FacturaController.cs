@@ -36,10 +36,14 @@ namespace ProyectoFinalAplicada2.Controllers
         private bool Insertar(Facturas factura)
         {
             Contexto contexto = new Contexto();
+            ClientesController controller = new ClientesController();
             bool paso = false;
 
             try
             {
+               var cliente = controller.Buscar(factura.ClienteId);
+                cliente.Deuda += factura.Total;
+                controller.Guardar(cliente);
                 contexto.Facturas.Add(factura);
                 paso = contexto.SaveChanges() > 0;
             }
@@ -54,15 +58,24 @@ namespace ProyectoFinalAplicada2.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
+            ClientesController controller = new ClientesController();
 
             try
             {
+                var cliente = controller.Buscar(factura.ClienteId);
+                var anterior = Buscar(factura.FacturaId);
+
+                cliente.Deuda -= anterior.Total; 
+
                 contexto.Database.ExecuteSqlRaw($"Delete from FacturaDetalles where FacturaId={factura.FacturaId}");
 
                 foreach (var item in factura.Detalle)
                 {
                     contexto.Entry(item).State = EntityState.Added;
                 }
+
+                cliente.Deuda += factura.Total;
+                controller.Modificar(cliente);
 
                 contexto.Facturas.Add(factura);
                 contexto.Entry(factura).State = EntityState.Modified;
@@ -96,10 +109,14 @@ namespace ProyectoFinalAplicada2.Controllers
             Contexto contexto = new Contexto();
             bool paso = false;
             Facturas factura = new Facturas();
+            ClientesController controller = new ClientesController();
 
             try
             {
                 factura = contexto.Facturas.Find(id);
+                contexto.Clientes.Find(factura.ClienteId).Deuda -= factura.Total;
+                contexto.Facturas.Remove(factura);
+
                 contexto.Entry(factura).State = EntityState.Deleted;
                 paso = contexto.SaveChanges() > 0;
             }

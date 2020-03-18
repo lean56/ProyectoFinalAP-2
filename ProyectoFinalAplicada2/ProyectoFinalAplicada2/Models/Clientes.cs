@@ -12,15 +12,19 @@ namespace ProyectoFinalAplicada2.Models
         public int ClienteId { get; set; }
         [Required(ErrorMessage = "El nombre del cliente no puede estar vacío!")]
         public string Nombres { get; set; }
-        [Required(ErrorMessage = "El cedula del cliente no puede estar vacía!")]
+       // [Required(ErrorMessage = "El cedula del cliente no puede estar vacía!")]
         public string Cedula { get; set; }
         [Required(ErrorMessage = "La dirección del cliente no puede estar vacía!")]
         public string Direccion { get; set; }
+        [DataType(DataType.PhoneNumber)]
         [Required(ErrorMessage = "El teléfono del cliente no puede estar vacía!")]
+        [StringLength(maximumLength: 10,MinimumLength =10, ErrorMessage = "Telefono Invalido")]
         public string Telefono { get; set; }
         [Required(ErrorMessage = "El celular del cliente no puede estar vacía!")]
+        [StringLength(maximumLength: 10, MinimumLength =10,ErrorMessage = "Celular Invalido")]
         public string Celular { get; set; }
         [Required(ErrorMessage = "El correo electrónico del cliente no puede esta vacío!")]
+        [EmailAddress(ErrorMessage ="Correo electronico Invalido")]
         public string Email { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Deuda { get; set; }

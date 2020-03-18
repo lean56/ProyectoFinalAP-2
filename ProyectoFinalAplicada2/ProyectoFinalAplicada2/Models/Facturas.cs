@@ -11,7 +11,7 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int FacturaId { get; set; }
-        public string Cliente { get; set; }
+        public int ClienteId { get; set; }
         public string Usuario { get; set; }
         public int ProductoId { get; set; }
         //[Range(minimum:1,maximum:1000000,ErrorMessage ="El total debe se mayor a cero")]
@@ -25,7 +25,7 @@ namespace ProyectoFinalAplicada2.Models
         public Facturas()
         {
             FacturaId = 0;
-            Cliente = string.Empty;
+            ClienteId = 0;
             Usuario = string.Empty;
             ProductoId = 0;
             Total = 0;

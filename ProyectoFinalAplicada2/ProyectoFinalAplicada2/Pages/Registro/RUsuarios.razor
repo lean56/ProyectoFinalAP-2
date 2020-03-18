@@ -1,5 +1,6 @@
 ﻿@page "/rUsuario"
 @page "/rUsuario/{UsuarioId:int}"
+@inject IToastService toastService
 
 <EditForm Model="Usuario" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
@@ -9,8 +10,6 @@
 			<center>
 				<h5>Registrar usuarios</h5>
 			</center>
-
-
 
 			<div class="form-group row">
 				<!--Usuario Id-->
@@ -54,7 +53,6 @@
 				</InputSelect>
 			</div>
 
-
 			<div class="input-field col s6">
 				<label for="Usuario">Usuario</label>
 				<InputText @bind-Value="@Usuario.Usuario" class="form-control" />
@@ -66,7 +64,6 @@
 				<input type="password" @bind="@Usuario.Contraseña" class="form-control" />
 				<ValidationMessage For="@(()=>Usuario.Contraseña)" />
 			</div>
-
 
 			<br />
 			<br />
@@ -90,7 +87,7 @@
 	protected override void OnInitialized()
 	{
 		Usuario = new Usuarios();
-	
+
 		if (UsuarioId != 0)
 		{
 			Usuario.UsuarioId = UsuarioId;
@@ -112,6 +109,7 @@
 		{
 			Limpiar();
 			mensaje = "Usuario Guardado con Exito!!!";
+			toastService.ShowSuccess("Usuario Guardado", "Exito");
 		}
 		else
 		{

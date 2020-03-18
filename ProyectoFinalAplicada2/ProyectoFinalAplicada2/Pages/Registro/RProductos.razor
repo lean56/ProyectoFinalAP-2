@@ -1,5 +1,6 @@
 ﻿@page "/rProductos"
 @page "/rProductos/{ProductoId:int}"
+@inject IToastService toastService
 
 <EditForm Model="Producto" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
@@ -124,6 +125,7 @@
 		{
 			Limpiar();
 			mensaje = "Producto Guardado con Exito!!!";
+			toastService.ShowSuccess("Producto Guardado", "Exito");
 		}
 		else
 		{
