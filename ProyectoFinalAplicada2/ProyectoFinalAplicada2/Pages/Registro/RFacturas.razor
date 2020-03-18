@@ -1,4 +1,6 @@
 ﻿@page "/rFacturas"
+@page "/rFacturas/{FacturaId:int}"
+
 <h3>Registro de Factura</h3>
 @inject IToastService toastService
 
@@ -173,7 +175,6 @@
 	private string ProductoSelect { get; set; }
 	private string ClienteSelect { get; set; }
 
-
 	private string mensaje = "";
 
 	private int Cantidad = 0;
@@ -200,7 +201,6 @@
 			Buscar();
 		}
 	}
-
 
 	private void CargarProducto()
 	{
@@ -248,9 +248,9 @@
 				}
 				else
 				{
-					if (Cantidad > Producto.Cantidad  )
+					if (Cantidad > Producto.Cantidad)
 					{
-						mensaje = "Solo quedan " + Producto.Cantidad +" de este producto";
+						mensaje = "Solo quedan " + Producto.Cantidad + " de este producto";
 					}
 					else
 					{
@@ -282,9 +282,7 @@
 							Factura.Total = total;
 						}
 					}
-
 				}
-
 			}
 		}
 	}
@@ -296,8 +294,6 @@
 
 	public void Guardar()
 	{
-
-
 		mensaje = "";
 		CalcularImporte();
 		if (ClienteSelect == null)
@@ -306,16 +302,9 @@
 		}
 		else
 		{
-			if (Cantidad > Factura.ProductoId)
-			{
-				mensaje = "Los Credito Tomados no pueden ser Mayor a los Limites";
-			}
-			else
-			{
-
-			}
-			Factura.ClienteId = Convert.ToInt32(ClienteSelect);
-			if (Factura.Detalle.Count ==0)
+			Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSelect));
+			Factura.Cliente = Cliente.Nombres;
+			if (Factura.Detalle.Count == 0)
 			{
 				mensaje = "Debes agregar un producto al detalle";
 			}
@@ -334,21 +323,17 @@
 			}
 
 		}
-
-
 	}
 
 	public void Buscar()
 	{
-		FacturaController controller = new FacturaController();
-
 		var factura = controller.Buscar(Factura.FacturaId);
 
 		if (factura != null)
 		{
 			Limpiar();
 			Factura = factura;
-			ClienteSelect = Convert.ToString(Factura.ClienteId);
+			ClienteSelect = Factura.Cliente;
 		}
 		else
 		{
@@ -359,9 +344,6 @@
 
 	public void Eliminar()
 	{
-		FacturaController controller = new FacturaController();
-
-
 		var factura = controller.Buscar(Factura.FacturaId);
 
 		if (Factura != null)
@@ -384,6 +366,7 @@
 		ProductoSelect = "";
 		Precio = 0;
 		Cantidad = 0;
+		Importe = 0;
 	}
 
 	public void CalcularImporte()
