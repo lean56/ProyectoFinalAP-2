@@ -1,4 +1,6 @@
 ﻿@page "/rClientes"
+@page "/rClientes/{ClienteId:int}"
+
 @inject IToastService toastService
 
 <EditForm Model="Cliente" OnValidSubmit="Guardar">
@@ -80,10 +82,18 @@
 
 
 @code {
+		[Parameter]
+	public int ClienteId { get; set; }
 
 	protected override void OnInitialized()
 	{
 		Cliente = new Clientes();
+
+		if (ClienteId != 0)
+		{
+			Cliente.ClienteId = ClienteId;
+			Buscar();
+		}
 	}
 
 	public Clientes Cliente { get; set; }
