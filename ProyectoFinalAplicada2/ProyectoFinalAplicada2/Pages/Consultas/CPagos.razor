@@ -94,151 +94,152 @@
 </EditForm>
 
 @code {
-    string Filtro;
-    string Criterio;
-    DateTime Desde;
-    DateTime Hasta;
-    bool BuscarPorFecha;
-    string Mensaje;
+	string Filtro;
+	string Criterio;
+	DateTime Desde;
+	DateTime Hasta;
+	bool BuscarPorFecha;
+	string Mensaje;
 
-    ClientesController clientesController = new ClientesController();
-    Clientes Cliente = new Clientes();
+	ClientesController clientesController = new ClientesController();
+	Clientes Cliente = new Clientes();
 
-    PagosController pagosController = new PagosController();
-    public List<Pagos> ListadoPagos = new List<Pagos>();
+	PagosController pagosController = new PagosController();
+	public List<Pagos> ListadoPagos = new List<Pagos>();
 
-    List<PagosConsulta> Listado { get; set; }
+	List<PagosConsulta> Listado { get; set; }
 
-    protected override void OnInitialized()
-    {
-        Filtro = "0";
-        Criterio = string.Empty;
-        Desde = DateTime.Now;
-        Hasta = DateTime.Now;
-        BuscarPorFecha = false;
-        Mensaje = string.Empty;
-        CargarLista();
-    }
+	protected override void OnInitialized()
+	{
+		Filtro = "0";
+		Criterio = string.Empty;
+		Desde = DateTime.Now;
+		Hasta = DateTime.Now;
+		BuscarPorFecha = false;
+		Mensaje = string.Empty;
+		CargarLista();
+	}
 
-    private void CargarLista()
-    {
-        ListadoPagos = pagosController.GetList(e => true);
-        Listado = new List<PagosConsulta>();
-        foreach (var item in ListadoPagos)
-        {
-            PagosConsulta p = new PagosConsulta();
-            p.PagoId = item.PagoId;
-            p.Fecha = item.Fecha;
-            Cliente = clientesController.Buscar(item.ClienteId);
-            p.Cliente = Cliente.Nombres;
-            p.MontoPago = item.MontoPago;
+	private void CargarLista()
+	{
+		ListadoPagos = pagosController.GetList(e => true);
+		Listado = new List<PagosConsulta>();
+		foreach (var item in ListadoPagos)
+		{
+			PagosConsulta p = new PagosConsulta();
+			p.PagoId = item.PagoId;
+			p.Fecha = item.Fecha;
+			Cliente = clientesController.Buscar(item.ClienteId);
+			p.Cliente = Cliente.Nombres;
+			p.MontoPago = item.MontoPago;
 
-            Listado.Add(p);
-        }
-    }
+			Listado.Add(p);
+		}
+	}
 
-    private void Buscar()
-    {
-        if (Filtro == "0")
-        {
-            Mensaje = "Debe seleccionar un Filtro para la búsqueda!";
-        }
-        else
-        {
-            if(Filtro != "1" && Criterio == string.Empty)
-            {
-                Mensaje = "Debe escribir un criterio de búsqueda!";
-            }
-            else
-            {
-                if (Listado.Count == 0)
-                {
-                    Mensaje = "No hay pagos registrados!";
-                }
-                else
-                {
-                    CargarLista();
-                    List<PagosConsulta> ListadoTemporal = Listado;
-                    Mensaje = string.Empty;
-                    switch (Filtro)
-                    {
-                        case "1":
-                            break;
+	private void Buscar()
+	{
+		if (Filtro == "0")
+		{
+			Mensaje = "Debe seleccionar un Filtro para la búsqueda!";
+		}
+		else
+		{
+			if(Filtro != "0" && Criterio == string.Empty)
+			{
+				Mensaje = "Debe escribir un criterio de búsqueda!";
+			}
+			else
+			{
+				if (Listado.Count == 0)
+				{
+					Mensaje = "No hay pagos registrados!";
+				}
+				else
+				{
+					CargarLista();
+					List<PagosConsulta> ListadoTemporal = Listado;
+					Mensaje = string.Empty;
+					switch (Filtro)
+					{
+						case "1":
+								ListadoPagos = pagosController.GetList(e => true);
+							break;
 
-                        case "2":
-                            ListadoTemporal = new List<PagosConsulta>();
-                            foreach (var item in ListadoPagos)
-                            {
-                                if (Convert.ToString(item.PagoId).Contains(Criterio))
-                                {
-                                    PagosConsulta p = new PagosConsulta();
-                                    p.PagoId = item.PagoId;
-                                    p.Fecha = item.Fecha;
-                                    Cliente = clientesController.Buscar(item.ClienteId);
-                                    p.Cliente = Cliente.Nombres;
-                                    p.MontoPago = item.MontoPago;
+						case "2":
+							ListadoTemporal = new List<PagosConsulta>();
+							foreach (var item in ListadoPagos)
+							{
+								if (Convert.ToString(item.PagoId).Contains(Criterio))
+								{
+									PagosConsulta p = new PagosConsulta();
+									p.PagoId = item.PagoId;
+									p.Fecha = item.Fecha;
+									Cliente = clientesController.Buscar(item.ClienteId);
+									p.Cliente = Cliente.Nombres;
+									p.MontoPago = item.MontoPago;
 
-                                    ListadoTemporal.Add(p);
-                                }
-                            }
-                            break;
+									ListadoTemporal.Add(p);
+								}
+							}
+							break;
 
-                        case "3":
-                            ListadoTemporal = new List<PagosConsulta>();
-                            foreach (var item in ListadoPagos)
-                            {
-                                Cliente = clientesController.Buscar(item.ClienteId);
-                                if (Cliente.Nombres.Contains(Criterio))
-                                {
-                                    PagosConsulta p = new PagosConsulta();
-                                    p.PagoId = item.PagoId;
-                                    p.Fecha = item.Fecha;
-                                    p.Cliente = Cliente.Nombres;
-                                    p.MontoPago = item.MontoPago;
+						case "3":
+							ListadoTemporal = new List<PagosConsulta>();
+							foreach (var item in ListadoPagos)
+							{
+								Cliente = clientesController.Buscar(item.ClienteId);
+								if (Cliente.Nombres.Contains(Criterio))
+								{
+									PagosConsulta p = new PagosConsulta();
+									p.PagoId = item.PagoId;
+									p.Fecha = item.Fecha;
+									p.Cliente = Cliente.Nombres;
+									p.MontoPago = item.MontoPago;
 
-                                    ListadoTemporal.Add(p);
+									ListadoTemporal.Add(p);
 
-                                }
-                            }
-                            break;
+								}
+							}
+							break;
 
-                        case "4":
-                            ListadoTemporal = new List<PagosConsulta>();
-                            foreach (var item in ListadoPagos)
-                            {
-                                if (Convert.ToString(item.MontoPago).Contains(Criterio))
-                                {
-                                    PagosConsulta p = new PagosConsulta();
-                                    p.PagoId = item.PagoId;
-                                    p.Fecha = item.Fecha;
-                                    Cliente = clientesController.Buscar(item.ClienteId);
-                                    p.Cliente = Cliente.Nombres;
-                                    p.MontoPago = item.MontoPago;
+						case "4":
+							ListadoTemporal = new List<PagosConsulta>();
+							foreach (var item in ListadoPagos)
+							{
+								if (Convert.ToString(item.MontoPago).Contains(Criterio))
+								{
+									PagosConsulta p = new PagosConsulta();
+									p.PagoId = item.PagoId;
+									p.Fecha = item.Fecha;
+									Cliente = clientesController.Buscar(item.ClienteId);
+									p.Cliente = Cliente.Nombres;
+									p.MontoPago = item.MontoPago;
 
-                                    ListadoTemporal.Add(p);
-                                }
-                            }
-                            break;
-                    }
-                    if (BuscarPorFecha == true)
-                    {
-                        Listado = new List<PagosConsulta>();
-                        foreach (var item in ListadoTemporal)
-                        {
-                            if(item.Fecha >= Desde && item.Fecha <= Hasta)
-                            {
-                                Listado.Add(item);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        Listado = new List<PagosConsulta>();
-                        Listado = ListadoTemporal;
-                    }
-                }
-            }
-        }
-    }
+									ListadoTemporal.Add(p);
+								}
+							}
+							break;
+					}
+					if (BuscarPorFecha == true)
+					{
+						Listado = new List<PagosConsulta>();
+						foreach (var item in ListadoTemporal)
+						{
+							if(item.Fecha >= Desde && item.Fecha <= Hasta)
+							{
+								Listado.Add(item);
+							}
+						}
+					}
+					else
+					{
+						Listado = new List<PagosConsulta>();
+						Listado = ListadoTemporal;
+					}
+				}
+			}
+		}
+	}
 }
 

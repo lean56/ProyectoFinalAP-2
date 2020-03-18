@@ -1,4 +1,6 @@
 ﻿@page "/rPagos"
+@page "/rPagos/{PagoId:int}"
+
 @inject IToastService toastService
 
 <EditForm Model="Pago" OnValidSubmit="Guardar">
@@ -60,6 +62,8 @@
 
 
 @code {
+		[Parameter]
+	public int PagoId { get; set; }
 
 	Pagos Pago = new Pagos();
 	PagosController pagosController = new PagosController();
@@ -73,6 +77,12 @@
 	{
 		Pago = new Pagos();
 		ListadoClientes = clientesController.GetList(e => true);
+		
+		if (PagoId != 0)
+		{
+			Pago.PagoId = PagoId;
+			Buscar();
+		}
 	}
 
 	public Pagos Pagos { get; set; }
@@ -88,6 +98,8 @@
 		}
 		else
 		{
+			Pago.ClienteId = Convert.ToInt32(ClienteSeleccionado);
+
 			if (pagosController.Guardar(Pago))
 			{
 				Limpiar();
@@ -109,6 +121,7 @@
 		{
 			Limpiar();
 			Pago = PagoTemporal;
+			ClienteSeleccionado = Convert.ToString(Pago.ClienteId);
 			CargarCliente();
 		}
 		else

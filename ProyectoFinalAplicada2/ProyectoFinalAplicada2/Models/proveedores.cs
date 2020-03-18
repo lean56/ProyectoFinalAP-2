@@ -14,7 +14,8 @@ namespace ProyectoFinalAplicada2.Models
         public string Nombre { get; set; }
         [Required(ErrorMessage = "La dirección del proveedor no puede estar vacío!")]
         public string Direccion { get; set; }
-
+        [DataType(DataType.PhoneNumber)]
+        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Telefono Invalido")]
         [Required(ErrorMessage = "El teléfono del proveedor no puede estar vacío!")]
         public string Telefono { get; set; }
 
