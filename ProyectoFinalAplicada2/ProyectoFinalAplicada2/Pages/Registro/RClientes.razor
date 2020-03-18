@@ -111,7 +111,7 @@
 		if (ClienteTemporal != null)
 		{
 			mensaje = "";
-            Cliente = ClienteTemporal;
+			Cliente = ClienteTemporal;
 		}
 		else
 		{
@@ -126,9 +126,17 @@
 
 		if (ClienteTemporal != null)
 		{
-			clientesController.Eliminar(Cliente.ClienteId);
+            if (Cliente.Deuda > 0)
+			{
+				mensaje = "No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda;
+			}
+			else
+			{
+                clientesController.Eliminar(Cliente.ClienteId);
 			Limpiar();
 			mensaje = "Cliente Eliminado";
+			}
+			
 		}
 		else
 		{
