@@ -10,8 +10,12 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int ProveedorId { get; set; }
+        [Required(ErrorMessage = "El nombre del proveedor no puede estar vacío!")]
         public string Nombre { get; set; }
+        [Required(ErrorMessage = "La dirección del proveedor no puede estar vacío!")]
         public string Direccion { get; set; }
+
+        [Required(ErrorMessage = "El teléfono del proveedor no puede estar vacío!")]
         public string Telefono { get; set; }
 
         public Proveedores()
