@@ -1,5 +1,5 @@
 ﻿@page "/rCategorias"
-
+@inject IToastService toastService
 
 <EditForm Model="Categoria" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
@@ -58,6 +58,7 @@
 		{
 			Limpiar();
 			mensaje = "Categoria Guardada con Exito!!!";
+			toastService.ShowSuccess("Categoria Guardada", "Exito");
 		}
 		else
 		{
