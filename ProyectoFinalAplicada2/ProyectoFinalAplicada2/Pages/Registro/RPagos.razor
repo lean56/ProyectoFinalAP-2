@@ -1,4 +1,5 @@
 ﻿@page "/rPagos"
+@inject IToastService toastService
 
 <EditForm Model="Pago" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
@@ -91,6 +92,7 @@
 			{
 				Limpiar();
 				mensaje = "Pago Guardado con Exito!!!";
+				toastService.ShowSuccess("Pago Guardada", "Exito");
 			}
 			else
 			{
