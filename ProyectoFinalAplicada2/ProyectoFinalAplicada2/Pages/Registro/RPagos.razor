@@ -1,60 +1,60 @@
 ﻿@page "/rPagos"
 
 <EditForm Model="Pago" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
+	<DataAnnotationsValidator />
 
-    <div class="center-align">
+	<div class="center-align">
 
-        <center>
-            <h2>Registro de Pagos</h2>
-        </center>
+		<center>
+			<h2>Registro de Pagos</h2>
+		</center>
 
-        <label for="PagoId " class="col-auto">Codigo del Pago</label>
-        <div class="input-group  col-sm-3">
-            <InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
-            <div class="input-group-append">
-                <button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-            </div>
-        </div>
+		<label for="PagoId " class="col-auto">Codigo del Pago</label>
+		<div class="input-group  col-sm-3">
+			<InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
+			<div class="input-group-append">
+				<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+			</div>
+		</div>
 
-        <label for="Fecha">Fecha</label>
-        <div align="right" class="input-group col-md-6">
-            <div class="col-sm-6">
-                <InputDate @bind-Value="@Pago.Fecha" class="form-control" />
-            </div>
-        </div>
+		<label for="Fecha">Fecha</label>
+		<div align="right" class="input-group col-md-6">
+			<div class="col-sm-6">
+				<InputDate @bind-Value="@Pago.Fecha" class="form-control" />
+			</div>
+		</div>
 
-        <div class="form-group row">
-            <label for="ClienteId">Cliente</label>
-            <div class="col-md-6 no-padding">
-                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
-                    <option value="0" disabled selected>Seleccione un Estudiante</option>
-                    @foreach (var item in ListadoClientes)
-                    {
-                        <option value="@item.ClienteId">@item.Nombres</option>
-                    }
-                </InputSelect>
-            </div>
-        </div>
+		<div class="form-group row">
+			<label for="ClienteId">Cliente</label>
+			<div class="col-md-6 no-padding">
+				<InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
+					<option value="0" disabled selected>Seleccione un Estudiante</option>
+					@foreach (var item in ListadoClientes)
+					{
+						<option value="@item.ClienteId">@item.Nombres</option>
+					}
+				</InputSelect>
+			</div>
+		</div>
 
-        <label for="Deuda">Deuda</label>
-        <div class="input-field col s4">
-            <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
-            <ValidationMessage For="@(()=>Pago.MontoPago)" />
-        </div>
+		<label for="Deuda">Deuda</label>
+		<div class="input-field col s4">
+			<InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
+			<ValidationMessage For="@(()=>Pago.MontoPago)" />
+		</div>
 
-        <br />
+		<br />
 
-        <h5>@mensaje</h5>
+		<h5>@mensaje</h5>
 
-        <div class="input-field col s6">
-            <button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-            <button type="submit" class="btn btn-outline-success">Guardar</button>
-            <button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-        </div>
+		<div class="input-field col s6">
+			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+			<button type="submit" class="btn btn-outline-success">Guardar</button>
+			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+		</div>
 
 
-    </div>
+	</div>
 </EditForm>
 
 
@@ -88,16 +88,16 @@
 		else
 		{
 			if (pagosController.Guardar(Pago))
-		{
-			Limpiar();
-			mensaje = "Pago Guardado con Exito!!!";
-		}
+			{
+				Limpiar();
+				mensaje = "Pago Guardado con Exito!!!";
+			}
 			else
 			{
 				mensaje = "Error al guardar el Pago";
-			}	
+			}
 		}
-		
+
 	}
 
 	private void Buscar()
@@ -126,12 +126,10 @@
 			pagosController.Eliminar(Pago.PagoId);
 			Limpiar();
 			mensaje = "Pago Eliminado";
-
 		}
 		else
 		{
 			mensaje = "Error al eliminar";
-
 		}
 	}
 
