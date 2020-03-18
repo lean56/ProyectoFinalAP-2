@@ -4,87 +4,93 @@
 
 <EditForm Model="Producto" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
-	<div class="center-align">
-		<div class="card ">
+	<div class="container">
+		<div class="card">
+			<div class="card-body">
+				<center>
+					<h5>Registrar Producto</h5>
+				</center>
 
-			<center>
-				<h5>Registrar Producto</h5>
-			</center>
-
-			<div class="form-group row">
-				<!--Producto Id-->
-				<label for="ProductoId " class="col-auto">Producto Id</label>
-				<div class="input-group  col-sm-3">
-					<InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
-					<ValidationMessage For="@(()=>Producto.ProductoId)" />
-					<div class="input-group-append">
-						<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+				<div class="form-group row">
+					<!--Producto Id-->
+					<label for="ProductoId " class="col-auto">Producto Id</label>
+					<div class="input-group  col-sm-3">
+						<InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
+						<ValidationMessage For="@(()=>Producto.ProductoId)" />
+						<div class="input-group-append">
+							<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
+						</div>
+					</div>
+					<!--Fecha-->
+					<label for="fecha">Fecha</label>
+					<div align="right" class="input-group col-md-6">
+						<div class="col-sm-6">
+							<InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" />
+							<ValidationMessage For="@(()=>Producto.FechaCreacion)" />
+						</div>
 					</div>
 				</div>
-				<!--Fecha-->
-				<label for="fecha">Fecha</label>
-				<div align="right" class="input-group col-md-6">
-					<div class="col-sm-6">
-						<InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" />
-						<ValidationMessage For="@(()=>Producto.FechaCreacion)" />
+
+				<div class="form-group row">
+					<!--descripcion-->
+					<label for="descripcion">Descripcion</label>
+					<div class="input-group col-4">
+						<InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
+						<ValidationMessage For="@(()=>Producto.Descripcion)" />
+					</div>
+					<!--Categoria-->
+					<label for="Categoria">Categoria</label>
+					<div align="right" class="input-group col-6">
+						<div class="col-sm-6">
+							<InputSelect @bind-Value="@CategoriaSelect" class="form-control " @onchange="CargarCategoria" @onclick="CargarCategoria">
+								<option value="" disabled selected>Seleccione una Categoria</option>
+								@foreach (var item in ListaCategoria)
+								{
+									<option value="@item.CategoriaId">@item.Nombre</option>
+								}
+							</InputSelect>
+						</div>
 					</div>
 				</div>
-			</div>
 
-			<label for="descripcion">Descripcion</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
-				<ValidationMessage For="@(()=>Producto.Descripcion)" />
-			</div>
 
-			<div class="form-group row">
-				<label class="col-auto" for="categoria">Categoria</label>
-				<div class="col-md-6 no-padding">
-					<InputSelect @bind-Value="@CategoriaSelect" class="form-control " @onchange="CargarCategoria" @onclick="CargarCategoria">
-						<option value="" disabled selected>Seleccione una Categoria</option>
-						@foreach (var item in ListaCategoria)
-						{
-							<option value="@item.CategoriaId">@item.Nombre</option>
-						}
-					</InputSelect>
+
+				<div class="input-field col s6">
+					<label for="costo">Costo</label>
+					<InputNumber @bind-Value="@Producto.Costo" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
+					<ValidationMessage For="@(()=>Producto.Costo)" />
 				</div>
+
+				<div class="input-field col s6">
+					<label for="ganancia">Ganancia</label>
+					<InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
+					<ValidationMessage For="@(()=>Producto.Ganancia)" />
+				</div>
+
+				<div class="input-field col s6">
+					<label for="precio">Precio</label>
+					<InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
+					<ValidationMessage For="@(()=>Producto.Precio)" />
+				</div>
+
+				<div class="input-field col s6">
+					<label for="Cantidad">Cantidad</label>
+					<InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
+				</div>
+
+				<br />
+				<br />
+				<div class="input-field col s6">
+					<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
+					<button type="submit" class="btn btn-outline-secondary">Guardar</button>
+					<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+				</div>
+
+				<h5 class="text-success">@mensaje</h5>
+
 			</div>
-
-			<div class="input-field col s6">
-				<label for="costo">Costo</label>
-				<InputNumber @bind-Value="@Producto.Costo" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
-				<ValidationMessage For="@(()=>Producto.Costo)" />
-			</div>
-
-			<div class="input-field col s6">
-				<label for="ganancia">Ganancia</label>
-				<InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @oninput="CalculoPrecio" @onfocusin="CalculoPrecio" @onfocusout="CalculoPrecio" />
-				<ValidationMessage For="@(()=>Producto.Ganancia)" />
-			</div>
-
-			<div class="input-field col s6">
-				<label for="precio">Precio</label>
-				<InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
-				<ValidationMessage For="@(()=>Producto.Precio)" />
-			</div>
-
-			<div class="input-field col s6">
-				<label for="Cantidad">Cantidad</label>
-				<InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
-			</div>
-
-			<br />
-			<br />
-			<div class="input-field col s6">
-				<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-				<button type="submit" class="btn btn-outline-secondary">Guardar</button>
-				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-			</div>
-
-			<h5 class="text-success">@mensaje</h5>
-
 		</div>
-	</div>
+		</div>
 </EditForm>
 
 @code {

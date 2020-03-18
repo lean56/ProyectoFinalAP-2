@@ -3,66 +3,91 @@
 
 @inject IToastService toastService
 
-<EditForm Model="Pago" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
+	<EditForm Model="Pago" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
+		<div class="container">
+				<center>
+					<h3>
+						Registro de Pagos
+					</h3>
+				</center>
+				<br />
+					<div class="form-group row">
+						<!--Pago Id-->
+						<label for="PagoId " class="col-auto">Codigo del Pago</label>
+						<div class="input-group  col-sm-3">
+							<InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
+							<div class="input-group-append">
+								<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+							</div>
+						</div>
+						<!--Fecha-->
+						<label for="Fecha">Fecha</label>
+						<div align="right" class="input-group col-md-6">
+							<div class="col-sm-6">
+								<InputDate @bind-Value="@Pago.Fecha" class="form-control" />
+							</div>
+						</div>
+					</div>
 
-	<div class="center-align">
+					<div class="form-group row">
+						<!--Cliente Id-->
+						<label for="ClienteId">Cliente</label>
+						<div class="input-group  col-sm-4">
+							<InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
+								<option value="0" disabled selected>Seleccione un Cliente</option>
+								@foreach (var item in ListadoClientes)
+								{
+									<option value="@item.ClienteId">@item.Nombres</option>
+								}
+							</InputSelect>
+						</div>
+						<!--Deuda-->
+						<label for="Deuda">Deuda</label>
+						<div class="input-group col-4">
+							<div class="col-md-6 no-padding">
+								<InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
+								<ValidationMessage For="@(()=>Pago.MontoPago)" />
+							</div>
+						</div>
+					</div>
+				<br />
 
-		<center>
-			<h2>Registro de Pagos</h2>
-		</center>
-
-		<label for="PagoId " class="col-auto">Codigo del Pago</label>
-		<div class="input-group  col-sm-3">
-			<InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
-			<div class="input-group-append">
-				<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+			<div class="text-center">
+				<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+				<button type="submit" class="btn btn-outline-success">Guardar</button>
+				<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+				<!-- Modal -->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Atencion</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								¿Desea eliminar Este Pago?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
+								<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">Si</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--fin de modal-->
 			</div>
+			<h5>@mensaje</h5>
+			<br />
 		</div>
 
-		<label for="Fecha">Fecha</label>
-		<div align="right" class="input-group col-md-6">
-			<div class="col-sm-6">
-				<InputDate @bind-Value="@Pago.Fecha" class="form-control" />
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<label for="ClienteId">Cliente</label>
-			<div class="col-md-6 no-padding">
-				<InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
-					<option value="0" disabled selected>Seleccione un Estudiante</option>
-					@foreach (var item in ListadoClientes)
-					{
-						<option value="@item.ClienteId">@item.Nombres</option>
-					}
-				</InputSelect>
-			</div>
-		</div>
-
-		<label for="Deuda">Deuda</label>
-		<div class="input-field col s4">
-			<InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
-			<ValidationMessage For="@(()=>Pago.MontoPago)" />
-		</div>
-
-		<br />
-
-		<h5>@mensaje</h5>
-
-		<div class="input-field col s6">
-			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-			<button type="submit" class="btn btn-outline-success">Guardar</button>
-			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-		</div>
-
-
-	</div>
-</EditForm>
+	</EditForm>
 
 
 @code {
-		[Parameter]
+	[Parameter]
 	public int PagoId { get; set; }
 
 	Pagos Pago = new Pagos();
@@ -77,7 +102,7 @@
 	{
 		Pago = new Pagos();
 		ListadoClientes = clientesController.GetList(e => true);
-		
+
 		if (PagoId != 0)
 		{
 			Pago.PagoId = PagoId;

@@ -45,6 +45,7 @@
 		</tr>
 	</thead>
 	<tbody>
+
 		@foreach (var item in lista)
 		{
 			<tr>
@@ -59,7 +60,14 @@
 		}
 	</tbody>
 </table>
-
+<nav aria-label="Page navigation example">
+	<ul class="pagination">
+		@for (int i = 1; i <= cantPag; i++)
+		{
+			<li class="page-item"><a class="page-link" href="cProducto/@i">@i</a></li>
+		}
+	</ul>
+</nav>
 <h5 class="text-success">@mensaje</h5>
 
 
@@ -70,14 +78,15 @@
 	private string Filtro { get; set; }
 	private string Criterio { get; set; }
 	private string mensaje;
-
+	int cantPag=3;
+	int tomar, pag;
 	public bool BuscarFecha { get; set; }
 	public DateTime DesdeFecha { get; set; }
 	public DateTime HastaFecha { get; set; }
 
 
 	protected override void OnInitialized()
-	{
+	{      
 		lista = new List<Productos>();
 		DesdeFecha = DateTime.Now;
 		HastaFecha = DateTime.Now;
