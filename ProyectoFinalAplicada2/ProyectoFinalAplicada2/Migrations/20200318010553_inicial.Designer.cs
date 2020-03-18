@@ -9,7 +9,7 @@ using ProyectoFinalAplicada2.Data;
 namespace ProyectoFinalAplicada2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200317233618_inicial")]
+    [Migration("20200318010553_inicial")]
     partial class inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,12 +40,12 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Cedula")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Celular")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
 
                     b.Property<decimal>("Deuda")
                         .HasColumnType("TEXT");
@@ -67,7 +67,8 @@ namespace ProyectoFinalAplicada2.Migrations
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
 
                     b.HasKey("ClienteId");
 
@@ -150,8 +151,8 @@ namespace ProyectoFinalAplicada2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Cliente")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ClienteId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("TEXT");
@@ -230,12 +231,15 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Direccion")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombre")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProveedorId");

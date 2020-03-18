@@ -47,7 +47,7 @@
 		{
 			<tr>
 				<th>@item.FacturaId</th>
-				<th>@item.Cliente</th>
+				<th>@item.ClienteId</th>
 				<th>@item.Total</th>
 				<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
 				<td><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></td>
@@ -109,7 +109,7 @@
 							lista = controller.GetList(e => e.FacturaId == Convert.ToInt32(Criterio));
 							break;
 						case "Cliente":
-							lista = controller.GetList(e => e.Cliente == Criterio);
+							lista = controller.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
 							break;	
 					}
 					if (BuscarFecha == true)

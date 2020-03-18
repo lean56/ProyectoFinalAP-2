@@ -36,10 +36,14 @@ namespace ProyectoFinalAplicada2.Controllers
         private bool Insertar(Facturas factura)
         {
             Contexto contexto = new Contexto();
+            ClientesController controller = new ClientesController();
             bool paso = false;
 
             try
             {
+               var cliente = controller.Buscar(factura.ClienteId);
+                cliente.Deuda += factura.Total;
+                controller.Guardar(cliente);
                 contexto.Facturas.Add(factura);
                 paso = contexto.SaveChanges() > 0;
             }
