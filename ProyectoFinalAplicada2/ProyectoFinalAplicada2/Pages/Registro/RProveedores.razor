@@ -6,15 +6,15 @@
 	<DataAnnotationsValidator />
 
 	<div class="container">
-		<div class="card">
+		<div class="card col-xl-8 center">
 			<div class="card-body">
 
 				<h3 class="text-center">Registro de Proveedores</h3>
 
 				<!--Proveedor Id-->
-				<div class="form-group col-xl-8" style="padding-left: 0px">
-					<label for="ProveedorId" style="padding-left: 15px">Codigo del Proveedor</label>
-					<div class="input-group col-6">
+				<div class="form-group" style="padding-left: 0px">
+					<label for="ProveedorId" >Codigo del Proveedor</label>
+					<div class="input-group">
 						<InputNumber @bind-Value="@Proveedor.ProveedorId" class="form-control" />
 						<div class="input-group-append">
 							<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
@@ -23,7 +23,7 @@
 				</div>
 
 				<!--Nombre del proveedor-->
-				<div class="form-group col-xl-8">
+				<div class="form-group">
 					<label for="Nombre">Nombre</label>
 					<div>
 						<InputText @bind-Value="@Proveedor.Nombre" class="form-control" />
@@ -32,7 +32,7 @@
 				</div>
 
 				<!--Direccion del proveedor-->
-				<div class="form-group col-xl-8">
+				<div class="form-group">
 					<label for="Direcion">Dirección</label>
 					<div>
 						<InputText @bind-Value="@Proveedor.Direccion" class="form-control" />
@@ -41,7 +41,7 @@
 				</div>
 
 				<!--Teléfono del proveedor-->
-				<div class="form-group col-xl-8">
+				<div class="form-group">
 					<label for="Telefono">Teléfono</label>
 					<div>
 						<InputText @bind-Value="@Proveedor.Direccion" class="form-control" />
