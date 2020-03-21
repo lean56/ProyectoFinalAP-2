@@ -1,47 +1,89 @@
-﻿<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="/">Soft Business</a>
-
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+﻿<div class="top-row pl-4 navbar navbar-dark FondoPrincipal">
+    <a class="navbar-brand" href="">Soft Business</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
     </button>
+</div>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Registros
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/rFacturas">Registro de Facturas</a>
-                    <a class="dropdown-item" href="/rPagos">Registro de Pagos</a>
-                    <a class="dropdown-item" href="/rClientes">Registro de Clientes</a>
-                    <a class="dropdown-item" href="/rEntradas">Entrada de Productos</a>
-                    <a class="dropdown-item" href="/rProductos">Registro de Productos</a>
-                    <a class="dropdown-item" href="/rCategorias">Registro de Categorias</a>
-                    <a class="dropdown-item" href="/rUsuario">Registro de Usuarios</a>
-                    <a class="dropdown-item" href="/rProveedores">Registro de Proveedores</a>
-                </div>
-            </li>
+<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
+    <ul class="nav flex-column">
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Consultas
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="/cUsuarios">Consulta de Usuarios</a>
-                    <a class="dropdown-item" href="/cCliente">Consulta de Clientes</a>
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Pagina Principal
+            </NavLink>
+        </li>
 
-                    <a class="dropdown-item" href="/cProducto">Consulta de Productos</a>
-                    <a class="dropdown-item" href="/cFactura">Consulta de Facturas</a>
-                    <a class="dropdown-item" href="/cPagos">Consulta de Pagos</a>
-                    <a class="dropdown-item" href="/cProveedor">Consulta de Proveedor</a>
-                    <div class="dropdown-divider"></div>
+        <li class="nav-item dropdown px-3"> @*Dropdown de los registros*@
 
-                </div>
-            </li>
+            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="oi oi-file" aria-hidden="true"></span> Registros
+            </NavLink>
 
-        </ul>
-    </div>
-</nav>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
+                <NavLink class="nav-link" href="rUsuarios">
+                    <span aria-hidden="true" class="oi oi-person"></span> Registro de Usuarios
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rClientes">
+                    <span aria-hidden="true" class="oi oi-people"></span> Registro de Clientes
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rProveedores">
+                    <span aria-hidden="true" class="oi oi-collapse-right"></span> Registro de Proveedores
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rCategorias">
+                    <span aria-hidden="true" class="oi oi-inbox"></span> Registro de Categorías
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rProductos">
+                    <span aria-hidden="true" class="oi oi-tags"></span> Registro de Productos
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rEntradas">
+                    <span aria-hidden="true" class="oi oi-tags"></span> Entrada de Productos
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rFacturas">
+                    <span aria-hidden="true" class="oi oi-document"></span> Registro de Facturas
+                </NavLink>
+
+                <div class="dropdown-divider"></div>
+
+                <NavLink class="nav-link" href="rPagos">
+                    <span aria-hidden="true" class="oi oi-dollar"></span> Registro de Pagos
+                </NavLink>
+
+            </div>
+        </li>
+
+
+
+    </ul>
+</div>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
