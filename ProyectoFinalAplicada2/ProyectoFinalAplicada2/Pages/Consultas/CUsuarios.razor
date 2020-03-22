@@ -119,16 +119,24 @@
         Listado = new List<Usuarios>();
         Listado = usuariosController.GetList(e => true);
         Filtro = "0";
+        Desde = DateTime.Now;
+        Hasta = DateTime.Now;
     }
 
 
     private void Buscar()
     {
-        if (Filtro != "0")
+        if (Filtro == "0")
         {
-            if(Criterio == "")
+            Listado = usuariosController.GetList(e => true);
+
+        }
+        else
+        {
+            if (Criterio == "")
             {
                 Mensaje = "Agregue el criterio de busqueda.";
+
             }
             else
             {
@@ -136,28 +144,29 @@
                 switch (Filtro)
                 {
                     case "1":
-                        Listado = usuariosController.GetList(p => p.UsuarioId.ToString().Contains(Criterio)  );
+                        Listado = Listado.Where(e => e.UsuarioId.ToString().Contains(Criterio.ToString())).ToList();
                         break;
                     case "2":
-                        Listado = usuariosController.GetList(e => Convert.ToString(e.Nombres).Contains(Criterio));
+                        Listado = Listado.Where(e => e.Nombres.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
                     case "3":
-                        Listado = usuariosController.GetList(e => Convert.ToString(e.Apellidos).Contains(Criterio));
+                        Listado = Listado.Where(e => e.Apellidos.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
                     case "4":
-                        Listado = usuariosController.GetList(e => Convert.ToString(e.NivelUsuario).Contains(Criterio));
+                        Listado = Listado.Where(e => e.NivelUsuario.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
                     case "5":
-                        Listado = usuariosController.GetList(e => Convert.ToString(e.Usuario).Contains(Criterio));
+                        Listado = Listado.Where(e => e.Usuario.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
-                }
-                if (FiltrarFecha == true)
-                {
-                    Listado = usuariosController.GetList(p => p.FechaIngreso >= Desde.Date && p.FechaIngreso <= Hasta.Date);
+
                 }
             }
+            if (FiltrarFecha == true  && Listado.Count > 0)
+            {
+                Listado = Listado.Where(p => p.FechaIngreso.Date >= Desde.Date && p.FechaIngreso.Date <= Hasta.Date).ToList();
+                FiltrarFecha = false;
 
+            }
         }
-
     }
 }
