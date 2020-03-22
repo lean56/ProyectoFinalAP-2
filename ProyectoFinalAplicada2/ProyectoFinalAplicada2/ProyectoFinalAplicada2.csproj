@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <Folder Include="Database\" />
+    <Folder Include="wwwroot\focus-free\assets\js\lib\New folder\" />
   </ItemGroup>
 
 </Project>
