@@ -9,8 +9,8 @@ using ProyectoFinalAplicada2.Data;
 namespace ProyectoFinalAplicada2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200318010553_inicial")]
-    partial class inicial
+    [Migration("20200322032429_Inicial")]
+    partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -240,7 +240,8 @@ namespace ProyectoFinalAplicada2.Migrations
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
 
                     b.HasKey("ProveedorId");
 
@@ -253,7 +254,11 @@ namespace ProyectoFinalAplicada2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Contraseña")
+                    b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Contrasena")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -265,6 +270,7 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NivelUsuario")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")

@@ -238,7 +238,8 @@ namespace ProyectoFinalAplicada2.Migrations
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(10);
 
                     b.HasKey("ProveedorId");
 
@@ -251,7 +252,11 @@ namespace ProyectoFinalAplicada2.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("Contraseña")
+                    b.Property<string>("Apellidos")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Contrasena")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -263,6 +268,7 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("NivelUsuario")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
