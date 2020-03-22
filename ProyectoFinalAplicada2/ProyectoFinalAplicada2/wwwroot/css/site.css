@@ -228,3 +228,15 @@ h1 {
         color: white;
     }
 }
+
+.InputConsulta{
+    margin-left: 10px;
+}
+
+.DivConsulta{
+    margin-top: 10px;
+}
+
+.LabelConsulta{
+    margin-right: 5px;
+}

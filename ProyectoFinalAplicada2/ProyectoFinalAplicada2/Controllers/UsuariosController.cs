@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
-    public class UsuarioController
+    public class UsuariosController
     {
         public bool Guardar(Usuarios usuario)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
 
-            //try
-            //{
+            try
+            {
                 if (usuario.UsuarioId == 0)
                 {
                     paso = Insertar(usuario);
@@ -26,17 +26,17 @@ namespace ProyectoFinalAplicada2.Controllers
                 {
                     paso = Modificar(usuario);
                 }
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
+            }
+            catch (Exception)
+            {
+                throw;
 
-            //}
-            //finally
-            //{
-            //    contexto.Dispose();
+            }
+            finally
+            {
+                contexto.Dispose();
 
-            //}
+            }
 
             return paso;
         }
@@ -70,8 +70,8 @@ namespace ProyectoFinalAplicada2.Controllers
             Contexto contexto = new Contexto();
             bool paso = false;
 
-            //try
-            //{
+            try
+            {
                 Usuarios UsuarioTemporal = contexto.Usuarios.Find(usuario.UsuarioId);
                 if(UsuarioTemporal != null)
                 {
@@ -79,17 +79,17 @@ namespace ProyectoFinalAplicada2.Controllers
                     contexto.Entry(usuario).State = EntityState.Modified;
                     paso = contexto.SaveChanges() > 0;
                 }
-            //}
-            //catch (Exception)
-            //{
-            //    throw;
+            }
+            catch (Exception)
+            {
+                throw;
 
-            //}
-            //finally
-            //{
-            //    contexto.Dispose();
+            }
+            finally
+            {
+                contexto.Dispose();
 
-            //}
+            }
 
             return paso;
         }
@@ -145,25 +145,27 @@ namespace ProyectoFinalAplicada2.Controllers
 
         public List<Usuarios> GetList(Expression<Func<Usuarios, bool>> expression)
         {
+
             Contexto contexto = new Contexto();
-            List<Usuarios> lista;
+            List<Usuarios> ListadoUsuarios = new List<Usuarios>();
 
             try
             {
-                lista = contexto.Usuarios.Where(expression).ToList();
+                ListadoUsuarios = contexto.Usuarios.Where(expression).ToList();
+
             }
             catch (Exception)
             {
-                throw;
 
+                throw;
             }
             finally
             {
-                contexto.Dispose();
 
+                contexto.Dispose();
             }
 
-            return lista;
+            return ListadoUsuarios;
         }
 
     }
