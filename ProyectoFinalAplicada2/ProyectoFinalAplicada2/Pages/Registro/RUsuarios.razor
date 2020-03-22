@@ -3,158 +3,286 @@
 @inject IToastService toastService
 
 <EditForm Model="Usuario" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
-	<div class="center-align">
-		<div class="card ">
+    <DataAnnotationsValidator />
 
-			<center>
-				<h5>Registrar usuarios</h5>
-			</center>
+    <center>
+        <h1>Registro de Usuarios</h1>
+    </center>
 
-			<div class="form-group row">
-				<!--Usuario Id-->
-				<label for="usuarioId " class="col-auto">Usuario Id</label>
-				<div class="input-group  col-sm-3">
-					<InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
-					<ValidationMessage For="@(()=>Usuario.UsuarioId)" />
-					<div class="input-group-append">
-						<button type="button" class="btn btn-outline-info" @onclick="Buscar">Buscar</button>
-					</div>
-				</div>
-				<!--Fecha-->
-				<label for="fecha">Fecha</label>
-				<div align="right" class="input-group col-md-6">
-					<div class="col-sm-6">
-						<InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
-						<ValidationMessage For="@(()=>Usuario.FechaIngreso)" />
-					</div>
-				</div>
-			</div>
+    <form>
+        <div class="form-row">
 
-			<label for="nombre">Nombres</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
-				<ValidationMessage For="@(()=>Usuario.Nombres)" />
-			</div>
+            <!-- Usuario ID -->
+            <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+                <label for="usuarioId " class="col-auto">Código</label>
+                <div class="input-group ">
+                    <InputNumber @bind-Value="@Usuario.UsuarioId" class="form-control" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-			<div class="input-field col s6">
-				<label for="email">Email</label>
-				<input type="email" @bind="@Usuario.Email" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Email)" />
-			</div>
+            <!--Division del codigo del usuario y la fecha-->
+            <div class="col-sm-3     col-md-3     col-lg-6     col-xl-6     " />
 
-			<label for="nivelUser">Nivel de Usuario</label>
+            <!-- Fecha -->
+            <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
+                <label for="FechaIngreso">Fecha</label>
+                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
+            </div>
 
-			<div class="input-field col s6">
-				<InputSelect @bind-Value="NivelSelect" class="form-control">
-					<option value="" disabled selected>Seleccione Tipo de Usuario</option>
-					<option value="Usuario">Usuario</option>
-					<option value="Administrador">Administrador</option>
-				</InputSelect>
-			</div>
+            <!-- Nombres -->
+            <div class="form-group col-md-6">
+                <label for="Nombres">Nombre</label>
+                <InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
+                <ValidationMessage For="@(()=>Usuario.Nombres)" />
+            </div>
 
-			<div class="input-field col s6">
-				<label for="Usuario">Usuario</label>
-				<InputText @bind-Value="@Usuario.Usuario" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Usuario)" />
-			</div>
+            <!-- Apellidos -->
+            <div class="form-group col-md-6">
+                <label for="Apellidos">Apellido</label>
+                <InputText @bind-Value="@Usuario.Apellidos" class="form-control" placeholder="Apellido" />
+                <ValidationMessage For="@(()=>Usuario.Apellidos)" />
+            </div>
 
-			<div class="input-field col s6">
-				<label for="Contraseña">Contraseña</label>
-				<input type="password" @bind="@Usuario.Contraseña" class="form-control" />
-				<ValidationMessage For="@(()=>Usuario.Contraseña)" />
-			</div>
+            <!-- Email -->
+            <div class="form-group col-md-12">
+                <label for="Email">Email</label>
+                <InputText @bind-Value="@Usuario.Email" class="form-control" placeholder="Email" />
+                <ValidationMessage For="@(()=>Usuario.Email)" />
+                <p class="validation-message"> @MensajeEmail </p>
+            </div>
 
-			<br />
-			<br />
-			<div class="input-field col s6">
-				<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-				<button type="submit" class="btn btn-outline-secondary">Guardar</button>
-				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-			</div>
+            <!-- Usuario -->
+            <div class="form-group col-md-6">
+                <label for="Usuario">Usuario</label>
+                <InputText @bind-Value="@Usuario.Usuario" class="form-control" placeholder="Nombre de usuario" />
+                <ValidationMessage For="@(()=>Usuario.Usuario)" />
+                <p class="validation-message"> @MensajeUsuario </p>
+            </div>
 
-			<h5 class="text-success">@mensaje</h5>
+            <!-- Nivel de usuario -->
+            <div class="form-group col-md-6">
+                <label for="NivelUsuario">Nivel del Usuaio</label>
+                <InputSelect @bind-Value="NivelSeleccionado" class="form-control" @onclick="SeleccionarNivel">
+                    <option value="0" disabled selected>Nivel de Usuario</option>
+                    <option value="Usuario">Usuario</option>
+                    <option value="Administrador">Administrador</option>
+                </InputSelect>
+                <ValidationMessage For="@(()=>Usuario.NivelUsuario)" />
+            </div>
 
-		</div>
-	</div>
+            <!-- Contraseña -->
+            <div class="form-group col-md-6">
+                <label for="Contrasena">Contraseña</label>
+                <input type="password" @bind="@Usuario.Contrasena" class="form-control" placeholder="Contraseña" />
+                <ValidationMessage For="@(()=>Usuario.Contrasena)" />
+            </div>
+
+            <!-- Confirmar contraseña -->
+            <div class="form-group col-md-6">
+                <label for="ConfirmarContrasena">Confirmar Contraseña</label>
+                <input type="password" @bind="@ConfirmarContrasena" class="form-control" placeholder="Confirmar Contrasena" />
+                <ValidationMessage For="@(()=>Usuario.Contrasena)" />
+            </div>
+
+        </div>
+    </form>
+
+    <ValidationSummary />
+    <!-- Botones-->
+    <div class="text-center">
+        <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+        <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+        <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+        <!-- Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmacion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro de que desea eliminar este Usuario?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--fin de modal-->
+    </div>
+
+
 </EditForm>
 
 
 @code {
-	[Parameter]
-	public int UsuarioId { get; set; }
+    [Parameter]
+    public int UsuarioId { get; set; }
 
-	protected override void OnInitialized()
-	{
-		Usuario = new Usuarios();
+    UsuarioController usuariosController = new UsuarioController();
+    private Usuarios Usuario { get; set; }
+    private string NivelSeleccionado = string.Empty;
+    private string ConfirmarContrasena = string.Empty;
 
-		if (UsuarioId != 0)
-		{
-			Usuario.UsuarioId = UsuarioId;
-			Buscar();
-		}
-	}
+    private string MensajeEmail = string.Empty;
+    private string MensajeUsuario =string.Empty;
 
-	public Usuarios Usuario { get; set; }
-	public string mensaje;
+    protected override void OnInitialized()
+    {
+        Limpiar();
 
-	private string NivelSelect;
+        if (UsuarioId != 0)
+        {
+            Usuario.UsuarioId = UsuarioId;
+            Buscar();
+        }
+    }
 
-	UsuarioController controller = new UsuarioController();
+    private void SeleccionarNivel()
+    {
+        Usuario.NivelUsuario = NivelSeleccionado;
+    }
 
-	public void Guardar()
-	{
-		Usuario.NivelUsuario = NivelSelect;
-		if (controller.Guardar(Usuario))
-		{
-			Limpiar();
-			mensaje = "Usuario Guardado con Exito!!!";
-			toastService.ShowSuccess("Usuario Guardado", "Exito");
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Error al guardar usuario";
-		}
-	}
+    public void Guardar()
+    {
 
-	public void Buscar()
-	{
-		var usuario = controller.Buscar(Usuario.UsuarioId);
+        LimpiarMensajes();
 
-		if (usuario != null)
-		{
-			Usuario = usuario;
-			NivelSelect = Usuario.NivelUsuario;
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Usuario no Existe";
-		}
-	}
+        if (ExisteEmail())
+        {
+            MensajeEmail = "Existe un usuario con este Email, debe ingresar otro.";
+            return;
+        }
 
-	public void Eliminar()
-	{
-		var usuario = controller.Buscar(Usuario.UsuarioId);
+        if (ExisteUsuario())
+        {
+            MensajeUsuario = "Existe un usuario con este nombre de Usuario, debe ingresar otro.";
+            return;
+        }
 
-		if (usuario != null)
-		{
-			controller.Eliminar(Usuario.UsuarioId);
-			Limpiar();
-			mensaje = "Usuario Eliminado";
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Error al eliminar";
-		}
-	}
+        SeleccionarNivel();
+        if (usuariosController.Guardar(Usuario))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Usuario guardado correctamente", "Exito");
 
-	public void Limpiar()
-	{
-		this.Usuario = new Usuarios();
-		mensaje = "";
-		NivelSelect = "";
-	}
+        }
+        else
+        {
+            toastService.ShowError("Error al guardar el usuario", "Fallo");
+        }
+    }
+
+    public void Buscar()
+    {
+        Usuarios UsuarioTemporal = usuariosController.Buscar(Usuario.UsuarioId);
+
+        if (UsuarioTemporal != null)
+        {
+            Usuario = UsuarioTemporal;
+            NivelSeleccionado = Usuario.NivelUsuario;
+            toastService.ShowSuccess("Usuario encontrado.", "Exito");
+
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El usuario no fue encontrado.", "Fallo");
+
+        }
+    }
+
+    public void Eliminar()
+    {
+        Usuarios UsuarioTemporal = usuariosController.Buscar(Usuario.UsuarioId);
+
+        if (UsuarioTemporal != null)
+        {
+            if (usuariosController.Eliminar(Usuario.UsuarioId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Usuario eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar el Usuario.", "Fallo");
+            }
+        }
+        else
+        {
+            toastService.ShowError("Error al eliminar el Usuario.", "Exito");
+        }
+    }
+
+    public bool ExisteEmail() //Valida si el email existe y lo tiene otro usuario 
+    {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = usuariosController.GetList(p => p.Email == Usuario.Email);
+
+        if (Listado.Count == 1)
+        {
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
+    public bool ExisteUsuario() //Valida si el email existe y lo tiene otro usuario 
+    {
+        bool paso = false;
+        var Listado = new List<Usuarios>();
+
+        Listado = usuariosController.GetList(p => p.Usuario == Usuario.Usuario);
+
+        if (Listado.Count == 1)
+        {
+            Usuarios UsuarioTemporal = new Usuarios();
+            UsuarioTemporal = Listado[0];
+            if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
+    public void Limpiar()
+    {
+        this.Usuario = new Usuarios();
+        NivelSeleccionado = "0";
+        ConfirmarContrasena = string.Empty;
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        MensajeEmail = string.Empty;
+        MensajeUsuario = string.Empty;
+    }
 }

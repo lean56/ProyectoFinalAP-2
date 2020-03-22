@@ -10,20 +10,23 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int UsuarioId { get; set; }
-        [Required(ErrorMessage = "El campo Nombres obligatorio.")]
-
-        public string  Nombres { get; set; }
-        [Required(ErrorMessage = "El campo Correo electronico es obligatorio.")]
-        public string Email { get; set; }
-
-        public string  NivelUsuario { get; set; }
-        [Required(ErrorMessage = "El campo Usuario es obligatorio.")]
-
-        public string Usuario { get; set; }
-        [Required(ErrorMessage = "El campo Contraseña es obligatorio.")]
-
-        public string Contraseña { get; set; }
         public DateTime FechaIngreso { get; set; }
+        [Required(ErrorMessage = "El Nombre es obligatorio.")]
+        public string  Nombres { get; set; }
+        [Required(ErrorMessage = "El Apellido es obligatorio.")]
+        public string Apellidos { get; set; }
+        [Required(ErrorMessage = "El Email es obligatorio")]
+        [EmailAddress(ErrorMessage ="Debe ingresar un Email valido.")]
+        public string Email { get; set; }
+        [Required(ErrorMessage = "El Usuario es obligatorio.")]
+        [MinLength(3, ErrorMessage = "El nombre de usuario debe tener al menos 3 caracteres.")]
+        public string Usuario { get; set; }
+        [Required(ErrorMessage = "Debe elegir un nivel de usuario.")]
+        [MinLength(5, ErrorMessage = "Debe elegir un nivel de usuario.")]
+        public string  NivelUsuario { get; set; }
+        [Required(ErrorMessage = "Debe ingresar una contraseña")]
+        [MinLength(5, ErrorMessage = "La contraseña debe contener al menos 5 caracteres.")]
+        public string Contrasena { get; set; }
 
         public Usuarios()
         {
@@ -32,7 +35,7 @@ namespace ProyectoFinalAplicada2.Models
             Email = string.Empty;
             NivelUsuario = string.Empty;
             Usuario = string.Empty;
-            Contraseña = string.Empty;
+            Contrasena = string.Empty;
             FechaIngreso = DateTime.Now;
         }
     }
