@@ -10,31 +10,53 @@
 			<h2>Registro de Categorias</h2>
 		</center>
 
-		<div class="form-group row">
-			<label for="categoriaId " class="col-auto">Categoria Id</label>
-			<div class="input-group  col-sm-3">
-				<InputNumber @bind-Value="@Categoria.CategoriaId" class="form-control" />
-				<div class="input-group-append">
-					<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+			<form>
+				<div class="form-row justify-content-center">
+
+					<div class="form-group">
+						<label for="Categoriaid">Codigo de Categoria</label>
+						<div class="input-group">
+							<InputNumber @bind-Value="@Categoria.CategoriaId" class="form-control" />
+							<div class="input-group-append">
+								<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+							</div>
+						</div>
+
+						<label for="nombre">Nombre</label>
+						<InputText @bind-Value="@Categoria.Nombre" class="form-control" placeholder="Nombre" />
+						<ValidationMessage For="@(()=>Categoria.Nombre)" />
+					</div>
+
 				</div>
+			</form>
+			<div class="text-center">
+				<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />Limpiar</button>
+				<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>Guardar</button>
+				<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash"/>Eliminar</button>
+
+
+				<!-- Modal-->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Confirmacion</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								¿Está seguro de que desea eliminar esta Categoria?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+								<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--fin de modal-->
 			</div>
-		</div>
-		<div class="form-group row">
-
-			<label for="nombre">Nombre</label>
-			<div class="col-6 ">
-				<InputText @bind-Value="@Categoria.Nombre" class="form-control" placeholder="Nombre" />
-				<ValidationMessage For="@(()=>Categoria.Nombre)" />
-			</div>
-		</div>
-
-		<div class="input-field col s6">
-			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-			<button type="submit" class="btn btn-outline-secondary">Guardar</button>
-			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-		</div>
-
-		<h5 class="text-success">@mensaje</h5>
 
 	</div>
 </EditForm>
@@ -63,7 +85,7 @@
 		else
 		{
 			Limpiar();
-			mensaje = "Error al guardar Categoria";
+			toastService.ShowError("Error al guardar Categoria.", "Fallo");
 		}
 	}
 
@@ -78,7 +100,7 @@
 		else
 		{
 			Limpiar();
-			mensaje = "Categoria no Existe";
+            toastService.ShowError("Categoria No Existe", "Fallo");
 		}
 	}
 
@@ -90,12 +112,12 @@
 		{
 			controller.Eliminar(Categoria.CategoriaId);
 			Limpiar();
-			mensaje = "Categoria Eliminada";
+            toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
 		}
 		else
 		{
 			Limpiar();
-			mensaje = "Error al eliminar";
+            toastService.ShowError("Error al eliminar esta Categoria.", "Fallo");
 		}
 	}
 
