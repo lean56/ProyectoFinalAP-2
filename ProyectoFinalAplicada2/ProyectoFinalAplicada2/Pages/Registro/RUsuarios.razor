@@ -84,7 +84,7 @@
             <div class="form-group col-md-6">
                 <label for="ConfirmarContrasena">Confirmar Contraseña</label>
                 <input type="password" @bind="@ConfirmarContrasena" class="form-control" placeholder="Confirmar Contrasena" />
-                <ValidationMessage For="@(()=>Usuario.Contrasena)" />
+                <p class="validation-message"> @MensajeContrasena </p>
             </div>
 
         </div>
@@ -136,6 +136,7 @@
 
     private string MensajeEmail = string.Empty;
     private string MensajeUsuario =string.Empty;
+    private string MensajeContrasena =string.Empty;
 
     protected override void OnInitialized()
     {
@@ -170,6 +171,12 @@
             return;
         }
 
+        if (Usuario.Contrasena == ConfirmarContrasena == false)
+        {
+            MensajeContrasena = "Las contraseñas no coinciden.";
+            return;
+        }
+
         SeleccionarNivel();
         if (usuariosController.Guardar(Usuario))
         {
@@ -189,6 +196,7 @@
 
         if (UsuarioTemporal != null)
         {
+            Limpiar();
             Usuario = UsuarioTemporal;
             NivelSeleccionado = Usuario.NivelUsuario;
             toastService.ShowSuccess("Usuario encontrado.", "Exito");
@@ -284,5 +292,6 @@
     {
         MensajeEmail = string.Empty;
         MensajeUsuario = string.Empty;
+        MensajeContrasena =string.Empty;
     }
 }

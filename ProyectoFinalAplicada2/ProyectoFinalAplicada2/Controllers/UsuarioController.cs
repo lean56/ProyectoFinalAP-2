@@ -16,29 +16,28 @@ namespace ProyectoFinalAplicada2.Controllers
             Contexto contexto = new Contexto();
             bool paso = false;
 
-            try
-            {
+            //try
+            //{
                 if (usuario.UsuarioId == 0)
                 {
                     paso = Insertar(usuario);
                 }
-
-                //else
-
-                //if (Buscar(usuario.UsuarioId) == null)
-                //{
-                //    paso = false;
-                //}
-
                 else
                 {
                     paso = Modificar(usuario);
                 }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+
+            //}
+            //finally
+            //{
+            //    contexto.Dispose();
+
+            //}
+
             return paso;
         }
 
@@ -55,7 +54,14 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
@@ -64,16 +70,27 @@ namespace ProyectoFinalAplicada2.Controllers
             Contexto contexto = new Contexto();
             bool paso = false;
 
-            try
-            {
-                contexto.Usuarios.Add(usuario);
-                contexto.Entry(usuario).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            //try
+            //{
+                Usuarios UsuarioTemporal = contexto.Usuarios.Find(usuario.UsuarioId);
+                if(UsuarioTemporal != null)
+                {
+                contexto = new Contexto();
+                    contexto.Entry(usuario).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
+            //}
+            //catch (Exception)
+            //{
+            //    throw;
+
+            //}
+            //finally
+            //{
+            //    contexto.Dispose();
+
+            //}
+
             return paso;
         }
 
@@ -89,7 +106,14 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return usuario;
         }
 
@@ -108,7 +132,14 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
@@ -124,7 +155,14 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return lista;
         }
 
