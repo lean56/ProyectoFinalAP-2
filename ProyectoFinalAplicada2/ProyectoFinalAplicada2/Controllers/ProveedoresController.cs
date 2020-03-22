@@ -74,8 +74,13 @@ namespace ProyectoFinalAplicada2.Controller
 
             try
             {
-                contexto.Entry(Proveedor).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
+                Proveedores ProveedorTemporal = contexto.Proveedores.Find(Proveedor.ProveedorId);
+                if (ProveedorTemporal != null)
+                {
+                    contexto = new Contexto();
+                    contexto.Entry(Proveedor).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
 
             }
             catch (Exception)
@@ -162,6 +167,7 @@ namespace ProyectoFinalAplicada2.Controller
                 contexto.Dispose();
 
             }
+
             return ListaProveedores;
 
         }

@@ -21,10 +21,12 @@ namespace ProyectoFinalAplicada2.Controllers
                 if (usuario.UsuarioId == 0)
                 {
                     paso = Insertar(usuario);
+
                 }
                 else
                 {
                     paso = Modificar(usuario);
+
                 }
             }
             catch (Exception)
@@ -50,6 +52,7 @@ namespace ProyectoFinalAplicada2.Controllers
             {
                 contexto.Usuarios.Add(usuario);
                 paso = contexto.SaveChanges() > 0;
+
             }
             catch (Exception)
             {
@@ -102,6 +105,7 @@ namespace ProyectoFinalAplicada2.Controllers
             try
             {
                 usuario = contexto.Usuarios.Find(id);
+
             }
             catch (Exception)
             {
@@ -128,6 +132,7 @@ namespace ProyectoFinalAplicada2.Controllers
                 usuario = contexto.Usuarios.Find(id);
                 contexto.Entry(usuario).State = EntityState.Deleted;
                 paso = contexto.SaveChanges() > 0;
+
             }
             catch (Exception)
             {

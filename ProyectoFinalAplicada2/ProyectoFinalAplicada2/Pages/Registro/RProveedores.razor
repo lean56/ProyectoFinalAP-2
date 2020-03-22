@@ -2,157 +2,295 @@
 @page "/rProveedores/{ProveedorId:int}"
 @inject IToastService toastService
 
-	<EditForm Model="Proveedor" OnValidSubmit="Guardar">
-		<DataAnnotationsValidator />
+    <EditForm Model="Proveedor" OnValidSubmit="Guardar">
+        <DataAnnotationsValidator />
 
-		<div class="container">
-			<div class="card col-xl-8 center">
-				<div class="card-body">
+        <center>
+            <h1>Registro de Proveedores</h1>
+        </center>
 
-					<h3 class="text-center">Registro de Proveedores</h3>
+        <form>
+            <div class="form-row">
 
-					<!--Proveedor Id-->
-					<div class="form-group" style="padding-left: 0px">
-						<label for="ProveedorId">Codigo del Proveedor</label>
-						<div class="input-group">
-							<InputNumber @bind-Value="@Proveedor.ProveedorId" class="form-control" />
-							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-							</div>
-						</div>
-					</div>
+                <!-- Proveedor ID -->
+                <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+                    <label for="ProveedorId" class="col-auto">Código</label>
+                    <div class="input-group ">
+                        <InputNumber @bind-Value="@Proveedor.ProveedorId" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                        </div>
+                    </div>
+                </div>
 
-					<!--Nombre del proveedor-->
-					<div class="form-group">
-						<label for="Nombre">Nombre</label>
-						<div>
-							<InputText @bind-Value="@Proveedor.Nombre" class="form-control" />
-						</div>
-					</div>
+                <!--Division del codigo del proveedor y la fecha-->
+                <div class="col-sm-3     col-md-3     col-lg-6     col-xl-6" />
 
-					<!--Direccion del proveedor-->
-					<div class="form-group">
-						<label for="Direcion">Dirección</label>
-						<div>
-							<InputText @bind-Value="@Proveedor.Direccion" class="form-control" />
-						</div>
-					</div>
+                <!-- Fecha -->
+                <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
+                    <label for="Fecha">Fecha</label>
+                    <InputDate @bind-Value="@Proveedor.Fecha" class="form-control" />
+                </div>
 
-					<!--Teléfono del proveedor-->
-					<div class="form-group">
-						<label for="Telefono">Teléfono</label>
-						<div>
-							<InputText @bind-Value="@Proveedor.Telefono" class="form-control" />
-						</div>
-					</div>
+                <!-- Nombre -->
+                <div class="form-group col-md-6">
+                    <label for="Nombre">Nombre</label>
+                    <InputText @bind-Value="@Proveedor.Nombre" class="form-control" placeholder="Nombre" />
+                    <ValidationMessage For="@(()=>Proveedor.Nombre)" />
+                    <p class="validation-message"> @MensajeNombre </p>
+                </div>
 
-					<h4>@mensaje</h4>
+                <!-- Telefono -->
+                <div class="form-group col-md-6">
+                    <label for="Telefono">Teléfono</label>
+                    <InputText @bind-Value="@Proveedor.Telefono" class="form-control" placeholder="809-000-0000" />
+                    <ValidationMessage For="@(()=>Proveedor.Telefono)" />
+                </div>
 
-					<!--Botones-->
-					<div class="container text-center">
-						<button type="button" class="btn btn-outline-primary" style="margin:10px" @onclick="Limpiar">Limpiar</button>
-						<button type="submit" class="btn btn-outline-success" style="margin:10px">Guardar</button>
-						<button type="button" class="btn btn-outline-danger" style="margin:10px" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+                <!-- Dirección -->
+                <div class="form-group col-12">
+                    <label for="Dirrecion">Dirección</label>
+                    <InputText @bind-Value="@Proveedor.Direccion" class="form-control" placeholder="Ciudad, Sector, Calle, Numero " />
+                    <ValidationMessage For="@(()=>Proveedor.Direccion)" />
+                </div>
 
-						<!-- Modal -->
-						<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title">Atencion</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										¿Desea eliminar este Proveedor?
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
-										<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">Si</button>
-									</div>
+            </div>
+        </form>
+
+        <ValidationSummary />
+        <!-- Botones-->
+        <div class="text-center">
+            <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+            <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+            <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+            <!-- Modal-->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmacion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro de que desea eliminar este Proveedor?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--fin de modal-->
+        </div>
+    </EditForm>
+
+		@*<EditForm Model="Proveedor" OnValidSubmit="Guardar">
+			<DataAnnotationsValidator />
+
+			<div class="container">
+				<div class="card col-xl-8 center">
+					<div class="card-body">
+
+						<h3 class="text-center">Registro de Proveedores</h3>
+
+						Proveedor Id
+						<div class="form-group" style="padding-left: 0px">
+							<label for="ProveedorId">Codigo del Proveedor</label>
+							<div class="input-group">
+								<InputNumber @bind-Value="@Proveedor.ProveedorId" class="form-control" />
+								<div class="input-group-append">
+									<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
 								</div>
 							</div>
 						</div>
-						<!--fin de modal-->
-					</div>
 
+						Nombre del proveedor
+						<div class="form-group">
+							<label for="Nombre">Nombre</label>
+							<div>
+								<InputText @bind-Value="@Proveedor.Nombre" class="form-control" />
+							</div>
+						</div>
+
+						Direccion del proveedor
+						<div class="form-group">
+							<label for="Direcion">Dirección</label>
+							<div>
+								<InputText @bind-Value="@Proveedor.Direccion" class="form-control" />
+							</div>
+						</div>
+
+						Teléfono del proveedor
+						<div class="form-group">
+							<label for="Telefono">Teléfono</label>
+							<div>
+								<InputText @bind-Value="@Proveedor.Telefono" class="form-control" />
+							</div>
+						</div>
+
+						<h4>@mensaje</h4>
+
+						Botones
+						<div class="container text-center">
+							<button type="button" class="btn btn-outline-primary" style="margin:10px" @onclick="Limpiar">Limpiar</button>
+							<button type="submit" class="btn btn-outline-success" style="margin:10px">Guardar</button>
+							<button type="button" class="btn btn-outline-danger" style="margin:10px" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
+
+							 Modal
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Atencion</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											¿Desea eliminar este Proveedor?
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
+											<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">Si</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							fin de modal
+						</div>
+
+					</div>
 				</div>
 			</div>
-		</div>
-		<DataAnnotationsValidator />
-		<ValidationSummary />
-	</EditForm>
+			<DataAnnotationsValidator />
+			<ValidationSummary />
+		</EditForm>*@
 
 @code {
-	[Parameter]
-	public int ProveedorId { get; set; }
+    [Parameter]
+    public int ProveedorId { get; set; }
 
-	Proveedores Proveedor = new Proveedores();
-	ProveedoresController proveedoresController = new ProveedoresController();
-	string mensaje = string.Empty;
+    ProveedoresController proveedoresController = new ProveedoresController();
+    private Proveedores Proveedor { get; set; }
 
-	protected override void OnInitialized()
-	{
-		Proveedor = new Proveedores();
+    private string MensajeNombre = string.Empty;
 
-		if (ProveedorId != 0)
-		{
-			Proveedor.ProveedorId = ProveedorId;
-			Buscar();
-		}
-	}
+    protected override void OnInitialized()
+    {
+        Limpiar();
 
-	public void Guardar()
-	{
-		if (proveedoresController.Guardar(Proveedor))
-		{
-			Limpiar();
-			mensaje = "Proveedor guardado de manera exitosa!";
-			toastService.ShowSuccess("Proveedor Guardado", "Exito");
-		}
-		else
-		{
-			mensaje = "No fue posible guardar este proveedor!";
-		}
-	}
+        if (ProveedorId != 0)
+        {
+            Proveedor.ProveedorId = ProveedorId;
+            Buscar();
+        }
+    }
 
-	public void Buscar()
-	{
-		Proveedores ProveedorTemporal = proveedoresController.Buscar(Proveedor.ProveedorId);
+    public void Guardar()
+    {
 
-		if (ProveedorTemporal != null)
-		{
-			Proveedor = ProveedorTemporal;
-			mensaje = "Proveedor encontrado de manera exitosa!";
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "No existe un proveedor con este código!";
-		}
-	}
+        LimpiarMensajes();
 
-	public void Eliminar()
-	{
-		Proveedores ProveedorTemporal = proveedoresController.Buscar(Proveedor.ProveedorId);
+        if (ExisteNombre())
+        {
+            MensajeNombre = "Existe un proveedor con este nombre, debe elegir otro.";
+            return;
+        }
 
-		if (ProveedorTemporal != null)
-		{
-			proveedoresController.Eliminar(Proveedor.ProveedorId);
-			Limpiar();
-			mensaje = "Proveedor eliminado de manera exitosa!";
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "No fue posible eliminar este proveedor!";
-		}
-	}
+        if (proveedoresController.Guardar(Proveedor))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Proveedor guardado correctamente", "Exito");
 
-	public void Limpiar()
-	{
-		this.Proveedor = new Proveedores();
-		mensaje = string.Empty;
-	}
+        }
+        else
+        {
+            toastService.ShowError("Error al guardar el proveedor", "Fallo");
+
+        }
+    }
+
+    public void Buscar()
+    {
+        Proveedores ProveedorTemporal = proveedoresController.Buscar(Proveedor.ProveedorId);
+
+        if (ProveedorTemporal != null)
+        {
+            Limpiar();
+            Proveedor = ProveedorTemporal;
+            toastService.ShowSuccess("Proveedor encontrado.", "Exito");
+
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El proveedor no fue encontrado.", "Fallo");
+
+        }
+    }
+
+    public void Eliminar()
+    {
+        Proveedores ProveedorTemporal = proveedoresController.Buscar(Proveedor.ProveedorId);
+
+        if (ProveedorTemporal!= null)
+        {
+            if (proveedoresController.Eliminar(Proveedor.ProveedorId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Proveedor eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar el Proveedor.", "Fallo");
+            }
+        }
+        else
+        {
+            toastService.ShowError("Error al eliminar el Proveedor.", "Fallo");
+        }
+    }
+
+
+
+    public bool ExisteNombre() //Valida si el nombre dl proveedor existe y lo tiene otro proveedor 
+    {
+        bool paso = false;
+        var Listado = new List<Proveedores>();
+
+        Listado = proveedoresController.GetList(p => p.Nombre == Proveedor.Nombre);
+
+        if (Listado.Count == 1)
+        {
+            Proveedores ProveedorTemporal = new Proveedores();
+            ProveedorTemporal = Listado[0];
+            if (ProveedorTemporal.ProveedorId != Proveedor.ProveedorId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
+    public void Limpiar()
+    {
+        this.Proveedor = new Proveedores();
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        MensajeNombre = string.Empty;
+    }
+   
 }

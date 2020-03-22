@@ -10,21 +10,23 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int ProveedorId { get; set; }
-        [Required(ErrorMessage = "El nombre del proveedor no puede estar vacío!")]
+        public DateTime Fecha { get; set; }
+        [Required(ErrorMessage = "El Nombre es obligatorio.")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "La dirección del proveedor no puede estar vacío!")]
-        public string Direccion { get; set; }
-        [DataType(DataType.PhoneNumber)]
-        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Telefono Invalido")]
-        [Required(ErrorMessage = "El teléfono del proveedor no puede estar vacío!")]
+        [DataType(DataType.PhoneNumber, ErrorMessage = "Número de Teléfono Invalido.")]
+        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Número de Teléfono Invalido.")]
+        [Required(ErrorMessage = "El Teléfono es obligatorio.")]
         public string Telefono { get; set; }
+        [Required(ErrorMessage = "La dirección es obligatoria.")]
+        public string Direccion { get; set; }
 
         public Proveedores()
         {
             ProveedorId = 0;
+            Fecha = DateTime.Now;
             Nombre = string.Empty;
-            Direccion = string.Empty;
             Telefono = string.Empty;
+            Direccion = string.Empty;
         }
     }
 }

@@ -110,9 +110,10 @@ namespace ProyectoFinalAplicada2.Migrations
                 {
                     ProveedorId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
+                    Fecha = table.Column<DateTime>(nullable: false),
                     Nombre = table.Column<string>(nullable: false),
-                    Direccion = table.Column<string>(nullable: false),
-                    Telefono = table.Column<string>(maxLength: 10, nullable: false)
+                    Telefono = table.Column<string>(maxLength: 10, nullable: false),
+                    Direccion = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
