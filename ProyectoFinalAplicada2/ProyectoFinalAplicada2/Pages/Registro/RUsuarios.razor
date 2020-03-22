@@ -29,7 +29,7 @@
             <!-- Fecha -->
             <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
                 <label for="FechaIngreso">Fecha</label>
-                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" />
+                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" disabled/>
             </div>
 
             <!-- Nombres -->
@@ -90,7 +90,7 @@
         </div>
     </form>
 
-    <ValidationSummary />
+    @*<ValidationSummary />*@
     <!-- Botones-->
     <div class="text-center">
         <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
@@ -120,8 +120,7 @@
         </div>
         <!--fin de modal-->
     </div>
-
-
+    <br />
 </EditForm>
 
 

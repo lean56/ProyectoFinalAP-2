@@ -10,70 +10,96 @@
 			<h2>Registro de Clientes</h2>
 		</center>
 
-		<div class="form-group row">
-			<label for="ClienteId " class="col-auto">Codigo del cliente</label>
-			<div class="input-group  col-sm-3">
-				<InputNumber @bind-Value="@Cliente.ClienteId" class="form-control" />
-				<div class="input-group-append">
-					<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
+		<form>
+			<div class="form-row">
+
+				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+					<label for="ClienteId " class="col-auto">Codigo del cliente</label>
+					<div class="input-group ">
+						<InputNumber @bind-Value="@Cliente.ClienteId" class="form-control" />
+						<div class="input-group-append">
+							<button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+						</div>
+					</div>
+				</div>
+				<div class="col-sm-3     col-md-3     col-lg-6     col-xl-6     " style="margin-top: 100px" />
+
+				<!--Fecha-->
+				<div class="form-group col-sm-2    col-md-2     col-lg-3     col-xl-3     ">
+					<label for="Fecha">Fecha</label>
+					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" ReadOnly="true" />
+				</div>
+
+				<!--Nombres-->
+				<div class="form-group col-md-6">
+					<label for="Nombres">Nombres</label>
+					<InputText @bind-Value="@Cliente.Nombres" class="form-control" placeholder="Nombres y Apellidos" />
+				</div>
+
+				<!--Telefono-->
+				<div class="form-group col-md-6">
+					<label for="Telefono">Teléfono</label>
+					<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="Teléfono" />
+				</div>
+
+				<!--Celular-->
+				<div class="form-group col-md-6">
+					<label for="Celular">Celular</label>
+					<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="Celular" />
+				</div>
+
+				<!--Direccion-->
+
+				<div class="form-group col-md-6">
+					<label for="Direccion">Direccion</label>
+					<InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Dirección" />
+				</div>
+
+				<!--Email-->
+
+				<div class="form-group col-md-6">
+					<label for="Email">Email</label>
+					<InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="Email" />
+				</div>
+
+				<div class="form-group col-md-6">
+					<label for="Deuda">Deuda</label>
+					<InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
 				</div>
 			</div>
-
-			<!--Fecha-->
-			<label for="Fecha">Fecha</label>
-			<div align="right" class="input-group col-md-6">
-				<div class="col-sm-6">
-					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" />
-				</div>
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<label for="Nombres">Nombres</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Cliente.Nombres" class="form-control" placeholder="Nombres y Apellidos" />
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<label for="Telefono">Teléfono</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="Teléfono" />
-			</div>
-
-			<label for="Celular">Celular</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="Celular" />
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<label for="Direccion">Direccion</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Dirección" />
-			</div>
-		</div>
-
-		<div class="form-group row">
-			<label for="Email">Email</label>
-			<div class="input-field col s4">
-				<InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="Email" />
-			</div>
-
-			<label for="Deuda">Deuda</label>
-			<div class="input-field col s4">
-				<InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
-			</div>
-		</div>
-		<br />
-
+			<br />
+		</form>
 		<h5>@mensaje</h5>
 
-		<div class="input-field col s6">
-			<button type="button" class="btn btn-outline-primary" @onclick="Limpiar">Limpiar</button>
-			<button type="submit" class="btn btn-outline-success">Guardar</button>
-			<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+		<div class="text-center">
+			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+			<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+			<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+			<!-- Modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirmacion</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							¿Está seguro de que desea eliminar este Cliente?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+							<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--fin de modal-->
 		</div>
+
 		<DataAnnotationsValidator />
 		<ValidationSummary />
 
@@ -128,7 +154,8 @@
 		else
 		{
 			Limpiar();
-			mensaje = "Este Cliente no existe";
+			toastService.ShowError("El Cliente no fue encontrado.", "Fallo");
+
 		}
 	}
 
@@ -146,13 +173,13 @@
 			{
 				clientesController.Eliminar(Cliente.ClienteId);
 				Limpiar();
-				mensaje = "Cliente Eliminado";
+                toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
 			}
 		}
 		else
 		{
 			Limpiar();
-			mensaje = "Error al eliminar";
+            toastService.ShowError("Error al eliminar el Cliente.", "Exito");
 		}
 	}
 
