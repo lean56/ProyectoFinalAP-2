@@ -1,119 +1,167 @@
-﻿@page "/cProveedor"
-<h3>Consulta de Proveedor</h3>
+﻿@page "/cProveedores"
 
-<div class="form-group row">
-	<label for="filtro">Filtro</label>
-	<div class="input-group  col-sm-10">
-		<select class="form-control" @bind="Filtro">
-			<option value="" disabled selected>Seleccione un Criterio</option>
-			<option value="Todo">Todo</option>
-			<option value="Id">Id</option>
-			<option value="Nombre">Nombre</option>
-			<option value="Direccion">Direccion</option>
-			<option value="Telefono">Telefono</option>
-		</select>
+<EditForm Model="Listado">
+	<center>
+		<h1>Consulta de Proveedores</h1>
+	</center>
 
-		<div align="right" class="input-group col-md-8">
-			<label for="criterio"> Criterio&nbsp;&nbsp; </label>
-			<input type="search" class="form-control" @bind-value="Criterio" />
+	<form>
+		<br />
+
+		<div class="form-row">
+
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+			<!-- Filtro-->
+			<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+				<label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+				<select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+					<option value="0">Todo</option>
+					<option value="1">Codigo</option>
+					<option value="2">Nombre</option>
+					<option value="3">Telefono</option>
+					<option value="4">Direccion</option>
+				</select>
+			</div>
+
+			<!-- Criterio -->
+			<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+				<label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+				<InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+				<p class="validation-message"> @Mensaje </p>
+			</div>
+
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+			<br />
+
+			<!-- Filtrar por fecha -->
+			<div class="DivConsulta text-center     col-12">
+				<input class="ml-1" type="checkbox" @bind-value="FiltrarFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+			</div>
+
+			<div class="col-lg-1     col-xl-2" />
+
+			<!-- Fecha desde-->
+			<div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
+				<label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+				<InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+			</div>
+
+			<!-- Fecha Hasta-->
+			<div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
+				<label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+				<InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+			</div>
+
+			<!-- Boton Buscar-->
+			<div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
+				<button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+			</div>
+
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+			<table class="table" style="margin-top: 20px">
+				<thead class="thead-light">
+					<tr>
+						<th>Codigo</th>
+						<th>Nombre</th>
+						<th>Telefono</th>
+						<th>Direccion</th>
+						<th>Fecha</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Listado.Count == 0)
+					{
+						<tr>
+							<th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+						</tr>
+					}
+					else
+					{
+
+						@foreach (var item in Listado)
+						{
+							<tr>
+								<th>@item.ProveedorId</th>
+								<th>@item.Nombre</th>
+								<th>@item.Telefono</th>
+								<th>@item.Direccion</th>
+								<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+								<td><a class="btn btn-sm btn-outline-primary" href="rProveedores/@item.ProveedorId">Ver</a></td>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
 		</div>
-		<button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
-	</div>
-</div>
-
-<table class="table">
-	<thead class="thead-light">
-		<tr>
-			<th>Proveedor Id</th>
-			<th>Nombre</th>
-			<th>Direccion</th>
-			<th>Telefono</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in lista)
-		{
-			<tr>
-				<th>@item.ProveedorId</th>
-				<th>@item.Nombre</th>
-				<th>@item.Direccion</th>
-				<th>@item.Telefono</th>
-				<td><a class="btn btn-sm btn-outline-primary" href="rProveedores/@item.ProveedorId">Ver</a></td>
-			</tr>
-		}
-	</tbody>
-</table>
-
-<h5 class="text-success">@mensaje</h5>
-
+	</form>
+</EditForm>
 
 @code {
+	public ProveedoresController proveedoresController = new ProveedoresController();
+	private List<Proveedores> Listado { get; set; }
 
-	private List<Proveedores> lista { get; set; }
+	private string Criterio = string.Empty;
+	private string Filtro = string.Empty;
+	private bool FiltrarFecha = false;
+	private DateTime Desde = DateTime.Now;
+	private DateTime Hasta = DateTime.Now;
+	private string Mensaje = string.Empty;
 
-	private string Filtro { get; set; }
-	private string Criterio { get; set; }
-	private string mensaje;
-
-	public bool BuscarFecha { get; set; }
-	public DateTime DesdeFecha { get; set; }
-	public DateTime HastaFecha { get; set; }
 
 
 	protected override void OnInitialized()
 	{
-		lista = new List<Proveedores>();
-		DesdeFecha = DateTime.Now;
-		HastaFecha = DateTime.Now;
+		Listado = new List<Proveedores>();
+		Listado = proveedoresController.GetList(e => true);
+		Filtro = "0";
+		Desde = DateTime.Now;
+		Hasta = DateTime.Now;
 	}
+
 
 	private void Buscar()
 	{
-		ProveedoresController controller = new ProveedoresController();
-
-		try
+		if (Filtro == "0")
 		{
-			if (Filtro == null)
+			Listado = proveedoresController.GetList(e => true);
+
+		}
+		else
+		{
+			if (Criterio == "")
 			{
-				mensaje = "Debe seleccionar un Criterio";
+				Mensaje = "Agregue el criterio de busqueda.";
+
 			}
 			else
 			{
-				lista = controller.GetList(a => true);
-
-				if (lista.Count == 0)
+				Listado = proveedoresController.GetList(e => true);
+				switch (Filtro)
 				{
-					mensaje = "No hay Proveedores Registrado";
-				}
-				else
-				{
-					mensaje = "";
-					switch (Filtro)
-					{
-						case "Todo":
-							lista = controller.GetList(e => true);
-							break;
-						case "Id":
-							lista = controller.GetList(e => e.ProveedorId == Convert.ToInt32(Criterio));
-							break;
-						case "Nombre":
-							lista = controller.GetList(e => e.Nombre == Criterio);
-							break;
-						case "Direccion":
-							lista = controller.GetList(e => e.Direccion == Criterio);
-							break;
-						case "Telefono":
-							lista = controller.GetList(e => e.Telefono == Criterio);
-							break;
-					}
+					case "1":
+						Listado = Listado.Where(e => e.ProveedorId.ToString().Contains(Criterio.ToString())).ToList();
+						break;
+					case "2":
+						Listado = Listado.Where(e => e.Nombre.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						break;
+					case "3":
+						Listado = Listado.Where(e => e.Telefono.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						break;
+					case "4":
+						Listado = Listado.Where(e => e.Direccion.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						break;
 				}
 			}
-		}
-		catch (Exception)
-		{
-			throw;
+			if (FiltrarFecha == true && Listado.Count > 0)
+			{
+				Listado = Listado.Where(p => p.Fecha.Date >= Desde.Date && p.Fecha.Date <= Hasta.Date).ToList();
+				FiltrarFecha = false;
+
+			}
 		}
 	}
 }
-
