@@ -1,4 +1,5 @@
 ﻿@page "/rCategorias"
+@page "/rCategorias/{CategoriaId:int}"
 @inject IToastService toastService
 
 <EditForm Model="Categoria" OnValidSubmit="Guardar">
@@ -10,120 +11,180 @@
 			<h1>Registro de Categorias</h1>
 		</center>
 
-			<form>
-				<div class="form-row justify-content-center">
+		<form>
+			<div class="form-row justify-content-center">
 
-					<div class="form-group">
-						<label for="Categoriaid">Codigo de Categoria</label>
-						<div class="input-group">
-							<InputNumber @bind-Value="@Categoria.CategoriaId" class="form-control" />
-							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-							</div>
-						</div>
+                <div class="form-group">
+                    <label for="Categoriaid">Codigo de Categoria</label>
+                    <div class="input-group">
+                        <InputNumber @bind-Value="@Categoria.CategoriaId" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Buscar">Buscar</button>
+                        </div>
+                    </div>
 
-						<label for="nombre">Nombre</label>
-						<InputText @bind-Value="@Categoria.Nombre" class="form-control" placeholder="Nombre" />
-						<ValidationMessage For="@(()=>Categoria.Nombre)" />
-					</div>
+                    <label for="nombre">Nombre</label>
+                    <InputText @bind-Value="@Categoria.Nombre" class="form-control" placeholder="Nombre" />
+                    <ValidationMessage For="@(()=>Categoria.Nombre)" />
+                    <p class="validation-message"> @MensajeNombre </p>
+                </div>
 
-				</div>
-			</form>
-			<div class="text-center">
-				<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />Limpiar</button>
-				<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>Guardar</button>
-				<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash"/>Eliminar</button>
-
-
-				<!-- Modal-->
-				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Confirmacion</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								¿Está seguro de que desea eliminar esta Categoria?
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
-								<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--fin de modal-->
 			</div>
+		</form>
+		<div class="text-center">
+			<button type="button" class="btn btn-warning " @onclick="Limpiar"><span class="oi oi-file" />Limpiar</button>
+			<button type="submit" class="btn btn-success "><span class="oi oi-data-transfer-download"></span>Guardar</button>
+			<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />Eliminar</button>
+
+
+			<!-- Modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirmacion</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							¿Está seguro de que desea eliminar esta Categoria?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+							<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--fin de modal-->
+		</div>
 
 	</div>
 </EditForm>
 
 
 @code {
-	protected override void OnInitialized()
-	{
-		Categoria = new Categorias();
-	}
+    [Parameter]
+    public int CategoriaId { get; set; }
 
-	public Categorias Categoria { get; set; }
-	public string mensaje;
+    CategoriasController categoriasController = new CategoriasController();
+    Categorias Categoria = new Categorias();
+
+    string MensajeNombre;
+
+    protected override void OnInitialized()
+    {
+        Categoria = new Categorias();
+        Limpiar();
+        if (CategoriaId != 0)
+        {
+            Categoria.CategoriaId = CategoriaId;
+            Buscar();
+        }
+    }
 
 
-	CategoriasController controller = new CategoriasController();
+    public void Guardar()
+    {
 
-	public void Guardar()
-	{
-		if (controller.Guardar(Categoria))
-		{
-			Limpiar();
-			mensaje = "Categoria Guardada con Exito!!!";
-			toastService.ShowSuccess("Categoria Guardada", "Exito");
-		}
-		else
-		{
-			Limpiar();
-			toastService.ShowError("Error al guardar Categoria.", "Fallo");
-		}
-	}
+        LimpiarMensajes();
 
-	public void Buscar()
-	{
-		var categoria = controller.Buscar(Categoria.CategoriaId);
+        if (ExisteNombre())
+        {
+            MensajeNombre = "Existe una categoria con este nombre, debe ingresar otro.";
+            return;
+        }
 
-		if (categoria != null)
-		{
-			Categoria = categoria;
-		}
-		else
-		{
-			Limpiar();
-            toastService.ShowError("Categoria No Existe", "Fallo");
-		}
-	}
+        if (categoriasController.Guardar(Categoria))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Categoría guardada correctamente", "Exito");
 
-	public void Eliminar()
-	{
-		var categoria = controller.Buscar(Categoria.CategoriaId);
+        }
+        else
+        {
+            toastService.ShowError("Error al guardar Categoría.", "Fallo");
 
-		if (categoria != null)
-		{
-			controller.Eliminar(Categoria.CategoriaId);
-			Limpiar();
-            toastService.ShowSuccess("Categoria eliminada correctamente.", "Exito");
-		}
-		else
-		{
-			Limpiar();
-            toastService.ShowError("Error al eliminar esta Categoria.", "Fallo");
-		}
-	}
+        }
+    }
 
-	public void Limpiar()
-	{
-		this.Categoria = new Categorias();
-		mensaje = "";
-	}
+    public void Buscar()
+    {
+        Categorias CategoriaTemporal = categoriasController.Buscar(Categoria.CategoriaId);
+
+        if (CategoriaTemporal != null)
+        {
+            Limpiar();
+            Categoria = CategoriaTemporal;
+            toastService.ShowSuccess("Categoría encontrado.", "Exito");
+
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("La Categoría no fue encontrado.", "Fallo");
+
+        }
+    }
+
+    public void Eliminar()
+    {
+        Categorias CategoriaTemporal = categoriasController.Buscar(Categoria.CategoriaId);
+
+        if (CategoriaTemporal != null)
+        {
+            if (categoriasController.Eliminar(Categoria.CategoriaId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Categoría eliminado correctamente.", "Exito");
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar la Categoría.", "Fallo");
+            }
+        }
+        else
+        {
+            toastService.ShowError("Error al eliminar la Categoría.", "Fallo");
+        }
+    }
+
+    public bool ExisteNombre() //Valida si el nombre existe y lo tiene otra categoria
+    {
+        bool paso = false;
+        var Listado = new List<Categorias>();
+
+        Listado = categoriasController.GetList(p => p.Nombre == Categoria.Nombre);
+
+        if (Listado.Count == 1)
+        {
+            if(Categoria.CategoriaId == 0)
+				return paso = true;
+
+            Categorias CategoriaTemporal = new Categorias();
+            CategoriaTemporal = Listado[0];
+            if (CategoriaTemporal.CategoriaId != CategoriaTemporal.CategoriaId)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
+    public void Limpiar()
+    {
+        this.Categoria = new Categorias();
+        LimpiarMensajes();
+    }
+
+    public void LimpiarMensajes()
+    {
+        MensajeNombre = string.Empty;
+    }
 }

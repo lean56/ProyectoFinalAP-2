@@ -20,10 +20,12 @@ namespace ProyectoFinalAplicada2.Controllers
                 if (categoria.CategoriaId == 0)
                 {
                     paso = Insertar(categoria);
+
                 }
                 else
                 {
                     paso = Modificar(categoria);
+
                 }
             }
             catch (Exception)
@@ -42,11 +44,19 @@ namespace ProyectoFinalAplicada2.Controllers
             {
                 contexto.Categorias.Add(categoria);
                 paso = contexto.SaveChanges() > 0;
+
             }
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
@@ -57,9 +67,13 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                contexto.Categorias.Add(categoria);
-                contexto.Entry(categoria).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
+                Categorias CategoriaTemporal = contexto.Categorias.Find(categoria.CategoriaId);
+                if (CategoriaTemporal != null)
+                {
+                    contexto = new Contexto();
+                    contexto.Entry(categoria).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
             }
             catch (Exception)
             {
@@ -76,11 +90,19 @@ namespace ProyectoFinalAplicada2.Controllers
             try
             {
                 categoria = contexto.Categorias.Find(id);
+
             }
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return categoria;
         }
 
@@ -99,24 +121,38 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
         public List<Categorias> GetList(Expression<Func<Categorias, bool>> expression)
         {
             Contexto contexto = new Contexto();
-            List<Categorias> lista;
+            List<Categorias> ListagoCategorias;
 
             try
             {
-                lista = contexto.Categorias.Where(expression).ToList();
+                ListagoCategorias = contexto.Categorias.Where(expression).ToList();
             }
             catch (Exception)
             {
                 throw;
+
             }
-            return lista;
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
+            return ListagoCategorias;
         }
     }
 }
