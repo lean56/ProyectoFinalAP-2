@@ -59,7 +59,7 @@
             <!-- Email -->
             <div class="form-group col-md-12     col-lg-10     col-xl-10">
                 <label for="Email">Email</label>
-                <InputText @bind-Value="@Usuario.Email" class="form-control" placeholder="Email" />
+                <InputText @bind-Value="@Usuario.Email" class="form-control" placeholder="micorreo@hotmail.com" />
                 <ValidationMessage For="@(()=>Usuario.Email)" />
                 <p class="validation-message"> @MensajeEmail </p>
             </div>
@@ -159,6 +159,7 @@
 
     protected override void OnInitialized()
     {
+        Usuario = new Usuarios();
         Limpiar();
 
         if (UsuarioId != 0)
@@ -260,6 +261,9 @@
 
         if (Listado.Count == 1)
         {
+            if(Usuario.UsuarioId== 0)
+				return paso = true;
+
             Usuarios UsuarioTemporal = new Usuarios();
             UsuarioTemporal = Listado[0];
             if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)
@@ -284,6 +288,9 @@
 
         if (Listado.Count == 1)
         {
+            if(Usuario.UsuarioId== 0)
+				return paso = true;
+
             Usuarios UsuarioTemporal = new Usuarios();
             UsuarioTemporal = Listado[0];
             if (UsuarioTemporal.UsuarioId != Usuario.UsuarioId)

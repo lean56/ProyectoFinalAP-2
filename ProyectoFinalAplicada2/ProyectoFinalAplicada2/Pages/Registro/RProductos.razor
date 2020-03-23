@@ -16,7 +16,7 @@
 
 			<!-- Producto ID -->
 			<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-				<label for="Producto " class="col-auto">Código</label>
+				<label for="ProductoId " class="col-auto">Código</label>
 				<div class="input-group ">
 					<InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
 					<div class="input-group-append">
@@ -149,6 +149,7 @@
 
     protected override void OnInitialized()
     {
+        Producto = new Productos();
         ListadoCategorias = categoriasController.GetList(e => true);
         Limpiar();
 
@@ -247,6 +248,9 @@
 
         if (Listado.Count == 1)
         {
+            if(Producto.Descripcion == 0)
+				return paso = true;
+
             Productos ProductoTemporal = new Productos();
             ProductoTemporal = Listado[0];
             if (ProductoTemporal.ProductoId != Producto.ProductoId)

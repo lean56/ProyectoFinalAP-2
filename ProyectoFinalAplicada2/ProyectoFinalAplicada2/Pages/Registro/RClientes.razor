@@ -3,9 +3,9 @@
 
 @inject IToastService toastService
 
-<EditForm Model="Cliente" OnValidSubmit="Guardar">
+	<EditForm Model="Cliente" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
 
-	<div class="center-align">
 		<center>
 			<h1>Registro de Clientes</h1>
 		</center>
@@ -13,8 +13,11 @@
 		<form>
 			<div class="form-row">
 
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<!-- Cliente ID -->
 				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-					<label for="ClienteId " class="col-auto">Codigo del cliente</label>
+					<label for="ClienteId " class="col-auto">Código</label>
 					<div class="input-group ">
 						<InputNumber @bind-Value="@Cliente.ClienteId" class="form-control" />
 						<div class="input-group-append">
@@ -22,54 +25,89 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-3     col-md-3     col-lg-6     col-xl-6     " style="margin-top: 100px" />
 
-				<!--Fecha-->
-				<div class="form-group col-sm-2    col-md-2     col-lg-3     col-xl-3     ">
+				<!--Division del codigo del cliente y la fecha-->
+				<div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
+
+				<!-- Fecha -->
+				<div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
 					<label for="Fecha">Fecha</label>
-					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" ReadOnly="true" />
+					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" disabled />
 				</div>
 
-				<!--Nombres-->
-				<div class="form-group col-md-6">
-					<label for="Nombres">Nombres</label>
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<!-- Nombres -->
+				<div class="form-group col-md-6   col-lg-5">
+					<label for="Nombres">Nombres y Apellidos</label>
 					<InputText @bind-Value="@Cliente.Nombres" class="form-control" placeholder="Nombres y Apellidos" />
+					<ValidationMessage For="@(()=>Cliente.Nombres)" />
 				</div>
 
-				<!--Telefono-->
-				<div class="form-group col-md-6">
+				<!-- Cedula -->
+				<div class="form-group col-md-6   col-lg-5">
+					<label for="Cedula">Cedula</label>
+					<InputText @bind-Value="@Cliente.Cedula" class="form-control" placeholder="000-0000000-0" />
+					<ValidationMessage For="@(()=>Cliente.Cedula)" />
+					<p class="validation-message"> @MensajeCedula </p>
+				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<!-- Telefono -->
+				<div class="form-group col-md-6   col-lg-5">
 					<label for="Telefono">Teléfono</label>
-					<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="Teléfono" />
+					<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="809-809-8098" />
+					<ValidationMessage For="@(()=>Cliente.Telefono)" />
 				</div>
 
-				<!--Celular-->
-				<div class="form-group col-md-6">
+				<!-- Celular -->
+				<div class="form-group col-md-6   col-lg-5">
 					<label for="Celular">Celular</label>
-					<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="Celular" />
+					<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="809-809-8098" />
+					<ValidationMessage For="@(()=>Cliente.Celular)" />
 				</div>
 
-				<!--Direccion-->
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-				<div class="form-group col-md-6">
-					<label for="Direccion">Direccion</label>
-					<InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Dirección" />
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<!-- Direccion -->
+				<div class="form-group col-md-12     col-lg-10     col-xl-10">
+					<label for="Direccion">Dirección</label>
+					<InputText @bind-Value="@Cliente.Direccion" class="form-control" placeholder="Ciudad, Sector, Calle, Numero " />
+					<ValidationMessage For="@(()=>Cliente.Direccion)" />
 				</div>
 
-				<!--Email-->
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-				<div class="form-group col-md-6">
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+				<!-- Email -->
+				<div class="form-group col-sm-9     col-md-9     col-lg-8     col-xl-8">
 					<label for="Email">Email</label>
-					<InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="Email" />
+					<InputText @bind-Value="@Cliente.Email" class="form-control" placeholder="micorreo@hotmail.com" />
+					<ValidationMessage For="@(()=>Cliente.Email)" />
 				</div>
 
-				<div class="form-group col-md-6">
+				<!-- Deuda -->
+				<div class="form-group col-sm-3      col-md-3     col-lg-2     col-xl-2">
 					<label for="Deuda">Deuda</label>
 					<InputNumber @bind-Value="@Cliente.Deuda" class="form-control" disabled />
+					<ValidationMessage For="@(()=>Cliente.Deuda)" />
 				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
 			</div>
-			<br />
 		</form>
 
+		@*<ValidationSummary />*@
+		<!-- Botones-->
 		<div class="text-center">
 			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
 			<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
@@ -97,22 +135,24 @@
 				</div>
 			</div>
 			<!--fin de modal-->
+
 		</div>
-
-		<DataAnnotationsValidator />
-		<ValidationSummary />
-
-	</div>
-</EditForm>
+	</EditForm>
 
 
 @code {
-		[Parameter]
+	[Parameter]
 	public int ClienteId { get; set; }
+
+	ClientesController clientesController = new ClientesController();
+	Clientes Cliente = new Clientes();
+
+	string MensajeCedula = string.Empty;
 
 	protected override void OnInitialized()
 	{
 		Cliente = new Clientes();
+		Limpiar();
 
 		if (ClienteId != 0)
 		{
@@ -121,41 +161,46 @@
 		}
 	}
 
-	public Clientes Cliente { get; set; }
-	public string mensaje;
-
-	ClientesController clientesController = new ClientesController();
-
 	private void Guardar()
 	{
-		if (clientesController.Guardar(Cliente))
-		{
-			Limpiar();
-			mensaje = "Cliente Guardado con Exito!!!";
-			toastService.ShowSuccess("Cliente Guardado", "Exito");
-		}
-		else
-		{
-			Limpiar();
-			toastService.ShowError("Error al guardar el Cliente", "Fallo");
-		}
+
+        LimpiarMensajes();
+
+        if (ExisteCedula())
+        {
+            MensajeCedula = "Existe un cliente con ests cedula, debe ingresar otra.";
+            return;
+        }
+
+        if (clientesController.Guardar(Cliente))
+        {
+            Limpiar();
+            toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
+
+        }
+        else
+        {
+            toastService.ShowError("Error al guardar el Cliente", "Fallo");
+        }
 	}
 
 	private void Buscar()
 	{
-		Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
+        Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
 
-		if (ClienteTemporal != null)
-		{
-			mensaje = "";
-			Cliente = ClienteTemporal;
-		}
-		else
-		{
-			Limpiar();
-			toastService.ShowInfo("El Cliente no fue encontrado.", "Fallo");
+        if (ClienteTemporal != null)
+        {
+            Limpiar();
+            Cliente = ClienteTemporal;
+            toastService.ShowSuccess("Cliente encontrado.", "Exito");
 
-		}
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El Cliente no fue encontrado.", "Fallo");
+
+        }
 	}
 
 	private void Eliminar()
@@ -170,9 +215,15 @@
 			}
 			else
 			{
-				clientesController.Eliminar(Cliente.ClienteId);
-				Limpiar();
-                toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
+	            if (clientesController.Eliminar(Cliente.ClienteId))
+				{
+					Limpiar();
+					toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
+				}
+				else
+				{
+					toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
+				}
 			}
 		}
 		else
@@ -182,9 +233,41 @@
 		}
 	}
 
+	public bool ExisteCedula() //Valida si la cedula existe y lo tiene otro cliente 
+    {
+        bool paso = false;
+        var Listado = new List<Clientes>();
+
+        Listado = clientesController.GetList(p => p.Cedula == Cliente.Cedula);
+
+        if (Listado.Count == 1)
+        {
+			if(Cliente.ClienteId == 0)
+				return paso = true;
+
+            Clientes ClienteTemporal = new Clientes();
+            ClienteTemporal = Listado[0];
+            if (ClienteTemporal.Cedula != Cliente.Cedula)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
+
+        return paso;
+    }
+
 	private void Limpiar()
 	{
 		this.Cliente = new Clientes();
-		mensaje = string.Empty;
+		LimpiarMensajes();
 	}
+	
+    public void LimpiarMensajes()
+    {
+        MensajeCedula = string.Empty;
+    }
 }

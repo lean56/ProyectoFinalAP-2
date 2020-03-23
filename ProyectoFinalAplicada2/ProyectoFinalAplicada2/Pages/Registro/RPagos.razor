@@ -3,194 +3,212 @@
 
 @inject IToastService toastService
 
-	<EditForm Model="Pago" OnValidSubmit="Guardar">
-		<DataAnnotationsValidator />
-		<div class="container">
-				<center>
-					<h3>
-						Registro de Pagos
-					</h3>
-				</center>
-				<br />
-					<div class="form-group row">
-						<!--Pago Id-->
-						<label for="PagoId " class="col-auto">Codigo del Pago</label>
-						<div class="input-group  col-sm-3">
-							<InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
-							<div class="input-group-append">
-								<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-							</div>
-						</div>
-						<!--Fecha-->
-						<label for="Fecha">Fecha</label>
-						<div align="right" class="input-group col-md-6">
-							<div class="col-sm-6">
-								<InputDate @bind-Value="@Pago.Fecha" class="form-control" />
-							</div>
-						</div>
-					</div>
+<EditForm Model="Pago" OnValidSubmit="Guardar">
+    <DataAnnotationsValidator />
 
-					<div class="form-group row">
-						<!--Cliente Id-->
-						<label for="ClienteId">Cliente</label>
-						<div class="input-group  col-sm-4">
-							<InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="CargarCliente">
-								<option value="0" disabled selected>Seleccione un Cliente</option>
-								@foreach (var item in ListadoClientes)
-								{
-									<option value="@item.ClienteId">@item.Nombres</option>
-								}
-							</InputSelect>
-						</div>
-						<!--Deuda-->
-						<label for="Deuda">Deuda</label>
-						<div class="input-group col-4">
-							<div class="col-md-6 no-padding">
-								<InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
-								<ValidationMessage For="@(()=>Pago.MontoPago)" />
-							</div>
-						</div>
-					</div>
-				<br />
+    <center>
+        <h1>Registro de Pagos</h1>
+    </center>
 
-			<div class="text-center">
-				<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
-				<button type="submit" class="btn btn-outline-success">Guardar</button>
-				<button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#exampleModal">Eliminar</button>
-				<!-- Modal -->
-				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Atencion</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								¿Desea eliminar Este Pago?
-							</div>
-							<div class="modal-footer">
-								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">No</button>
-								<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">Si</button>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!--fin de modal-->
-			</div>
-			<h5>@mensaje</h5>
-			<br />
-		</div>
+    <form>
+        <div class="form-row">
 
-	</EditForm>
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <!-- Pago Id-->
+            <div class="form-group col-sm-8     col-md-6     col-lg-4     col-xl-4     ">
+                <label for="PagoId" class="col-auto">Código</label>
+                <div class="input-group ">
+                    <InputNumber @bind-Value="@Pago.PagoId" class="form-control" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <!-- Fecha -->
+            <div class="form-group col-sm-8     col-md-6     col-lg-4     col-xl-4     ">
+                <label for="Fecha">Fecha</label>
+                <InputDate @bind-Value="@Pago.Fecha" class="form-control" />
+            </div>
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <!-- Cliente -->
+            <div class="form-group col-sm-8     col-md-6     col-lg-4     col-xl-4     ">
+                <label for="ClienteId">Cliente</label>
+                <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="SeleccionarCliente">
+                    <option value="0" disabled selected>Seleccione un Cliente</option>
+                    @foreach (var item in ListadoClientes)
+                    {
+                        <option value="@item.ClienteId">@item.Nombres</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="(() => Pago.ClienteId)" />
+            </div>
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+
+            <!-- Monto -->
+            <div class="form-group col-sm-8     col-md-6     col-lg-4     col-xl-4     ">
+                <label for="Monto">Monto</label>
+                <InputNumber @bind-Value="@Pago.MontoPago" class="form-control" />
+                <ValidationMessage For="(() => Pago.MontoPago)" />
+            </div>
+
+            <div class="col-sm-2     col-md-3     col-lg-4     col-xl-4" />
+        </div>
+    </form>
+
+    <ValidationSummary />
+    <!-- Botones-->
+    <div class="text-center">
+        <button type="button" class="btn btn-warning" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+        <button type="submit" class="btn btn-success"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+        <!-- Modal-->
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Confirmacion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro de que desea eliminar este Pago?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--fin de modal-->
+    </div>
+
+</EditForm>
 
 
 @code {
-	[Parameter]
-	public int PagoId { get; set; }
+    [Parameter]
+    public int PagoId { get; set; }
 
-	Pagos Pago = new Pagos();
-	PagosController pagosController = new PagosController();
+    PagosController pagosController = new PagosController();
+    Pagos Pago = new Pagos();
 
-	Clientes Cliente = new Clientes();
-	List<Clientes> ListadoClientes = new List<Clientes>();
-	ClientesController clientesController = new ClientesController();
-	string ClienteSeleccionado;
+    ClientesController clientesController = new ClientesController();
+    Clientes Cliente = new Clientes();
+    List<Clientes> ListadoClientes = new List<Clientes>();
+    string ClienteSeleccionado;
 
-	protected override void OnInitialized()
-	{
-		Pago = new Pagos();
-		ListadoClientes = clientesController.GetList(e => true);
+    string Mensaje;
 
-		if (PagoId != 0)
-		{
-			Pago.PagoId = PagoId;
-			Buscar();
-		}
-	}
+    protected override void OnInitialized()
+    {
+        Pago = new Pagos();
+        ListadoClientes = clientesController.GetList(e => true);
+        Limpiar();
 
-	public Pagos Pagos { get; set; }
-	public string mensaje;
+        if (PagoId != 0)
+        {
+            Pago.PagoId = PagoId;
+            Buscar();
+        }
+    }
 
+    private void SeleccionarCliente()
+    {
+        Pago.ClienteId = Convert.ToInt32(ClienteSeleccionado);
+        Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
+    }
 
+    private void Guardar()
+    {
+        if (Pago.MontoPago > Cliente.Deuda)
+        {
+            Mensaje = "El pago es mayor a la Deuda, El Balance es: " + Cliente.Deuda;
 
-	private void Guardar()
-	{
-		if (Pago.MontoPago > Cliente.Deuda)
-		{
-			mensaje = "El pago es mayor a la Deuda, El Balance es: " + Cliente.Deuda;
-		}
-		else
-		{
-			Pago.ClienteId = Convert.ToInt32(ClienteSeleccionado);
+        }
+        else
+        {
+            if (pagosController.Guardar(Pago))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Pago guardado correctamente.", "Exito");
 
-			if (pagosController.Guardar(Pago))
-			{
-				Limpiar();
-				mensaje = "Pago Guardado con Exito!!!";
-				toastService.ShowSuccess("Pago Guardada", "Exito");
-			}
-			else
-			{
-				mensaje = "Error al guardar el Pago";
-			}
-		}
+            }
+            else
+            {
+                toastService.ShowError("Error al guardar el Pago.", "Fallo");
 
-	}
+            }
+        }
 
-	private void Buscar()
-	{
-		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
-		if (PagoTemporal != null)
-		{
-			Limpiar();
-			Pago = PagoTemporal;
-			ClienteSeleccionado = Convert.ToString(Pago.ClienteId);
-			CargarCliente();
-		}
-		else
-		{
-			Limpiar();
-			mensaje = "Este Pago no existe";
+    }
 
-		}
-	}
+    public void Buscar()
+    {
+        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
 
-	private void Eliminar()
-	{
-		Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+        if (PagoTemporal != null)
+        {
+            Limpiar();
+            Pago = PagoTemporal;
+            ClienteSeleccionado = Pago.ClienteId.ToString();
+            toastService.ShowSuccess("Pago encontrado.", "Exito");
 
-		if (PagoTemporal != null)
-		{
-			pagosController.Eliminar(Pago.PagoId);
-			Limpiar();
-			mensaje = "Pago Eliminado";
-		}
-		else
-		{
-			mensaje = "Error al eliminar";
-		}
-	}
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El Pago no fue encontrado.", "Fallo");
 
-	private void CargarCliente()
-	{
-		//try
-		//{
-		Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSeleccionado));
-		Pago.ClienteId = (Cliente != null) ? Cliente.ClienteId : 0;
-		//}
-		//catch (Exception ex)
-		//{
-		//    mensaje = ex.ToString();
-		////}
-	}
+        }
+    }
 
-	private void Limpiar()
-	{
-		this.Pago = new Pagos();
-		mensaje = string.Empty;
-		ClienteSeleccionado = "0";
-	}
+    public void Eliminar()
+    {
+        Pagos PagoTemporal = pagosController.Buscar(Pago.PagoId);
+
+        if (PagoTemporal != null)
+        {
+            if (pagosController.Eliminar(Pago.PagoId))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Pago eliminado correctamente.", "Exito");
+
+            }
+            else
+            {
+                toastService.ShowError("Error al eliminar el pago.", "Fallo");
+
+            }
+        }
+        else
+        {
+            toastService.ShowError("Error al eliminar el pago.", "Fallo");
+
+        }
+    }
+
+    private void Limpiar()
+    {
+        this.Pago = new Pagos();
+        Mensaje = string.Empty;
+        ClienteSeleccionado = "0";
+    }
 
 }

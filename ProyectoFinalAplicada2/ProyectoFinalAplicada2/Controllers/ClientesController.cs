@@ -75,8 +75,13 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                contexto.Entry(cliente).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
+                Clientes ClienteTemporal = contexto.Clientes.Find(cliente.ClienteId);
+                if (ClienteTemporal != null)
+                {
+                    contexto = new Contexto();
+                    contexto.Entry(cliente).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
 
             }
             catch (Exception)
@@ -163,6 +168,7 @@ namespace ProyectoFinalAplicada2.Controllers
                 contexto.Dispose();
 
             }
+
             return ListadoClientes;
         }
     }

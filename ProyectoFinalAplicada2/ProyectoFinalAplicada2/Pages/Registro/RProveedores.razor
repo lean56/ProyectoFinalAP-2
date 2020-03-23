@@ -49,7 +49,7 @@
             <!-- Telefono -->
             <div class="form-group container col-sm-6 col-md-6   col-lg-5">
                 <label for="Telefono">Teléfono</label>
-                <InputText @bind-Value="@Proveedor.Telefono" class="form-control" placeholder="809-000-0000" />
+                <InputText @bind-Value="@Proveedor.Telefono" class="form-control" placeholder="8098098098 (Sin Guiones)" />
                 <ValidationMessage For="@(()=>Proveedor.Telefono)" />
             </div>
 
@@ -110,6 +110,7 @@
 
     protected override void OnInitialized()
     {
+        Proveedor = new Proveedores();
         Limpiar();
 
         if (ProveedorId != 0)
@@ -195,6 +196,9 @@
 
         if (Listado.Count == 1)
         {
+            if(Proveedor.ProveedorId == 0)
+				return paso = true;
+
             Proveedores ProveedorTemporal = new Proveedores();
             ProveedorTemporal = Listado[0];
             if (ProveedorTemporal.ProveedorId != Proveedor.ProveedorId)
