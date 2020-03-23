@@ -1,35 +1,41 @@
 ﻿@page "/rEntradas"
 @inject IToastService toastService
 
-<EditForm Model="Entrada" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
-	<center>
-		<h3>Registro de entrada de Productos</h3>
-	</center>
-	<div class="container">
-		<div class="card">
-			<div class="card-body">
-				<div class="form-group row">
+	<EditForm Model="Entrada" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
+		<center>
+			<h1>Entrada de Productos</h1>
+		</center>
+
+		<form>
+			<div class="form-row justify-content-center">
+
+
+				<!-- EntradaId -->
+
+				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
 					<label for="EntradaId " class="col-auto">Codigo de la entrada</label>
-					<div class="input-group  col-sm-3">
+					<div class="input-group ">
 						<InputNumber @bind-Value="@Entrada.EntradaId" class="form-control" />
 						<div class="input-group-append">
-							<button type="button" class="btn btn-outline-dark" @onclick="Buscar">Buscar</button>
-						</div>
-					</div>
-
-					<label for="Fecha">Fecha</label>
-					<div align="right" class="input-group col-md-6">
-						<div class="col-sm-6">
-							<InputDate @bind-Value="@Entrada.Fecha" class="form-control" />
+							<button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
 						</div>
 					</div>
 				</div>
 
+				<div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
 
-				<div class="form-group row">
-					<div class="col-md-4 no-padding">
-						<label for="producto">Producto</label>
+				<!-- Fecha -->
+				<div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
+					<label for="FechaIngreso">Fecha</label>
+					<InputDate @bind-Value="@Entrada.Fecha" class="form-control" disabled />
+				</div>
+
+
+				<div class="form-group col-sm-5     col-md-5     col-lg-5     col-xl-5">
+					<label for="producto" class="col-auto">Producto</label>
+					<div class="input-group ">
+
 						<InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
 
 							@if (ListadoProductos.Count == 0)
@@ -47,54 +53,62 @@
 							}
 						</InputSelect>
 					</div>
+				</div>
+				<div class="col-sm-2    col-md-2    col-lg-2     col-xl-2" />
 
-					<div class="col-2">
-						<label class="col-auto" for="Cantidad">Cantidad:</label>
+
+				<div class="form-group col-sm-3     col-md-3     col-lg-3   col-xl-3">
+
+					<label class="col-auto" for="Cantidad">Cantidad</label>
+					<div class="input-group ">
 						<InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
-					</div>
-					<div class="form-group">
-						<br />
-						<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
+						<div class="input-group-append">
+							<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
+						</div>
 					</div>
 				</div>
+				<div class="col-md-10 no-padding">
 
-				<div class="card">
-					<div class="card-body">
-						<table class="table">
-							<thead class="thead-dark">
-								<tr>
-									<th>Codigo</th>
-									<th>Descripcion</th>
-									<th>Cantidad</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach (var item in Entrada.Detalle)
-								{
+					<div class="card">
+						<div class="card-body">
+							<table class="table">
+								<thead class="thead-dark">
 									<tr>
-										<th>@item.ProductoId</th>
-										<th>@item.Descripcion</th>
-										<th>@item.Cantidad</th>
-										<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+										<th>Codigo</th>
+										<th>Descripcion</th>
+										<th>Cantidad</th>
+										<th></th>
 									</tr>
-								}
-							</tbody>
-						</table>
+								</thead>
+								<tbody>
+									@foreach (var item in Entrada.Detalle)
+									{
+										<tr>
+											<th>@item.ProductoId</th>
+											<th>@item.Descripcion</th>
+											<th>@item.Cantidad</th>
+											<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+										</tr>
+									}
+								</tbody>
+							</table>
+						</div>
 					</div>
+
 				</div>
 
-				<div class="text-center">
-					<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
-					<button type="submit" class="btn btn-outline-success">Guardar</button>
-					<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
-				</div>
 			</div>
-		</div>
-	</div>
-	<h3>@mensaje</h3>
+			<h3>@mensaje</h3>
 
-</EditForm>
+
+			<div class="text-center">
+				<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
+				<button type="submit" class="btn btn-outline-success">Guardar</button>
+				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+			</div>
+		</form>
+
+	</EditForm>
 
 @code {
 	[Parameter]
