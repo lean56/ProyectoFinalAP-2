@@ -128,14 +128,12 @@
 		if (Filtro == "0")
 		{
 			Listado = proveedoresController.GetList(e => true);
-
 		}
 		else
 		{
 			if (Criterio == "")
 			{
 				Mensaje = "Agregue el criterio de busqueda.";
-
 			}
 			else
 			{
@@ -144,15 +142,19 @@
 				{
 					case "1":
 						Listado = Listado.Where(e => e.ProveedorId.ToString().Contains(Criterio.ToString())).ToList();
+						Mensaje = "";
 						break;
 					case "2":
 						Listado = Listado.Where(e => e.Nombre.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						Mensaje = "";
 						break;
 					case "3":
 						Listado = Listado.Where(e => e.Telefono.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						Mensaje = "";
 						break;
 					case "4":
 						Listado = Listado.Where(e => e.Direccion.ToUpper().Contains(Criterio.ToUpper())).ToList();
+						Mensaje = "";
 						break;
 				}
 			}
