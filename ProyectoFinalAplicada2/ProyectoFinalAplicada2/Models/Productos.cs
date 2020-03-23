@@ -14,6 +14,9 @@ namespace ProyectoFinalAplicada2.Models
         [Required(ErrorMessage = "La descripción es obligatoria.")]
         public string Descripcion { get; set; }
         [Required]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar un proveedor.")]
+        public int ProveedorId { get; set; }
+        [Required]
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar una categoría.")]
         public int CategoriaId { get; set; }
         [Required]
@@ -32,6 +35,7 @@ namespace ProyectoFinalAplicada2.Models
             ProductoId = 0;
             FechaCreacion = DateTime.Now;
             Descripcion = string.Empty;
+            ProveedorId = 0;
             CategoriaId = 0;
             Costo = 0;
             Ganancia = 0;

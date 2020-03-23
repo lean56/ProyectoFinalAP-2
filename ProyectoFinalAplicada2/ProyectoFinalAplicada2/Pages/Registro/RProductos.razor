@@ -10,93 +10,110 @@
 	</center>
 
 	<form>
-		<div class="form-row">
+        <div class="form-row">
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<!-- Producto ID -->
-			<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-				<label for="ProductoId " class="col-auto">Código</label>
-				<div class="input-group ">
-					<InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
-					<div class="input-group-append">
-						<button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
-					</div>
-				</div>
-			</div>
+            <!-- Producto ID -->
+            <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+                <label for="ProductoId " class="col-auto">Código</label>
+                <div class="input-group ">
+                    <InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                    </div>
+                </div>
+            </div>
 
-			<!--Division del codigo del producto y la fecha-->
-			<div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
+            <!--Division del codigo del producto y la fecha-->
+            <div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
 
-			<!-- Fecha -->
-			<div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
-				<label for="FechaIngreso">Fecha</label>
-				<InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" disabled />
-			</div>
+            <!-- Fecha -->
+            <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
+                <label for="FechaIngreso">Fecha</label>
+                <InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" disabled />
+            </div>
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<!-- Descripcion -->
-			<div class="form-group col-md-6   col-lg-5">
-				<label for="Descripcion">Descripción</label>
-				<InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
-				<ValidationMessage For="@(()=>Producto.Descripcion)" />
-				<p class="validation-message"> @MensajeDescripcion </p>
-			</div>
+            <!-- Descripcion -->
+            <div class="form-group col-md-12     col-lg-10     col-xl-10">
+                <label for="Descripcion">Descripción</label>
+                <InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
+                <ValidationMessage For="@(()=>Producto.Descripcion)" />
+                <p class="validation-message"> @MensajeDescripcion </p>
+            </div>
 
-			<!-- Categoria -->
-			<div class="form-group col-md-6   col-lg-5">
-				<label for="Categoria">Categoría</label>
-				<InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
-					<option value="0" disabled selected>Seleccione una Categoría</option>
-					@foreach (var item in ListadoCategorias)
-					{
-						<option value="@item.CategoriaId">@item.Nombre</option>
-					}
-				</InputSelect>
-				<ValidationMessage For="@(()=>Producto.CategoriaId)" />
-			</div>
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <!-- Proveedor -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Categoria">Proveedor</label>
+                <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control " @onchange="SeleccionarProveedor" @onclick="SeleccionarProveedor">
+                    <option value="0" disabled selected>Seleccione un Proveedor</option>
+                    @foreach (var item in ListadoProveedores)
+                    {
+                        <option value="@item.ProveedorId">@item.Nombre</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=>Producto.CategoriaId)" />
+            </div>
 
-			<!-- Costo -->
-			<div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-				<label for="Costo">Costo</label>
-				<InputNumber @bind-Value="@Producto.Costo" class="form-control" step="10" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio"/>
-				<ValidationMessage For="@(()=>Producto.Costo)" />
-			</div>
+            <!-- Categoria -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Categoria">Categoría</label>
+                <InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+                    <option value="0" disabled selected>Seleccione una Categoría</option>
+                    @foreach (var item in ListadoCategorias)
+                    {
+                        <option value="@item.CategoriaId">@item.Nombre</option>
+                    }
+                </InputSelect>
+                <ValidationMessage For="@(()=>Producto.CategoriaId)" />
+            </div>
 
-			<!-- Ganancia -->
-			<div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-				<label for="Ganancia">% Ganancia</label>
-				<InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio"/>
-				<ValidationMessage For="@(()=>Producto.Ganancia)" />
-			</div>
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <!-- Costo -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Costo">Costo</label>
+                <InputNumber @bind-Value="@Producto.Costo" class="form-control" step="10" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
+                <ValidationMessage For="@(()=>Producto.Costo)" />
+            </div>
 
-			<!-- Precio -->
-			<div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-				<label for="Precio">Precio</label>
-				<InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
-				<ValidationMessage For="@(()=>Producto.Precio)" />
-			</div>
+            <!-- Ganancia -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Ganancia">% Ganancia</label>
+                <InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
+                <ValidationMessage For="@(()=>Producto.Ganancia)" />
+            </div>
 
-			<!-- Cantidad -->
-			<div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-				<label for="Cantidad">Cantidad</label>
-				<InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
-			</div>
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-		</div>
+            <!-- Precio -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Precio">Precio</label>
+                <InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
+                <ValidationMessage For="@(()=>Producto.Precio)" />
+            </div>
+
+            <!-- Cantidad -->
+            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                <label for="Cantidad">Cantidad</label>
+                <InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
+            </div>
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+        </div>
 	</form>
 
 	<ValidationSummary />
@@ -139,6 +156,11 @@
     ProductosController productosController = new ProductosController();
     private Productos Producto = new Productos();
 
+    ProveedoresController proveedoresController = new ProveedoresController();
+    private Proveedores Proveedor = new Proveedores();
+    private List<Proveedores> ListadoProveedores{ get; set; }
+    private string ProveedorSeleccionado = string.Empty;
+
     CategoriasController categoriasController = new CategoriasController();
     private Categorias Categoria = new Categorias();
     private List<Categorias> ListadoCategorias { get; set; }
@@ -150,6 +172,7 @@
     protected override void OnInitialized()
     {
         Producto = new Productos();
+        ListadoProveedores = proveedoresController.GetList(e => true);
         ListadoCategorias = categoriasController.GetList(e => true);
         Limpiar();
 
@@ -158,6 +181,11 @@
             Producto.ProductoId = ProductoId;
             Buscar();
         }
+    }
+
+    private void SeleccionarProveedor()
+    {
+        Producto.ProveedorId = Convert.ToInt32(ProveedorSeleccionado);
     }
 
     private void SeleccionarCategoria()
@@ -176,6 +204,7 @@
             return;
         }
 
+        SeleccionarProveedor();
         SeleccionarCategoria();
         CalcularPrecio();
         if (productosController.Guardar(Producto))
@@ -199,6 +228,7 @@
         {
             Limpiar();
             Producto = ProductoTemporal;
+            ProveedorSeleccionado = Producto.ProveedorId.ToString();
             CategoriaSeleccionada = Producto.CategoriaId.ToString();
             CalcularPrecio();
             toastService.ShowSuccess("Producto encontrado.", "Exito");
@@ -274,6 +304,7 @@
     public void Limpiar()
     {
         this.Producto = new Productos();
+        ProveedorSeleccionado = "0";
         CategoriaSeleccionada = "0";
         LimpiarMensajes();
     }
