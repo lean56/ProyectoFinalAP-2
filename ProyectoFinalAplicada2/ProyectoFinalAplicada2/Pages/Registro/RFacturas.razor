@@ -3,171 +3,170 @@
 
 @inject IToastService toastService
 
-<EditForm Model="Factura" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
+	<EditForm Model="Factura" OnValidSubmit="Guardar">
+		<DataAnnotationsValidator />
 
-	<center>
-		<h1> Registro de Factura </h1>
-	</center>
+		<center>
+			<h1> Registro de Factura </h1>
+		</center>
 
-	<form>
-		<div class="form-row">
-			<!--Factura Id-->
-			<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-				<label for="FacturaId " class="col-auto">Factura Id</label>
-				<div class="input-group ">
-					<InputNumber @bind-Value="@Factura.FacturaId" class="form-control" />
-					<div class="input-group-append">
-						<button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
-					</div>
-				</div>
-			</div>
-
-			<div class="col-sm-4   col-md-4   col-lg-5  col-xl-5" />
-
-			<!-- Fecha -->
-			<div class="form-group">
-				<label for="FechaIngreso" class="col-auto">Fecha</label>
-				<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled />
-			</div>
-
-			<!--Cliente-->
-			<div class="form-group col-sm-6     col-md-6     col-lg-6col-xl-6">
-				<label class="col-auto" for="cliente">Cliente</label>
-
-				<div class="form-group row">
-					<div class="col-md-6 no-padding">
-						<InputSelect @bind-Value="@ClienteSelect" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
-							<option value="" disabled selected>Seleccione un Cliente</option>
-							@foreach (var item in ListaCliente)
-							{
-								<option value="@item.ClienteId">@item.Nombres</option>
-							}
-						</InputSelect>
-					</div>
-				</div>
-			</div>
-			<div class="form-group row">
-				<div class="col-md-3 no-padding">
-					<label for="producto" class="col-auto">Producto</label>
-
-					<!--Producto-->
-					<InputSelect @bind-Value="@ProductoSelect" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
-
-						@if (ListaProducto.Count == 0)
-						{
-							<option value="">No hay Producto Registrado</option>
-						}
-						else
-						{
-							<option value="" disabled selected>Seleccione un Producto</option>
-
-							@foreach (var item in ListaProducto)
-							{
-								<option value="@item.ProductoId">@item.Descripcion</option>
-							}
-						}
-					</InputSelect>
-				</div>
-				<!--Cantidad-->
-				<div class="col-2">
-					<label class="col-auto" for="Cantidad">Cantidad</label>
-					<InputNumber @bind-Value="@Cantidad" class="form-control" @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
-				</div>
-				<!--Precio-->
-				<div class="form-group col-sm-2">
-					<label class="col-auto" for="precio">Precio</label>
-					<InputNumber @bind-Value="@Precio" class="form-control" disabled></InputNumber>
-				</div>
-				<!--Importe-->
-				<div class="form-group col-sm-3">
-					<label class="col-auto" for="importe">Importe</label>
+		<form>
+			<div class="form-row">
+				<!--Factura Id-->
+				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+					<label for="FacturaId " class="col-auto">Factura Id</label>
 					<div class="input-group ">
-
-						<InputNumber @bind-Value="@Importe" class="form-control " disabled @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
+						<InputNumber @bind-Value="@Factura.FacturaId" class="form-control" />
 						<div class="input-group-append">
-							<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
+							<button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="col-md-10 no-padding">
 
-				<div class="card">
-					<div class="card-body">
-						<table class="table">
-							<thead class="thead-dark">
-								<tr>
-									<th>Id</th>
-									<th>ProductoId</th>
-									<th>Descripcion</th>
-									<th>Cantidad</th>
-									<th>Precio</th>
-									<th></th>
-								</tr>
-							</thead>
-							<tbody>
-								@foreach (var item in Factura.Detalle)
+				<div class="col-sm-4   col-md-4   col-lg-5  col-xl-5" />
+
+				<!-- Fecha -->
+				<div class="form-group">
+					<label for="FechaIngreso" class="col-auto">Fecha</label>
+					<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled />
+				</div>
+
+				<!--Cliente-->
+				<div class="form-group col-sm-6     col-md-6     col-lg-6col-xl-6">
+					<label class="col-auto" for="cliente">Cliente</label>
+
+					<div class="form-group row">
+						<div class="col-md-6 no-padding">
+							<InputSelect @bind-Value="@ClienteSelect" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
+								<option value="" disabled selected>Seleccione un Cliente</option>
+								@foreach (var item in ListaCliente)
 								{
-									<tr>
-										<th>@item.FacturaId</th>
-										<th>@item.ProductoId</th>
-										<th>@item.Descripcion</th>
-										<th>@item.Cantidad</th>
-										<th>@item.Precio</th>
-										<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
-									</tr>
+									<option value="@item.ClienteId">@item.Nombres</option>
 								}
-							</tbody>
-						</table>
-						<div class="form-row justify-content-end">
+							</InputSelect>
+						</div>
+					</div>
+				</div>
+				<div class="form-group row">
+					<div class="col-md-3 no-padding">
+						<label for="producto" class="col-auto">Producto</label>
 
-							<div class="col-2 ">
-								<label>Total: </label>
-								<label>@Factura.Total</label>
+						<!--Producto-->
+						<InputSelect @bind-Value="@ProductoSelect" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
+
+							@if (ListaProducto.Count == 0)
+							{
+								<option value="">No hay Producto Registrado</option>
+							}
+							else
+							{
+								<option value="" disabled selected>Seleccione un Producto</option>
+
+								@foreach (var item in ListaProducto)
+								{
+									<option value="@item.ProductoId">@item.Descripcion</option>
+								}
+							}
+						</InputSelect>
+					</div>
+					<!--Cantidad-->
+					<div class="col-2">
+						<label class="col-auto" for="Cantidad">Cantidad</label>
+						<InputNumber @bind-Value="@Cantidad" class="form-control" @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
+					</div>
+					<!--Precio-->
+					<div class="form-group col-sm-2">
+						<label class="col-auto" for="precio">Precio</label>
+						<InputNumber @bind-Value="@Precio" class="form-control" disabled></InputNumber>
+					</div>
+					<!--Importe-->
+					<div class="form-group col-sm-3">
+						<label class="col-auto" for="importe">Importe</label>
+						<div class="input-group ">
+
+							<InputNumber @bind-Value="@Importe" class="form-control " disabled @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
+							<div class="input-group-append">
+								<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
 							</div>
 						</div>
 					</div>
 				</div>
-				<br />
+				<div class="col-md-10 no-padding">
 
+					<div class="card">
+						<div class="card-body">
+							<table class="table">
+								<thead class="thead-light">
+									<tr>
+										<th>Id</th>
+										<th>ProductoId</th>
+										<th>Descripcion</th>
+										<th>Cantidad</th>
+										<th>Precio</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach (var item in Factura.Detalle)
+									{
+										<tr>
+											<th>@item.FacturaId</th>
+											<th>@item.ProductoId</th>
+											<th>@item.Descripcion</th>
+											<th>@item.Cantidad</th>
+											<th>@item.Precio</th>
+											<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+										</tr>
+									}
+								</tbody>
+							</table>
+							<div class="form-row justify-content-end">
+
+								<div class="col-2 ">
+									<label>Total: </label>
+									<label>@Factura.Total</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br />
+
+				</div>
 			</div>
-		</div>
-	</form>
+		</form>
 
-	<div class="text-center">
-		<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
-		<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
-		<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+		<div class="text-center">
+			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+			<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+			<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
 
-
-		<!-- Modal-->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h5 class="modal-title">Confirmacion</h5>
-						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<div class="modal-body">
-						¿Está seguro de que desea eliminar esta Factura?
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
-						<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+			<!-- Modal-->
+			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Confirmacion</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							¿Está seguro de que desea eliminar esta Factura?
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+							<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+						</div>
 					</div>
 				</div>
 			</div>
+			<!--fin de modal-->
 		</div>
-		<!--fin de modal-->
-	</div>
 
-	<br />
+		<br />
 
 
-</EditForm>
+	</EditForm>
 @code {
 
 
