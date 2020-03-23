@@ -78,7 +78,7 @@ namespace ProyectoFinalAplicada2.Controllers
                 Usuarios UsuarioTemporal = contexto.Usuarios.Find(usuario.UsuarioId);
                 if(UsuarioTemporal != null)
                 {
-                contexto = new Contexto();
+                    contexto = new Contexto();
                     contexto.Entry(usuario).State = EntityState.Modified;
                     paso = contexto.SaveChanges() > 0;
                 }
@@ -161,13 +161,13 @@ namespace ProyectoFinalAplicada2.Controllers
             }
             catch (Exception)
             {
-
                 throw;
+            
             }
             finally
             {
-
                 contexto.Dispose();
+            
             }
 
             return ListadoUsuarios;

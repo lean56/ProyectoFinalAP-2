@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
-    public class CategoriaController
+    public class CategoriasController
     {
-        public bool Guardar(Categoria categoria)
+        public bool Guardar(Categorias categoria)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
@@ -33,7 +33,7 @@ namespace ProyectoFinalAplicada2.Controllers
             return paso;
         }
 
-        private bool Insertar(Categoria categoria)
+        private bool Insertar(Categorias categoria)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
@@ -50,7 +50,7 @@ namespace ProyectoFinalAplicada2.Controllers
             return paso;
         }
 
-        private bool Modificar(Categoria categoria)
+        private bool Modificar(Categorias categoria)
         {
             Contexto contexto = new Contexto();
             bool paso = false;
@@ -68,10 +68,10 @@ namespace ProyectoFinalAplicada2.Controllers
             return paso;
         }
 
-        public Categoria Buscar(int id)
+        public Categorias Buscar(int id)
         {
             Contexto contexto = new Contexto();
-            Categoria categoria = new Categoria();
+            Categorias categoria = new Categorias();
 
             try
             {
@@ -88,7 +88,7 @@ namespace ProyectoFinalAplicada2.Controllers
         {
             Contexto contexto = new Contexto();
             bool paso = false;
-            Categoria categoria = new Categoria();
+            Categorias categoria = new Categorias();
 
             try
             {
@@ -103,10 +103,10 @@ namespace ProyectoFinalAplicada2.Controllers
             return paso;
         }
 
-        public List<Categoria> GetList(Expression<Func<Categoria, bool>> expression)
+        public List<Categorias> GetList(Expression<Func<Categorias, bool>> expression)
         {
             Contexto contexto = new Contexto();
-            List<Categoria> lista;
+            List<Categorias> lista;
 
             try
             {

@@ -10,26 +10,32 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int ProductoId { get; set; }
-        [Required(ErrorMessage = "El campo Descripcion obligatorio.")]
-        public string Descripcion { get; set; }
-        [Range(minimum:1,maximum:1000000,ErrorMessage ="El costo debe ser mayor a cero")]
-        public decimal Costo { get; set; }
-        [Range(minimum: 1, maximum: 1000000, ErrorMessage = "El Precio debe ser mayor a cero")]
-        public decimal Precio { get; set; }
-        public decimal Ganancia { get; set; }
         public DateTime FechaCreacion { get; set; }
-        public int Categoria { get; set; }
+        [Required(ErrorMessage = "La descripción es obligatoria.")]
+        public string Descripcion { get; set; }
+        [Required]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar una categoría.")]
+        public int CategoriaId { get; set; }
+        [Required]
+        [Range(minimum:1,maximum:999999999999,ErrorMessage = "El costo debe ser mayor a 0.")]
+        public decimal Costo { get; set; }
+        [Required]
+        [Range(minimum: 1, maximum: 999999999, ErrorMessage = "El prociento de ganancia debe ser mayor al 1%")]
+        public decimal Ganancia { get; set; }
+        [Required]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El precio debe ser mayor a 0.")]
+        public decimal Precio { get; set; }
         public int Cantidad { get; set; }
 
         public Productos()
         {
             ProductoId = 0;
-            Descripcion = string.Empty;
-            Costo = 0;
-            Precio = 0;
-            Ganancia = 0;
             FechaCreacion = DateTime.Now;
-            Categoria = 0;
+            Descripcion = string.Empty;
+            CategoriaId = 0;
+            Costo = 0;
+            Ganancia = 0;
+            Precio = 0;
             Cantidad = 0;
         }
     }

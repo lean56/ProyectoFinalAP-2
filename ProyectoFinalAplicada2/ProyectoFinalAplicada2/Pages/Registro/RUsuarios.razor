@@ -12,6 +12,8 @@
     <form>
         <div class="form-row">
 
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
             <!-- Usuario ID -->
             <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
                 <label for="usuarioId " class="col-auto">Código</label>
@@ -24,38 +26,50 @@
             </div>
 
             <!--Division del codigo del usuario y la fecha-->
-            <div class="col-sm-3     col-md-3     col-lg-6     col-xl-6" />
+            <div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
 
             <!-- Fecha -->
             <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
                 <label for="FechaIngreso">Fecha</label>
-                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" disabled/>
+                <InputDate @bind-Value="@Usuario.FechaIngreso" class="form-control" disabled />
             </div>
 
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
             <!-- Nombres -->
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6   col-lg-5">
                 <label for="Nombres">Nombre</label>
                 <InputText @bind-Value="@Usuario.Nombres" class="form-control" placeholder="Nombre" />
                 <ValidationMessage For="@(()=>Usuario.Nombres)" />
             </div>
 
             <!-- Apellidos -->
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-6   col-lg-5">
                 <label for="Apellidos">Apellido</label>
                 <InputText @bind-Value="@Usuario.Apellidos" class="form-control" placeholder="Apellido" />
                 <ValidationMessage For="@(()=>Usuario.Apellidos)" />
             </div>
 
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
             <!-- Email -->
-            <div class="form-group col-md-12">
+            <div class="form-group col-md-12     col-lg-10     col-xl-10">
                 <label for="Email">Email</label>
                 <InputText @bind-Value="@Usuario.Email" class="form-control" placeholder="Email" />
                 <ValidationMessage For="@(()=>Usuario.Email)" />
                 <p class="validation-message"> @MensajeEmail </p>
             </div>
 
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
             <!-- Usuario -->
-            <div class="form-group col-md-6">
+            <div class="form-group container col-sm-6 col-md-6   col-lg-5">
                 <label for="Usuario">Usuario</label>
                 <InputText @bind-Value="@Usuario.Usuario" class="form-control" placeholder="Nombre de usuario" />
                 <ValidationMessage For="@(()=>Usuario.Usuario)" />
@@ -63,7 +77,7 @@
             </div>
 
             <!-- Nivel de usuario -->
-            <div class="form-group col-md-6">
+            <div class="form-group container col-sm-6 col-md-6   col-lg-5">
                 <label for="NivelUsuario">Nivel del Usuaio</label>
                 <InputSelect @bind-Value="NivelSeleccionado" class="form-control" @onclick="SeleccionarNivel">
                     <option value="0" disabled selected>Nivel de Usuario</option>
@@ -73,19 +87,25 @@
                 <ValidationMessage For="@(()=>Usuario.NivelUsuario)" />
             </div>
 
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
             <!-- Contraseña -->
-            <div class="form-group col-md-6">
+            <div class="form-group container col-sm-6 col-md-6   col-lg-5">
                 <label for="Contrasena">Contraseña</label>
                 <input type="password" @bind="@Usuario.Contrasena" class="form-control" placeholder="Contraseña" />
                 <ValidationMessage For="@(()=>Usuario.Contrasena)" />
             </div>
 
             <!-- Confirmar contraseña -->
-            <div class="form-group col-md-6">
+            <div class="form-group container col-sm-6 col-md-6   col-lg-5">
                 <label for="ConfirmarContrasena">Confirmar Contraseña</label>
                 <input type="password" @bind="@ConfirmarContrasena" class="form-control" placeholder="Confirmar Contrasena" />
                 <p class="validation-message"> @MensajeContrasena </p>
             </div>
+
+            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
         </div>
     </form>
@@ -119,8 +139,8 @@
             </div>
         </div>
         <!--fin de modal-->
+
     </div>
-    <br />
 </EditForm>
 
 

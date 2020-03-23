@@ -9,7 +9,7 @@ using ProyectoFinalAplicada2.Data;
 namespace ProyectoFinalAplicada2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200322234056_Inicial")]
+    [Migration("20200323025016_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -18,7 +18,7 @@ namespace ProyectoFinalAplicada2.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2");
 
-            modelBuilder.Entity("ProyectoFinalAplicada2.Models.Categoria", b =>
+            modelBuilder.Entity("ProyectoFinalAplicada2.Models.Categorias", b =>
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
@@ -200,7 +200,7 @@ namespace ProyectoFinalAplicada2.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Categoria")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Costo")

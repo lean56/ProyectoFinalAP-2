@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Models
 {
-    public class Categoria
+    public class Categorias
     {
         [Key]
         public int CategoriaId { get; set; }
         [Required(ErrorMessage = "El nombre no puede estar vacio")]
         public string Nombre { get; set; }
 
-        public Categoria()
+        public Categorias()
         {
             CategoriaId = 0;
             Nombre = string.Empty;

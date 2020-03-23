@@ -16,7 +16,7 @@ namespace ProyectoFinalAplicada2.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "3.1.2");
 
-            modelBuilder.Entity("ProyectoFinalAplicada2.Models.Categoria", b =>
+            modelBuilder.Entity("ProyectoFinalAplicada2.Models.Categorias", b =>
                 {
                     b.Property<int>("CategoriaId")
                         .ValueGeneratedOnAdd()
@@ -198,7 +198,7 @@ namespace ProyectoFinalAplicada2.Migrations
                     b.Property<int>("Cantidad")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Categoria")
+                    b.Property<int>("CategoriaId")
                         .HasColumnType("INTEGER");
 
                     b.Property<decimal>("Costo")

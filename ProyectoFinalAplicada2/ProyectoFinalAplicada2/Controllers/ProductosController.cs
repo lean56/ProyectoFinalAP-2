@@ -17,20 +17,30 @@ namespace ProyectoFinalAplicada2.Controllers
 			bool paso = false;
 			try
 			{
-				if (producto.ProductoId ==0)
+				if (producto.ProductoId == 0)
 				{
 					paso = Insertar(producto);
+
 				}
 				else
 				{
 					paso = Modificar(producto);
+
 				}
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-			return paso;
+            }
+            catch (Exception)
+            {
+                throw;
+
+            }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
+            return paso;
+
         }
 
         private bool Insertar(Productos producto)
@@ -42,11 +52,19 @@ namespace ProyectoFinalAplicada2.Controllers
             {
                 contexto.Productos.Add(producto);
                 paso = contexto.SaveChanges() > 0;
+
             }
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
@@ -57,14 +75,25 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                contexto.Productos.Add(producto);
-                contexto.Entry(producto).State = EntityState.Modified;
-                paso = contexto.SaveChanges() > 0;
+                Productos ProductoTemporal = contexto.Productos.Find(producto.ProductoId);
+                if (ProductoTemporal != null)
+                {
+                    contexto = new Contexto();
+                    contexto.Entry(producto).State = EntityState.Modified;
+                    paso = contexto.SaveChanges() > 0;
+                }
             }
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
@@ -76,11 +105,19 @@ namespace ProyectoFinalAplicada2.Controllers
             try
             {
                 producto = contexto.Productos.Find(id);
+
             }
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return producto;
         }
 
@@ -99,24 +136,39 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
+
             }
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
             return paso;
         }
 
         public List<Productos> GetList(Expression<Func<Productos, bool>> expression)
         {
             Contexto contexto = new Contexto();
-            List<Productos> lista;
+            List<Productos> ListadoProductos = new List<Productos>();
 
             try
             {
-                lista = contexto.Productos.Where(expression).ToList();
+                ListadoProductos = contexto.Productos.Where(expression).ToList();
+
             }
             catch (Exception)
             {
                 throw;
+
             }
-            return lista;
+            finally
+            {
+                contexto.Dispose();
+
+            }
+
+            return ListadoProductos;
         }
     }
 }

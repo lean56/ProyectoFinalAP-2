@@ -91,12 +91,12 @@ namespace ProyectoFinalAplicada2.Migrations
                 {
                     ProductoId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Descripcion = table.Column<string>(nullable: false),
-                    Costo = table.Column<decimal>(nullable: false),
-                    Precio = table.Column<decimal>(nullable: false),
-                    Ganancia = table.Column<decimal>(nullable: false),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
-                    Categoria = table.Column<int>(nullable: false),
+                    Descripcion = table.Column<string>(nullable: false),
+                    CategoriaId = table.Column<int>(nullable: false),
+                    Costo = table.Column<decimal>(nullable: false),
+                    Ganancia = table.Column<decimal>(nullable: false),
+                    Precio = table.Column<decimal>(nullable: false),
                     Cantidad = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
