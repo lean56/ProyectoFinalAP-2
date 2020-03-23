@@ -98,13 +98,34 @@
 				</div>
 
 			</div>
-			<h3>@mensaje</h3>
-
 
 			<div class="text-center">
-				<button type="button" class="btn btn-outline-secondary" @onclick="Limpiar">Limpiar</button>
-				<button type="submit" class="btn btn-outline-success">Guardar</button>
-				<button type="button" class="btn btn-outline-danger" @onclick="Eliminar">Eliminar</button>
+				<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+				<button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+				<button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+				<!-- Modal-->
+				<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title">Confirmacion</h5>
+								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								¿Está seguro de que desea eliminar esta Entrada?
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+								<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--fin de modal-->
 			</div>
 		</form>
 
@@ -140,16 +161,14 @@
 
 	public void Guardar()
 	{
-
 		if (entradasController.Guardar(Entrada))
 		{
 			Limpiar();
-			mensaje = "Entrada Guardada";
 			toastService.ShowSuccess("Entrada Guardada", "Exito");
 		}
 		else
 		{
-			mensaje = "La entrada no se pudo guardar";
+			toastService.ShowError("La entrada no se pudo guardar", "Fallo");
 		}
 	}
 
@@ -164,7 +183,7 @@
 		else
 		{
 			Limpiar();
-			mensaje = "Esta entrada no existe";
+			toastService.ShowError("La entrada no Existe", "Fallo");
 		}
 	}
 
@@ -177,14 +196,13 @@
 			if (entradasController.Eliminar(Entrada.EntradaId))
 			{
 				Limpiar();
-				mensaje = "Entrada Eliminada";
+				toastService.ShowSuccess("Entrada Eliminada", "Exito");
 			}
 			else
 			{
-				mensaje = "Error al Eliminar";
+				toastService.ShowError("Error al Eliminar", "Fallo");
 			}
 		}
-
 	}
 
 	public void Limpiar()
@@ -210,17 +228,17 @@
 
 		if (ProductoSeleccionado == "0")
 		{
-			mensaje = "Debe seleccionar un Producto!";
+			toastService.ShowInfo("Debe seleccionar un Producto!", "Info");
 		}
 		else
 		{
 			if (Entrada.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
 			{
-				mensaje = "Este Producto ya esta agregado";
+				toastService.ShowInfo("Este Producto ya esta agregado", "Info");
 			}
 			else if (Cantidad < 1)
 			{
-				mensaje = "La catidad debe ser mayor a 0!";
+				toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
 			}
 			else
 			{
