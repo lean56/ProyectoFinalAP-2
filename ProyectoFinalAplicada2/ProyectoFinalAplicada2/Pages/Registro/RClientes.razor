@@ -69,7 +69,6 @@
 			</div>
 			<br />
 		</form>
-		<h5>@mensaje</h5>
 
 		<div class="text-center">
 			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
@@ -138,7 +137,7 @@
 		else
 		{
 			Limpiar();
-			mensaje = "Error al guardar el Cliente";
+			toastService.ShowError("Error al guardar el Cliente", "Fallo");
 		}
 	}
 
@@ -154,7 +153,7 @@
 		else
 		{
 			Limpiar();
-			toastService.ShowError("El Cliente no fue encontrado.", "Fallo");
+			toastService.ShowInfo("El Cliente no fue encontrado.", "Fallo");
 
 		}
 	}
@@ -167,7 +166,7 @@
 		{
 			if (Cliente.Deuda > 0)
 			{
-				mensaje = "No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda;
+				toastService.ShowWarning("No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda, "Error");
 			}
 			else
 			{
@@ -179,7 +178,7 @@
 		else
 		{
 			Limpiar();
-            toastService.ShowError("Error al eliminar el Cliente.", "Exito");
+            toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
 		}
 	}
 
