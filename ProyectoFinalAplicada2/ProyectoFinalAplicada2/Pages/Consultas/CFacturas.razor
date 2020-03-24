@@ -194,7 +194,6 @@
                                     FacturasConsulta f = new FacturasConsulta();
                                     f.FacturaId = item.FacturaId;
                                     f.Fecha = item.Fecha;
-                                    Cliente = clientesController.Buscar(item.ClienteId);
                                     f.Cliente = Cliente.Nombres;
                                     f.Total = item.Total;
 
@@ -221,7 +220,7 @@
                             }
                             break;
                     }
-                    if (BuscarPorFecha == true)
+                    if (BuscarPorFecha == true && ListadoTemporal.Count > 0)
                     {
                         Listado = new List<FacturasConsulta>();
                         foreach (var item in ListadoTemporal)
