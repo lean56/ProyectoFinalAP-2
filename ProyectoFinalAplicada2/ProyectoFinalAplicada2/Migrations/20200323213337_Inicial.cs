@@ -26,13 +26,13 @@ namespace ProyectoFinalAplicada2.Migrations
                 {
                     ClienteId = table.Column<int>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Nombres = table.Column<string>(nullable: false),
-                    Cedula = table.Column<string>(nullable: true),
-                    Direccion = table.Column<string>(nullable: false),
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    Nombres = table.Column<string>(nullable: true),
+                    Cedula = table.Column<string>(maxLength: 13, nullable: false),
                     Telefono = table.Column<string>(maxLength: 10, nullable: false),
                     Celular = table.Column<string>(maxLength: 10, nullable: false),
                     Email = table.Column<string>(nullable: false),
-                    Fecha = table.Column<DateTime>(nullable: false),
+                    Direccion = table.Column<string>(nullable: false),
                     Deuda = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
@@ -93,6 +93,7 @@ namespace ProyectoFinalAplicada2.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
                     Descripcion = table.Column<string>(nullable: false),
+                    ProveedorId = table.Column<int>(nullable: false),
                     CategoriaId = table.Column<int>(nullable: false),
                     Costo = table.Column<decimal>(nullable: false),
                     Ganancia = table.Column<decimal>(nullable: false),

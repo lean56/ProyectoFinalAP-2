@@ -38,7 +38,9 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Cedula")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(13);
 
                     b.Property<string>("Celular")
                         .IsRequired()
@@ -60,7 +62,6 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
@@ -216,6 +217,9 @@ namespace ProyectoFinalAplicada2.Migrations
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ProductoId");
 
