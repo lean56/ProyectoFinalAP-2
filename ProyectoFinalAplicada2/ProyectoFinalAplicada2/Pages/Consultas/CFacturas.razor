@@ -1,129 +1,245 @@
-﻿@page "/cFactura"
-<h3>Consulta de Factura</h3>
+﻿@using ProyectoFinalAplicada2.Models.ModelsForQueries
 
-<div class="form-group row">
-	<label for="filtro">Filtro</label>
-	<div class="input-group  col-sm-10">
-		<select class="form-control" @bind="Filtro">
-			<option value="" disabled selected>Seleccione un Criterio</option>
-			<option value="Todo">Todo</option>
-			<option value="Id">Id</option>
-			<option value="Cliente">Cliente</option>
-		</select>
+@page "/cFacturas"
 
-		<div align="right" class="input-group col-md-8">
-			<label for="criterio"> Criterio&nbsp;&nbsp; </label>
-			<input type="search" class="form-control" @bind-value="Criterio" />
-		</div>
-		<button type="button" class="btn btn-outline-success" @onclick="Buscar">Buscar</button>
-	</div>
-</div>
+	<EditForm Model="Listado">
+		<center>
+			<h1>Consulta de Facturas</h1>
+		</center>
 
-<div class="form-group row">
-	<input class="ml-1" type="checkbox" @bind-value="BuscarFecha" id="defaultCheck1"> Filtrar por Fecha
-	<div class="input-group  col-sm-6">
-		<!--Desde-->
-		<label for="DesdeFecha" class="col-auto">Desde</label>
-		<input id="DesdeFecha" type="date" @bind-value="DesdeFecha" class="form-control col-6 " input />
-		<!--Hasta-->
-		<label for="HastaFechaInput" class="col-auto">&nbsp;&nbsp;Hasta</label>
-		<input type="date" Id="HastaFechaInput" @bind-value="HastaFecha" class="form-control col-6" />
-	</div>
-</div>
+		<form>
+			<br />
 
+			<div class="form-row">
 
-<table class="table">
-	<thead class="thead-light">
-		<tr>
-			<th>Factura Id</th>
-			<th>Cliente</th>
-			<th>Total</th>
-			<th>Fecha</th>
-			<th></th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var item in lista)
-		{
-			<tr>
-				<th>@item.FacturaId</th>
-				<th>@item.ClienteId</th>
-				<th>@item.Total</th>
-				<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-				<td><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></td>
-			</tr>
-		}
-	</tbody>
-</table>
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-<h5 class="text-success">@mensaje</h5>
+				<!-- Filtro-->
+				<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+					<label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+					<select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+						<option value="0">Todo</option>
+						<option value="1">Codigo</option>
+						<option value="2">Cliente</option>
+						<option value="3">Total</option>
+					</select>
+				</div>
 
+				<!-- Criterio -->
+				<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+					<label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+					<InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+					<p class="validation-message"> @Mensaje </p>
+				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+				<br />
+
+				<!-- Filtrar por fecha -->
+				<div class="DivConsulta text-center     col-12">
+					<input class="ml-1" type="checkbox" @bind-value="BuscarPorFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+				</div>
+
+				<div class="col-lg-1     col-xl-2" />
+
+				<!-- Fecha desde-->
+				<div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
+					<label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+					<InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+				</div>
+
+				<!-- Fecha Hasta-->
+				<div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
+					<label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+					<InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+				</div>
+
+				<!-- Boton Buscar-->
+				<div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
+					<button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+				<table class="table" style="margin-top: 20px">
+					<thead class="thead-light">
+						<tr>
+							<th>Codigo</th>
+							<th>Fecha</th>
+							<th>Cliente</th>
+							<th>Total</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if (Listado.Count == 0)
+						{
+							<tr>
+								<th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+							</tr>
+						}
+						else
+						{
+
+							@foreach (var item in Listado)
+							{
+								<tr>
+									<th>@item.FacturaId</th>
+									<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+									<th>@item.Cliente</th>
+									<th>@item.Total</th>
+									<th><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></th>
+								</tr>
+							}
+						}
+					</tbody>
+				</table>
+			</div>
+		</form>
+	</EditForm>
 
 @code {
+    string Filtro;
+    string Criterio;
+    DateTime Desde;
+    DateTime Hasta;
+    bool BuscarPorFecha;
+    string Mensaje;
 
-	private List<Facturas> lista { get; set; }
+    ClientesController clientesController = new ClientesController();
+    Clientes Cliente = new Clientes();
 
-	private string Filtro { get; set; }
-	private string Criterio { get; set; }
-	private string mensaje;
+    FacturaController facturaController = new FacturaController();
+    public List<Facturas> ListadoFacturas = new List<Facturas>();
 
-	public bool BuscarFecha { get; set; }
-	public DateTime DesdeFecha { get; set; }
-	public DateTime HastaFecha { get; set; }
+    List<FacturasConsulta> Listado { get; set; }
 
+    protected override void OnInitialized()
+    {
+        Filtro = "0";
+        Criterio = string.Empty;
+        Desde = DateTime.Now;
+        Hasta = DateTime.Now;
+        BuscarPorFecha = false;
+        Mensaje = string.Empty;
+        CargarLista();
+    }
 
-	protected override void OnInitialized()
-	{
-		lista = new List<Facturas>();
-		DesdeFecha = DateTime.Now;
-		HastaFecha = DateTime.Now;
-	}
+    private void CargarLista()
+    {
+        ListadoFacturas = facturaController.GetList(e => true);
+        Listado = new List<FacturasConsulta>();
+        foreach (var item in ListadoFacturas)
+        {
+            FacturasConsulta f = new FacturasConsulta();
+            f.FacturaId = item.FacturaId;
+            f.Fecha = item.Fecha;
+            Cliente = clientesController.Buscar(item.ClienteId);
+            f.Cliente = Cliente.Nombres;
+            f.Total = item.Total;
 
+            Listado.Add(f);
+        }
+    }
 
-	private void Buscar()
-	{
-		FacturaController controller = new FacturaController();
+    private void Buscar()
+    {
+        if (Filtro == "0")
+        {
+            CargarLista();
+        }
+        else
+        {
+            if (Criterio == "")
+            {
+                Mensaje = "Agregue el criterio de busqueda.";
+            }
+            else
+            {
+                    CargarLista();
+                    List<FacturasConsulta> ListadoTemporal = Listado;
+                    Mensaje = string.Empty;
+                    switch (Filtro)
+                    {
+                        case "0":
+                            ListadoFacturas = facturaController.GetList(e => true);
+                            break;
 
-		try
-		{
-			if (Filtro == null)
-			{
-				mensaje = "Debe seleccionar un Criterio";
-			}
-			else
-			{
-				lista = controller.GetList(a => true);
+                        case "1":
+                            ListadoTemporal = new List<FacturasConsulta>();
+                            foreach (var item in ListadoFacturas)
+                            {
+                                if (Convert.ToString(item.FacturaId).Contains(Criterio))
+                                {
+                                    FacturasConsulta f = new FacturasConsulta();
+                                    f.FacturaId = item.FacturaId;
+                                    f.Fecha = item.Fecha;
+                                    Cliente = clientesController.Buscar(item.ClienteId);
+                                    f.Cliente = Cliente.Nombres;
+                                    f.Total = item.Total;
 
-				if (lista.Count == 0)
-				{
-					mensaje = "No hay Factura Registrada";
-				}
-				else
-				{
-					mensaje = "";
-					switch (Filtro)
-					{
-						case "Todo":
-							lista = controller.GetList(e => true);
-							break;
-						case "Id":
-							lista = controller.GetList(e => e.FacturaId == Convert.ToInt32(Criterio));
-							break;
-						case "Cliente":
-							lista = controller.GetList(e => e.ClienteId == Convert.ToInt32(Criterio));
-							break;	
-					}
-					if (BuscarFecha == true)
-					{
-						lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <=  HastaFecha.Date);
-					}
-				}
-			}
-		}
-		catch (Exception)
-		{
-			throw;
-		}
-	}
+                                    ListadoTemporal.Add(f);
+                                }
+                            }
+                            break;
+
+                        case "2":
+                            ListadoTemporal = new List<FacturasConsulta>();
+                            foreach (var item in ListadoFacturas)
+                            {
+                                Cliente = clientesController.Buscar(item.ClienteId);
+                                if (Cliente.Nombres.Contains(Criterio))
+                                {
+                                    FacturasConsulta f = new FacturasConsulta();
+                                    f.FacturaId = item.FacturaId;
+                                    f.Fecha = item.Fecha;
+                                    Cliente = clientesController.Buscar(item.ClienteId);
+                                    f.Cliente = Cliente.Nombres;
+                                    f.Total = item.Total;
+
+                                    ListadoTemporal.Add(f);
+                                }
+                            }
+                            break;
+
+                        case "3":
+                            ListadoTemporal = new List<FacturasConsulta>();
+                            foreach (var item in ListadoFacturas)
+                            {
+                                if (Convert.ToString(item.Total).Contains(Criterio))
+                                {
+                                    FacturasConsulta f = new FacturasConsulta();
+                                    f.FacturaId = item.FacturaId;
+                                    f.Fecha = item.Fecha;
+                                    Cliente = clientesController.Buscar(item.ClienteId);
+                                    f.Cliente = Cliente.Nombres;
+                                    f.Total = item.Total;
+
+                                    ListadoTemporal.Add(f);
+                                }
+                            }
+                            break;
+                    }
+                    if (BuscarPorFecha == true)
+                    {
+                        Listado = new List<FacturasConsulta>();
+                        foreach (var item in ListadoTemporal)
+                        {
+                            if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
+                            {
+                                Listado.Add(item);
+                            }
+                        }
+                        BuscarPorFecha = false;
+                    }
+                    else
+                    {
+                        Listado = new List<FacturasConsulta>();
+                        Listado = ListadoTemporal;
+                    }
+                }
+        }
+    }
 }
 

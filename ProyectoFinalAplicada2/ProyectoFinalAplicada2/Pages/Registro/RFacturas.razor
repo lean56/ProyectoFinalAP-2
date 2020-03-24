@@ -32,7 +32,7 @@
 				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
 					<div class="form-group">
 						<label for="FechaIngreso" class="col-auto">Fecha</label>
-						<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled />
+						<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled/>
 					</div>
 				</div>
 
@@ -323,6 +323,7 @@
             Limpiar();
             Factura = factura;
             ClienteSelect = Convert.ToString(Factura.ClienteId);
+			toastService.ShowSuccess("Factura encontrada.", "Exito");
         }
         else
         {
