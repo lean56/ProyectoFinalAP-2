@@ -2,97 +2,101 @@
 
 @page "/cPagos"
 
-<EditForm Model="Filtro">
-    <div class="container">
-        <div class="card">
-            <div class="card-body">
+<EditForm Model="Listado">
+	<center>
+		<h1>Consulta de Pagos</h1>
+	</center>
 
-                <h3 class="text-center">Consulta de Pagos</h3>
-                <br />
-                <br />
-                
-                <div>
-                    <div class="row">
-                        <!--Filtro-->
-                        <div class="form-inline col-4">
-                            <label for="Filtro">Filtro:</label>
-                            <InputSelect @bind-Value="@Filtro" class="form-control col-10" style="margin-left:10px">
-                                <option value="0" disabled selected>Seleccione un filtro</option>
-                                <option value="1">Todo</option>
-                                <option value="2">Código</option>
-                                <option value="3">Cliente</option>
-                                <option value="4">Monto pagado</option>
-                            </InputSelect>
-                        </div>
+	<form>
+		<br />
 
-                        <!--Criterio-->
-                        <div class="form-inline col-5">
-                            <label for="Criterio">Criterio:</label>
-                            <InputText @bind-Value="@Criterio" class="form-control col-10" style="margin-left:10px" />
-                        </div>
-                    </div>
+		<div class="form-row">
 
-                    <br />
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-                    <!--Fecha-->
-                    <div class="row">
-                        <div class="form-inline col-2">
-                            <input type="checkbox" @bind-value="BuscarPorFecha" class="form-control">&nbsp;&nbsp;Filtrar por Fecha
-                        </div>
-                        <div class="form-inline col-3">
-                            <label for="Desde">Desde:</label>
-                            <InputDate @bind-Value="@Desde" class="form-control col-9" style="margin-left:10px" />
-                        </div>
-                        <div class="form-inline col-3">
-                            <label for="Hasta">Hasta:</label>
-                            <InputDate @bind-Value="@Hasta" class="form-control col-9" style="margin-left:10px" />
-                        </div>
+			<!-- Filtro-->
+			<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+				<label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+				<select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+					<option value="0">Todo</option>
+					<option value="1">Codigo</option>
+					<option value="2">Cliente</option>
+					<option value="3">Monto</option>
+				</select>
+			</div>
 
-                        <button type="button" class="btn btn-outline-primary" @onclick="Buscar">Buscar</button>
-                    </div>
-                </div>
+			<!-- Criterio -->
+			<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+				<label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+				<InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+				<p class="validation-message"> @Mensaje </p>
+			</div>
 
-                <br />
-                <br />
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col" style="width: 15%">Codigo</th>
-                            <th scope="col" style="width: 15%">Fecha</th>
-                            <th scope="col" style="width: 40%">Cliente</th>
-                            <th scope="col" style="width: 20%">Monto Pagado</th>
-                            <th scope="col" style="width: 10%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (ListadoPagos.Count == 0)
-                        {
-                            <tr>
-                                <th colspan="12" style="text-align: center">"No hay datos que mostrar"</th>
-                            </tr>
-                        }
-                        else
-                        {
-                            @foreach (var item in Listado)
-                            {
-                                <tr>
-                                    <th>@item.PagoId</th>
-                                    <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-                                    <th>@item.Cliente</th>
-                                    <th>@item.MontoPago</th>
-                                    <td><a class="btn btn-sm btn-outline-primary" href="rPagos/@item.PagoId">Ver</a></td>
-                                </tr>
-                            }
-                        }
-                    </tbody>
-                </table>
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-                <br />
-                <h5>@Mensaje</h5>
-            </div>
-        </div>
-    </div>
+			<br />
 
+			<!-- Filtrar por fecha -->
+			<div class="DivConsulta text-center     col-12">
+				<input class="ml-1" type="checkbox" @bind-value="BuscarPorFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+			</div>
+
+			<div class="col-lg-1     col-xl-2" />
+
+			<!-- Fecha desde-->
+			<div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
+				<label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+				<InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+			</div>
+
+			<!-- Fecha Hasta-->
+			<div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
+				<label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+				<InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+			</div>
+
+			<!-- Boton Buscar-->
+			<div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
+				<button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+			</div>
+
+			<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+			<table class="table" style="margin-top: 20px">
+				<thead class="thead-light">
+					<tr>
+						<th>Codigo</th>
+						<th>Fecha</th>
+						<th>Cliente</th>
+						<th>Monto</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					@if (Listado.Count == 0)
+					{
+						<tr>
+							<th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+						</tr>
+					}
+					else
+					{
+
+						@foreach (var item in Listado)
+						{
+							<tr>
+								<th>@item.PagoId</th>
+								<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+								<th>@item.Cliente</th>
+								<th>@item.MontoPago</th>
+								<th><a class="btn btn-sm btn-outline-primary" href="rPagos/@item.PagoId">Ver</a></th>
+							</tr>
+						}
+					}
+				</tbody>
+			</table>
+		</div>
+	</form>
 </EditForm>
 
 @code {
@@ -106,7 +110,7 @@
 	ClientesController clientesController = new ClientesController();
 	Clientes Cliente = new Clientes();
 
-	PagosController pagosController = new PagosController();
+	PagosController PagoController = new PagosController();
 	public List<Pagos> ListadoPagos = new List<Pagos>();
 
 	List<PagosConsulta> Listado { get; set; }
@@ -124,18 +128,18 @@
 
 	private void CargarLista()
 	{
-		ListadoPagos = pagosController.GetList(e => true);
+		ListadoPagos = PagoController.GetList(e => true);
 		Listado = new List<PagosConsulta>();
 		foreach (var item in ListadoPagos)
 		{
-			PagosConsulta p = new PagosConsulta();
-			p.PagoId = item.PagoId;
-			p.Fecha = item.Fecha;
+			PagosConsulta f = new PagosConsulta();
+			f.PagoId = item.PagoId;
+			f.Fecha = item.Fecha;
 			Cliente = clientesController.Buscar(item.ClienteId);
-			p.Cliente = Cliente.Nombres;
-			p.MontoPago = item.MontoPago;
+			f.Cliente = Cliente.Nombres;
+			f.MontoPago = item.MontoPago;
 
-			Listado.Add(p);
+			Listado.Add(f);
 		}
 	}
 
@@ -143,102 +147,96 @@
 	{
 		if (Filtro == "0")
 		{
-			Mensaje = "Debe seleccionar un Filtro para la búsqueda!";
+			CargarLista();
 		}
 		else
 		{
-			if(Filtro != "0" && Criterio == string.Empty)
+			if (Criterio == "")
 			{
-				Mensaje = "Debe escribir un criterio de búsqueda!";
+				Mensaje = "Agregue el criterio de busqueda.";
 			}
 			else
 			{
-				if (Listado.Count == 0)
+				CargarLista();
+				List<PagosConsulta> ListadoTemporal = Listado;
+				Mensaje = string.Empty;
+				switch (Filtro)
 				{
-					Mensaje = "No hay pagos registrados!";
+					case "0":
+						ListadoPagos = PagoController.GetList(e => true);
+						break;
+
+					case "1":
+						ListadoTemporal = new List<PagosConsulta>();
+						foreach (var item in ListadoPagos)
+						{
+							if (Convert.ToString(item.PagoId).Contains(Criterio))
+							{
+								PagosConsulta f = new PagosConsulta();
+								f.PagoId = item.PagoId;
+								f.Fecha = item.Fecha;
+								Cliente = clientesController.Buscar(item.ClienteId);
+								f.Cliente = Cliente.Nombres;
+								f.MontoPago = item.MontoPago;
+
+								ListadoTemporal.Add(f);
+							}
+						}
+						break;
+
+					case "2":
+						ListadoTemporal = new List<PagosConsulta>();
+						foreach (var item in ListadoPagos)
+						{
+							Cliente = clientesController.Buscar(item.ClienteId);
+							if (Cliente.Nombres.Contains(Criterio))
+							{
+								PagosConsulta f = new PagosConsulta();
+								f.PagoId = item.PagoId;
+								f.Fecha = item.Fecha;
+								Cliente = clientesController.Buscar(item.ClienteId);
+								f.Cliente = Cliente.Nombres;
+								f.MontoPago = item.MontoPago;
+
+								ListadoTemporal.Add(f);
+							}
+						}
+						break;
+
+					case "3":
+						ListadoTemporal = new List<PagosConsulta>();
+						foreach (var item in ListadoPagos)
+						{
+							if (Convert.ToString(item.MontoPago).Contains(Criterio))
+							{
+								PagosConsulta f = new PagosConsulta();
+								f.PagoId = item.PagoId;
+								f.Fecha = item.Fecha;
+								Cliente = clientesController.Buscar(item.ClienteId);
+								f.Cliente = Cliente.Nombres;
+								f.MontoPago = item.MontoPago;
+
+								ListadoTemporal.Add(f);
+							}
+						}
+						break;
+				}
+				if (BuscarPorFecha == true)
+				{
+					Listado = new List<PagosConsulta>();
+					foreach (var item in ListadoTemporal)
+					{
+						if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
+						{
+							Listado.Add(item);
+						}
+					}
+					BuscarPorFecha = false;
 				}
 				else
 				{
-					CargarLista();
-					List<PagosConsulta> ListadoTemporal = Listado;
-					Mensaje = string.Empty;
-					switch (Filtro)
-					{
-						case "1":
-								ListadoPagos = pagosController.GetList(e => true);
-							break;
-
-						case "2":
-							ListadoTemporal = new List<PagosConsulta>();
-							foreach (var item in ListadoPagos)
-							{
-								if (Convert.ToString(item.PagoId).Contains(Criterio))
-								{
-									PagosConsulta p = new PagosConsulta();
-									p.PagoId = item.PagoId;
-									p.Fecha = item.Fecha;
-									Cliente = clientesController.Buscar(item.ClienteId);
-									p.Cliente = Cliente.Nombres;
-									p.MontoPago = item.MontoPago;
-
-									ListadoTemporal.Add(p);
-								}
-							}
-							break;
-
-						case "3":
-							ListadoTemporal = new List<PagosConsulta>();
-							foreach (var item in ListadoPagos)
-							{
-								Cliente = clientesController.Buscar(item.ClienteId);
-								if (Cliente.Nombres.Contains(Criterio))
-								{
-									PagosConsulta p = new PagosConsulta();
-									p.PagoId = item.PagoId;
-									p.Fecha = item.Fecha;
-									p.Cliente = Cliente.Nombres;
-									p.MontoPago = item.MontoPago;
-
-									ListadoTemporal.Add(p);
-
-								}
-							}
-							break;
-
-						case "4":
-							ListadoTemporal = new List<PagosConsulta>();
-							foreach (var item in ListadoPagos)
-							{
-								if (Convert.ToString(item.MontoPago).Contains(Criterio))
-								{
-									PagosConsulta p = new PagosConsulta();
-									p.PagoId = item.PagoId;
-									p.Fecha = item.Fecha;
-									Cliente = clientesController.Buscar(item.ClienteId);
-									p.Cliente = Cliente.Nombres;
-									p.MontoPago = item.MontoPago;
-
-									ListadoTemporal.Add(p);
-								}
-							}
-							break;
-					}
-					if (BuscarPorFecha == true)
-					{
-						Listado = new List<PagosConsulta>();
-						foreach (var item in ListadoTemporal)
-						{
-							if(item.Fecha >= Desde && item.Fecha <= Hasta)
-							{
-								Listado.Add(item);
-							}
-						}
-					}
-					else
-					{
-						Listado = new List<PagosConsulta>();
-						Listado = ListadoTemporal;
-					}
+					Listado = new List<PagosConsulta>();
+					Listado = ListadoTemporal;
 				}
 			}
 		}
