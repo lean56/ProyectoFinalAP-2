@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Models.ModelsForQueries
 {
-    public class PagosConsulta
+    public class FacturasConsulta
     {
         [Key]
-        public int PagoId { get; set; }
+        public int FacturaId { get; set; }
         public DateTime Fecha { get; set; }
         public string Cliente { get; set; }
-        public decimal MontoPago { get; set; }
+        public decimal Total { get; set; }
 
-        public PagosConsulta()
+        public FacturasConsulta()
         {
-            PagoId = 0;
+            FacturaId = 0;
             Fecha = DateTime.Now;
             Cliente = string.Empty;
-            MontoPago = 0;
+            Total = 0;
         }
     }
 }
