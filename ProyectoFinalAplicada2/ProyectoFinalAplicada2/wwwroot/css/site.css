@@ -225,7 +225,6 @@ h1 {
 @media (min-width: 1000px) {
     .BotonRegistro {
         margin: 20px 50px 0px 50px;
-        color: white;
     }
 }
 
@@ -239,4 +238,8 @@ h1 {
 
 .LabelConsulta{
     margin-right: 5px;
+}
+
+button{
+    color: white;
 }
