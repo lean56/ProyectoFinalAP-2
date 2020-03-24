@@ -1,4 +1,5 @@
 ﻿@page "/cProveedores"
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
 <EditForm Model="Listado">
 	<center>
@@ -96,13 +97,37 @@
 					}
 				</tbody>
 			</table>
+
+			<nav aria-label="...">
+				<ul class="pagination">
+					<li class="page-item disabled">
+						@*<a class="page-link" href="#" tabindex="-1">Previous</a>*@
+					</li>
+					@for (int i = 1; i <= totaldepaginas; i++)
+					{
+						<li class="page-item"><a class="page-link"@onclick="PaginaSiguiente">@i</a></li>
+
+					}
+				</ul>
+			</nav>
+
 		</div>
+
+
 	</form>
 </EditForm>
 
 @code {
+
+
 	public ProveedoresController proveedoresController = new ProveedoresController();
 	private List<Proveedores> Listado { get; set; }
+
+	double totaldepaginas = 0;
+
+	double contador = 0;
+
+	public int Contador { get; set; }
 
 	private string Criterio = string.Empty;
 	private string Filtro = string.Empty;
@@ -111,18 +136,50 @@
 	private DateTime Hasta = DateTime.Now;
 	private string Mensaje = string.Empty;
 
-
+	Contexto contexto = new Contexto();
+	Paginacion paginacion = new Paginacion();
 
 	protected override void OnInitialized()
 	{
-		Listado = new List<Proveedores>();
+		contador = contexto.Proveedores.Count();
+		totaldepaginas = contador / paginacion.Mostrar;
 		Listado = proveedoresController.GetList(e => true);
+		this.Listado = contexto.Proveedores.Take(paginacion.Mostrar).ToList();
+
 		Filtro = "0";
 		Desde = DateTime.Now;
 		Hasta = DateTime.Now;
 	}
 
 
+	//private void AnteriorPagina()
+	// {
+	//     if (Paginacion.PaginaActual > 0)
+	//     {
+	//         Paginacion.PaginaActual--;
+	//         CargarLista();
+
+	//     }
+	//     else
+	//     {
+	//         return;
+
+	//     }
+	// }
+
+	private void PaginaSiguiente()
+	{
+		Contador += paginacion.Pagina;
+		if (Contador >= totaldepaginas)
+		{
+			Contador = 0;
+		}
+
+		Listado = contexto.Proveedores
+			.Skip(Contador * paginacion.Mostrar)
+			.Take(paginacion.Mostrar)
+			.ToList();
+	}
 	private void Buscar()
 	{
 		if (Filtro == "0")
@@ -137,7 +194,6 @@
 			}
 			else
 			{
-				Listado = proveedoresController.GetList(e => true);
 				switch (Filtro)
 				{
 					case "1":
