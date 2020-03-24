@@ -9,7 +9,7 @@ using ProyectoFinalAplicada2.Data;
 namespace ProyectoFinalAplicada2.Migrations
 {
     [DbContext(typeof(Contexto))]
-    [Migration("20200323025016_Inicial")]
+    [Migration("20200323213337_Inicial")]
     partial class Inicial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,7 +40,9 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Cedula")
-                        .HasColumnType("TEXT");
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasMaxLength(13);
 
                     b.Property<string>("Celular")
                         .IsRequired()
@@ -62,7 +64,6 @@ namespace ProyectoFinalAplicada2.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Nombres")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefono")
@@ -218,6 +219,9 @@ namespace ProyectoFinalAplicada2.Migrations
 
                     b.Property<decimal>("Precio")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("ProveedorId")
+                        .HasColumnType("INTEGER");
 
                     b.HasKey("ProductoId");
 
