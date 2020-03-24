@@ -12,9 +12,12 @@
 
 		<form>
 			<div class="form-row">
+
+				<div class="col-sm-0     col-md-0     col-lg-0     col-xl-1" />
+
 				<!--Factura Id-->
 				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-					<label for="FacturaId " class="col-auto">Factura Id</label>
+					<label for="FacturaId " class="col-auto">Código</label>
 					<div class="input-group ">
 						<InputNumber @bind-Value="@Factura.FacturaId" class="form-control" />
 						<div class="input-group-append">
@@ -23,67 +26,67 @@
 					</div>
 				</div>
 
-				<div class="col-sm-4   col-md-4   col-lg-5  col-xl-5" />
+				<div class="col-sm-2   col-md-2   col-lg-6  col-xl-4" />
 
 				<!-- Fecha -->
-				<div class="form-group">
-					<label for="FechaIngreso" class="col-auto">Fecha</label>
-					<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled />
+				<div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+					<div class="form-group">
+						<label for="FechaIngreso" class="col-auto">Fecha</label>
+						<InputDate @bind-Value="@Factura.Fecha" class="form-control" disabled />
+					</div>
 				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-0     col-xl-1" />
+
+				<div class="col-sm-0     col-md-0     col-lg-0     col-xl-1" />
 
 				<!--Cliente-->
-				<div class="form-group col-sm-6     col-md-6     col-lg-6col-xl-6">
-					<label class="col-auto" for="cliente">Cliente</label>
-
-					<div class="form-group row">
-						<div class="col-md-6 no-padding">
-							<InputSelect @bind-Value="@ClienteSelect" class="form-control " @onchange="CargarCliente" @onclick="CargarCliente">
-								<option value="" disabled selected>Seleccione un Cliente</option>
-								@foreach (var item in ListaCliente)
-								{
-									<option value="@item.ClienteId">@item.Nombres</option>
-								}
-							</InputSelect>
-						</div>
-					</div>
+				<div class="form-group col-sm-6     col-md-6     col-lg-4     col-xl-4     ">
+					<label for="ClienteId">Cliente</label>
+					<InputSelect @bind-Value="@ClienteSelect" class="form-control" @onclick="CargarCliente">
+						<option value="0" disabled selected>Seleccione un Cliente</option>
+						@foreach (var item in ListaCliente)
+						{
+							<option value="@item.ClienteId">@item.Nombres</option>
+						}
+					</InputSelect>
 				</div>
-				<div class="form-group row">
-					<div class="col-md-3 no-padding">
-						<label for="producto" class="col-auto">Producto</label>
 
-						<!--Producto-->
-						<InputSelect @bind-Value="@ProductoSelect" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
+				<div class="col-sm-6     col-md-6     col-lg-8     col-xl-7" />
 
-							@if (ListaProducto.Count == 0)
-							{
-								<option value="">No hay Producto Registrado</option>
-							}
-							else
-							{
-								<option value="" disabled selected>Seleccione un Producto</option>
+				<div class="col-sm-0     col-md-0     col-lg-0     col-xl-1" />
 
-								@foreach (var item in ListaProducto)
-								{
-									<option value="@item.ProductoId">@item.Descripcion</option>
-								}
-							}
-						</InputSelect>
-					</div>
-					<!--Cantidad-->
-					<div class="col-2">
-						<label class="col-auto" for="Cantidad">Cantidad</label>
-						<InputNumber @bind-Value="@Cantidad" class="form-control" @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
-					</div>
+				<!--Producto-->
+				<div class="form-group col-sm-6     col-md-6     col-lg-4    col-xl-3     ">
+					<label for="Producto">Producto</label>
+					<InputSelect @bind-Value="@ProductoSelect" class="form-control" @onclick="CargarProducto" @onchange="CargarProducto">
+						<option value="0" disabled selected>Seleccione un Producto</option>
+						@foreach (var item in ListaProducto)
+						{
+							<option value="@item.ProductoId">@item.Descripcion</option>
+						}
+					</InputSelect>
+				</div>
+
+				<!--Cantidad-->
+				<div class="form-group col-sm-6     col-md-6     col-lg-2    col-xl-2     ">
+					<label class="col-auto" for="Cantidad">Cantidad</label>
+					<InputNumber @bind-Value="@Cantidad" class="form-control" @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
+				</div>
+
+				<div class="col-sm-0     col-md-0     col-lg-0     col-xl-0" />
+
+				<div class="form-row col-md-12 col-lg-6">
 					<!--Precio-->
-					<div class="form-group col-sm-2">
+					<div class="form-group col-sm-6     col-md-6     col-lg-4    col-xl-4     ">
 						<label class="col-auto" for="precio">Precio</label>
 						<InputNumber @bind-Value="@Precio" class="form-control" disabled></InputNumber>
 					</div>
+
 					<!--Importe-->
-					<div class="form-group col-sm-3">
+					<div class="form-group col-sm-6     col-md-6     col-lg-8    col-xl-6     ">
 						<label class="col-auto" for="importe">Importe</label>
 						<div class="input-group ">
-
 							<InputNumber @bind-Value="@Importe" class="form-control " disabled @onfocusin="CalcularImporte" @onfocusout="CalcularImporte" @onclick="CalcularImporte" />
 							<div class="input-group-append">
 								<button type="button" class="btn btn-outline-primary" @onclick="AgregarProducto">Agregar</button>
@@ -91,41 +94,41 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-md-10 no-padding">
+
+				<div class="col-lg-0     col-xl-1" />
+
+				<div class="col-lg-12     col-xl-10 no-padding">
 
 					<div class="card">
 						<div class="card-body">
 							<table class="table">
 								<thead class="thead-light">
-									<tr>
-										<th>Id</th>
-										<th>ProductoId</th>
-										<th>Descripcion</th>
-										<th>Cantidad</th>
-										<th>Precio</th>
-										<th></th>
-									</tr>
+                                    <tr>
+                                        <th>Codigo</th>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio</th>
+                                        <th>Importe</th>
+                                        <th></th>
+                                    </tr>
 								</thead>
 								<tbody>
 									@foreach (var item in Factura.Detalle)
 									{
-										<tr>
-											<th>@item.FacturaId</th>
-											<th>@item.ProductoId</th>
-											<th>@item.Descripcion</th>
-											<th>@item.Cantidad</th>
-											<th>@item.Precio</th>
-											<th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
-										</tr>
+                                    <tr>
+                                        <th>@item.ProductoId</th>
+                                        <th>@item.Descripcion</th>
+                                        <th>@item.Cantidad</th>
+                                        <th>@item.Precio</th>
+                                        <th>@item.Importe</th>
+                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+                                    </tr>
 									}
 								</tbody>
 							</table>
-							<div class="form-row justify-content-end">
-
-								<div class="col-2 ">
-									<label>Total: </label>
-									<label>@Factura.Total</label>
-								</div>
+							<div class="form-inline justify-content-end">
+								<label>Total:&nbsp;</label>
+								<InputNumber @bind-Value="@Factura.Total" class="form-control" disabled/>
 							</div>
 						</div>
 					</div>
@@ -133,7 +136,7 @@
 
 				</div>
 			</div>
-		</form>
+</form>
 
 		<div class="text-center">
 			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
@@ -170,216 +173,212 @@
 @code {
 
 
-	[Parameter]
-	public int FacturaId { get; set; }
+    [Parameter]
+    public int FacturaId { get; set; }
 
-	public Facturas Factura { get; set; }
+    public Facturas Factura { get; set; }
 
-	ClientesController clientesController = new ClientesController();
-	ProductosController productosController = new ProductosController();
-	FacturaController controller = new FacturaController();
-	private string ProductoSelect { get; set; }
-	private string ClienteSelect { get; set; }
+    ClientesController clientesController = new ClientesController();
+    ProductosController productosController = new ProductosController();
+    FacturaController controller = new FacturaController();
+    private string ProductoSelect { get; set; }
+    private string ClienteSelect { get; set; }
 
-	private string mensaje = "";
+    private string mensaje = "";
 
-	private int Cantidad = 0;
-	private decimal Precio = 0;
-	private int Importe = 0;
+    private int Cantidad = 0;
+    private decimal Precio = 0;
+    private int Importe = 0;
 
-	private List<Productos> ListaProducto = new List<Productos>();
-	private List<Clientes> ListaCliente = new List<Clientes>();
+    private List<Productos> ListaProducto = new List<Productos>();
+    private List<Clientes> ListaCliente = new List<Clientes>();
 
-	private Clientes Cliente { get; set; }
-	private Productos Producto { get; set; }
+    private Clientes Cliente { get; set; }
+    private Productos Producto { get; set; }
 
-	protected override void OnInitialized()
-	{
-		ListaCliente = clientesController.GetList(e => true);
-		ListaProducto = productosController.GetList(e => true);
-		Factura = new Facturas();
-		Cliente = new Clientes();
-		Producto = new Productos();
+    protected override void OnInitialized()
+    {
+        ListaCliente = clientesController.GetList(e => true);
+        ListaProducto = productosController.GetList(e => true);
+        Factura = new Facturas();
+        Cliente = new Clientes();
+        Producto = new Productos();
 
-		if (FacturaId != 0)
-		{
-			Factura.FacturaId = FacturaId;
-			Buscar();
-		}
-	}
+        if (FacturaId != 0)
+        {
+            Factura.FacturaId = FacturaId;
+            Buscar();
+        }
+    }
 
-	private void CargarProducto()
-	{
-		try
-		{
-			Producto = productosController.Buscar(Convert.ToInt32(ProductoSelect));
-			Precio = Producto.Precio;
-		}
-		catch (Exception ex)
-		{
-			//	mensaje = ex.ToString();
-		}
-	}
+    private void CargarProducto()
+    {
+        try
+        {
+            Producto = productosController.Buscar(Convert.ToInt32(ProductoSelect));
+            Precio = Producto.Precio;
+        }
+        catch (Exception ex)
+        {
+            //	mensaje = ex.ToString();
+        }
+    }
 
-	private void CargarCliente()
-	{
-		try
-		{
-			Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSelect));
-		}
-		catch (Exception ex)
-		{
-			//mensaje = ex.ToString();
-		}
-	}
+    private void CargarCliente()
+    {
+        try
+        {
+            Cliente = clientesController.Buscar(Convert.ToInt32(ClienteSelect));
+        }
+        catch (Exception ex)
+        {
+            //mensaje = ex.ToString();
+        }
+    }
 
-	private void AgregarProducto()
-	{
-		if (ProductoSelect == null)
-		{
-			toastService.ShowInfo("Debe seleccionar un Producto", "Info");
-		}
-		else
-		{
-			if (Precio <= 0)
-			{
-				toastService.ShowInfo("El precio es Obligatorio", "Info");
-			}
-			else
-			{
-				if (Cantidad <= 0)
-				{
-					toastService.ShowInfo("Debes indicar la cantidad", "Info");
-				}
-				else
-				{
-					if (Cantidad > Producto.Cantidad)
-					{
-						toastService.ShowInfo("Solo quedan " + Producto.Cantidad + " de este producto", "Info");
-					}
-					else
-					{
-						if (Factura.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
-						{
-							toastService.ShowInfo("Este Producto ya esta agregado", "Info");
-						}
-						else
-						{
-							mensaje = "";
-							Factura.Detalle.Add(new FacturaDetalles()
-							{
-								FacturaId = Factura.FacturaId,
-								ProductoId = Producto.ProductoId,
-								Descripcion = Producto.Descripcion,
-								Cantidad = Cantidad,
-								Precio = Precio,
-								Importe = (Cantidad * Precio)
-							});
-							Producto = new Productos();
+    private void AgregarProducto()
+    {
+        if (ProductoSelect == null)
+        {
+            toastService.ShowInfo("Debe seleccionar un Producto", "Info");
+        }
+        else
+        {
+            if (Cantidad <= 0)
+            {
+                toastService.ShowInfo("La cantidad debe ser mayor a 0", "Info");
+            }
+            else
+            {
+                if (Cantidad > Producto.Cantidad)
+                {
+                    toastService.ShowInfo("Solo quedan " + Producto.Cantidad + " unidades de este producto", "Info");
+                }
+                else
+                {
+                    mensaje = "";
+                    Factura.Detalle.Add(new FacturaDetalles()
+                    {
+                        FacturaId = Factura.FacturaId,
+                        ProductoId = Producto.ProductoId,
+                        Descripcion = Producto.Descripcion,
+                        Cantidad = Cantidad,
+                        Precio = Precio,
+                        Importe = (Cantidad * Precio)
+                    });
+                    Producto = new Productos();
 
-							decimal total = 0;
+                    CalcularTotal();
 
-							foreach (var item in Factura.Detalle)
-							{
-								total += item.Importe;
-							}
+                    ProductoSelect = "0";
+                    Cantidad = 0;
+                }
+            }
+        }
+    }
 
-							Factura.Total = total;
-						}
-					}
-				}
-			}
-		}
-	}
 
-	private void EliminarProducto(FacturaDetalles detalle)
-	{
-		Factura.Detalle.Remove(detalle);
-	}
+    private void EliminarProducto(FacturaDetalles detalle)
+    {
+        Factura.Detalle.Remove(detalle);
+        CalcularTotal();
+    }
 
-	public void Guardar()
-	{
-		mensaje = "";
-		CalcularImporte();
-		if (ClienteSelect == null)
-		{
-			toastService.ShowInfo("debe seleccionar un Cliente", "Info");
-		}
-		else
-		{
-			Factura.ClienteId = Convert.ToInt32(ClienteSelect);
-			if (Factura.Detalle.Count == 0)
-			{
-				toastService.ShowInfo("Debes agregar un producto al detalle", "Info");
-			}
-			else
-			{
-				if (controller.Guardar(Factura))
-				{
-					Limpiar();
-					toastService.ShowSuccess("Factura Guardada", "Exito");
-				}
-				else
-				{
-					toastService.ShowError("Error al guardar Factura", "Fallo");
-				}
-			}
-		}
-	}
+    public void Guardar()
+    {
+        mensaje = "";
+        CalcularImporte();
+        if (ClienteSelect == null)
+        {
+            toastService.ShowInfo("debe seleccionar un Cliente", "Info");
+        }
+        else
+        {
+            Factura.ClienteId = Convert.ToInt32(ClienteSelect);
+            if (Factura.Detalle.Count == 0)
+            {
+                toastService.ShowInfo("Debes agregar un producto al detalle", "Info");
+            }
+            else
+            {
+                if (controller.Guardar(Factura))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Factura Guardada", "Exito");
+                }
+                else
+                {
+                    toastService.ShowError("Error al guardar Factura", "Fallo");
+                }
+            }
+        }
+    }
 
-	public void Buscar()
-	{
-		var factura = controller.Buscar(Factura.FacturaId);
+    public void Buscar()
+    {
+        var factura = controller.Buscar(Factura.FacturaId);
 
-		if (factura != null)
-		{
-			Limpiar();
-			Factura = factura;
-			ClienteSelect = Convert.ToString(Factura.ClienteId);
-		}
-		else
-		{
-			Factura = new Facturas();
-			toastService.ShowError("Factura no existe", "Fallo");
-		}
-	}
+        if (factura != null)
+        {
+            Limpiar();
+            Factura = factura;
+            ClienteSelect = Convert.ToString(Factura.ClienteId);
+        }
+        else
+        {
+            Factura = new Facturas();
+            toastService.ShowError("Factura no existe", "Fallo");
+        }
+    }
 
-	public void Eliminar()
-	{
-		var factura = controller.Buscar(Factura.FacturaId);
+    public void Eliminar()
+    {
+        var factura = controller.Buscar(Factura.FacturaId);
 
-		if (Factura != null)
-		{
-			controller.Eliminar(Factura.FacturaId);
-			Limpiar();
-			toastService.ShowSuccess("Factura eliminada correctamente.", "Exito");
-		}
-		else
-		{
-			toastService.ShowError("Error al eliminar esta Factura.", "Fallo");
-		}
-	}
+        if (Factura != null)
+        {
+            controller.Eliminar(Factura.FacturaId);
+            Limpiar();
+            toastService.ShowSuccess("Factura eliminada correctamente.", "Exito");
+        }
+        else
+        {
+            toastService.ShowError("Error al eliminar esta Factura.", "Fallo");
+        }
+    }
 
-	public void Limpiar()
-	{
-		mensaje = "";
-		this.Factura = new Facturas();
-		ClienteSelect = "";
-		ProductoSelect = "";
-		Precio = 0;
-		Cantidad = 0;
-		Importe = 0;
-	}
+    public void Limpiar()
+    {
+        mensaje = "";
+        this.Factura = new Facturas();
+        ClienteSelect = "0";
+        ProductoSelect = "0";
+        Precio = 0;
+        Cantidad = 0;
+        Importe = 0;
+    }
 
-	public void CalcularImporte()
-	{
-		if (Factura != null)
-		{
-			Importe = Convert.ToInt32(Precio) * Cantidad;
-		}
-		else
-		{
-			toastService.ShowError("Error al Calcular.", "Fallo");
-		}
-	}
+    public void CalcularImporte()
+    {
+        if (Factura != null)
+        {
+            Importe = Convert.ToInt32(Precio) * Cantidad;
+        }
+        else
+        {
+            toastService.ShowError("Error al Calcular.", "Fallo");
+        }
+    }
+
+    private void CalcularTotal()
+    {
+        decimal total = 0;
+
+        foreach (var item in Factura.Detalle)
+        {
+            total += item.Importe;
+        }
+
+        Factura.Total = total;
+    }
 }
