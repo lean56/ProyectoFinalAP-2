@@ -157,11 +157,11 @@
 							mensaje = "";
 							break;
 					}
-					if (BuscarFecha == true && lista.Count > 0)
-					{
-						lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
-					}
 				}
+			}
+			if (BuscarFecha == true && lista.Count > 0)
+			{
+				lista = controller.GetList(p => p.Fecha >= DesdeFecha.Date && p.Fecha <= HastaFecha.Date);
 			}
 		}
 		catch (Exception)
