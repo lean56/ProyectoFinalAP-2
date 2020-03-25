@@ -10,92 +10,113 @@
 		<form>
 			<br />
 
-			<div class="form-row">
+            <div class="form-row">
 
-				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-				<!-- Filtro-->
-				<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-					<label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
-					<select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
-						<option value="0">Todo</option>
-						<option value="1">Codigo</option>
-						<option value="2">Cliente</option>
-						<option value="3">Total</option>
-					</select>
-				</div>
+                <!-- Filtro-->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                    <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+                    <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+                        <option value="0">Todo</option>
+                        <option value="1">Codigo</option>
+                        <option value="2">Cliente</option>
+                        <option value="3">Total</option>
+                    </select>
+                </div>
 
-				<!-- Criterio -->
-				<div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-					<label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
-					<InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
-					<p class="validation-message"> @Mensaje </p>
-				</div>
+                <!-- Criterio -->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                    <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+                    <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+                    <p class="validation-message"> @Mensaje </p>
+                </div>
 
-				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-				<br />
+                <br />
 
-				<!-- Filtrar por fecha -->
-				<div class="DivConsulta text-center     col-12">
-					<input class="ml-1" type="checkbox" @bind-value="BuscarPorFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
-				</div>
+                <!-- Filtrar por fecha -->
+                <div class="DivConsulta text-center     col-12">
+                    <input class="ml-1" type="checkbox" @bind-value="BuscarPorFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+                </div>
 
-				<div class="col-lg-1     col-xl-2" />
+                <div class="col-lg-1     col-xl-2" />
 
-				<!-- Fecha desde-->
-				<div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
-					<label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
-					<InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
-				</div>
+                <!-- Fecha desde-->
+                <div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
+                    <label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+                    <InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+                </div>
 
-				<!-- Fecha Hasta-->
-				<div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
-					<label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
-					<InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
-				</div>
+                <!-- Fecha Hasta-->
+                <div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
+                    <label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+                    <InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+                </div>
 
-				<!-- Boton Buscar-->
-				<div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
-					<button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
-				</div>
+                <!-- Boton Buscar-->
+                <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
+                    <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+                </div>
 
-				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-				<table class="table" style="margin-top: 20px">
-					<thead class="thead-light">
-						<tr>
-							<th>Codigo</th>
-							<th>Fecha</th>
-							<th>Cliente</th>
-							<th>Total</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-						@if (Listado.Count == 0)
-						{
-							<tr>
-								<th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
-							</tr>
-						}
-						else
-						{
+                <table class="table" style="margin-top: 20px">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>Codigo</th>
+                            <th>Fecha</th>
+                            <th>Cliente</th>
+                            <th>Total</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (Listado.Count == 0)
+                        {
+                            <tr>
+                                <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+                            </tr>
+                        }
+                        else
+                        {
 
-							@foreach (var item in Listado)
-							{
-								<tr>
-									<th>@item.FacturaId</th>
-									<th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-									<th>@item.Cliente</th>
-									<th>@item.Total</th>
-									<th><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></th>
-								</tr>
-							}
-						}
-					</tbody>
-				</table>
-			</div>
+                            @foreach (var item in Listado)
+                            {
+                                <tr>
+                                    <th>@item.FacturaId</th>
+                                    <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                                    <th>@item.Cliente</th>
+                                    <th>@item.Total</th>
+                                    <th><a class="btn btn-sm btn-outline-primary" href="rFacturas/@item.FacturaId">Ver</a></th>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" @onclick="PaginaAnterior">
+                                <span class="oi oi-media-skip-backward"></span>
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= TotalPaginas; i++)
+                        {
+                            <li class="page-item disabled"><a class="page-link">@i</a></li>
+                        }
+
+                        <li class="page-item">
+                            <a class="page-link" @onclick="PaginaSiguiente">
+                                <span class="oi oi-media-skip-forward"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 		</form>
 	</EditForm>
 
@@ -106,6 +127,11 @@
     DateTime Hasta;
     bool BuscarPorFecha;
     string Mensaje;
+    double TotalPaginas = 0;
+
+	double contador = 0;
+
+	public int PagInicial;
 
     ClientesController clientesController = new ClientesController();
     Clientes Cliente = new Clientes();
@@ -115,9 +141,14 @@
 
     List<FacturasConsulta> Listado { get; set; }
 
+    
+	Contexto contexto = new Contexto();
+	Paginacion paginacion = new Paginacion();
+
     protected override void OnInitialized()
     {
         Filtro = "0";
+       
         Criterio = string.Empty;
         Desde = DateTime.Now;
         Hasta = DateTime.Now;
@@ -128,7 +159,12 @@
 
     private void CargarLista()
     {
-        ListadoFacturas = facturaController.GetList(e => true);
+        contador = contexto.Facturas.Count();
+        TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
+        this.ListadoFacturas = contexto.Facturas.Take(paginacion.Mostrar).ToList();
+
+
+         //ListadoFacturas = facturaController.GetList(e => true);
         Listado = new List<FacturasConsulta>();
         foreach (var item in ListadoFacturas)
         {
@@ -142,6 +178,35 @@
             Listado.Add(f);
         }
     }
+
+    private void PaginaSiguiente()
+	{
+		PagInicial = 0;
+		if (PagInicial < TotalPaginas)
+		{
+			PagInicial ++;
+		}
+
+		Listado = contexto.FacturasConsulta
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
+
+
+	private void PaginaAnterior()
+	{
+		PagInicial = 1;
+		if (PagInicial > 0)
+		{
+			PagInicial --;
+		}
+
+		Listado = contexto.FacturasConsulta
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
 
     private void Buscar()
     {
@@ -166,7 +231,7 @@
                             ListadoFacturas = facturaController.GetList(e => true);
                             break;
 
-                        case "1":
+                       case "1":
                             ListadoTemporal = new List<FacturasConsulta>();
                             foreach (var item in ListadoFacturas)
                             {

@@ -66,6 +66,26 @@
                     }
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaAnterior">
+                            <span class="oi oi-media-skip-backward"></span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= TotalPaginas; i++)
+                    {
+                        <li class="page-item disabled"><a class="page-link">@i</a></li>
+                    }
+
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaSiguiente">
+                            <span class="oi oi-media-skip-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </form>
 </EditForm>
@@ -76,21 +96,56 @@
 
     private string Criterio = string.Empty;
     private string Filtro = string.Empty;
-    private bool FiltrarFecha = false;
-    private DateTime Desde = DateTime.Now;
-    private DateTime Hasta = DateTime.Now;
     private string Mensaje = string.Empty;
 
+    Contexto contexto = new Contexto();
+	Paginacion paginacion = new Paginacion();
 
+    
+	double TotalPaginas = 0;
+
+	double contador = 0;
+
+	public int PagInicial;
 
     protected override void OnInitialized()
     {
-        Listado = new List<Categorias>();
-        Listado = categoriasController.GetList(e => true);
+		contador = contexto.Categorias.Count();
+		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
+        this.Listado = contexto.Categorias.Take(paginacion.Mostrar).ToList();
+
         Filtro = "0";
-        Desde = DateTime.Now;
-        Hasta = DateTime.Now;
     }
+
+    private void PaginaSiguiente()
+	{
+		PagInicial = 0;
+		if (PagInicial < TotalPaginas)
+		{
+			PagInicial ++;
+		}
+
+		Listado = contexto.Categorias
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
+
+
+	private void PaginaAnterior()
+	{
+		PagInicial = 1;
+		if (PagInicial > 0)
+		{
+			PagInicial --;
+		}
+
+		Listado = contexto.Categorias
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
+
 
 
     private void Buscar()

@@ -97,22 +97,27 @@
 				</tbody>
 			</table>
 
-			<nav aria-label="...">
+			<nav aria-label="Page navigation example">
 				<ul class="pagination">
-					<li class="page-item disabled">
-						@*<a class="page-link" href="#" tabindex="-1">Previous</a>*@
+					<li class="page-item">
+						<a class="page-link" @onclick="PaginaAnterior">
+							<span class="oi oi-media-skip-backward"></span>
+						</a>
 					</li>
-					@for (int i = 1; i <= totaldepaginas; i++)
-					{
-						<li class="page-item"><a class="page-link"@onclick="PaginaSiguiente">@i</a></li>
 
+					@for (int i = 1; i <= TotalPaginas; i++)
+					{
+						<li class="page-item disabled"><a class="page-link">@i</a></li>
 					}
+
+					<li class="page-item">
+						<a class="page-link" @onclick="PaginaSiguiente">
+							<span class="oi oi-media-skip-forward"></span>
+						</a>
+					</li>
 				</ul>
 			</nav>
-
 		</div>
-
-
 	</form>
 </EditForm>
 
@@ -122,11 +127,11 @@
 	public ProveedoresController proveedoresController = new ProveedoresController();
 	private List<Proveedores> Listado { get; set; }
 
-	double totaldepaginas = 0;
+	double TotalPaginas = 0;
 
 	double contador = 0;
 
-	public int Contador { get; set; }
+	public int PagInicial;
 
 	private string Criterio = string.Empty;
 	private string Filtro = string.Empty;
@@ -141,8 +146,7 @@
 	protected override void OnInitialized()
 	{
 		contador = contexto.Proveedores.Count();
-		totaldepaginas = contador / paginacion.Mostrar;
-		Listado = proveedoresController.GetList(e => true);
+		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
 		this.Listado = contexto.Proveedores.Take(paginacion.Mostrar).ToList();
 
 		Filtro = "0";
@@ -151,34 +155,35 @@
 	}
 
 
-	//private void AnteriorPagina()
-	// {
-	//     if (Paginacion.PaginaActual > 0)
-	//     {
-	//         Paginacion.PaginaActual--;
-	//         CargarLista();
-
-	//     }
-	//     else
-	//     {
-	//         return;
-
-	//     }
-	// }
-
 	private void PaginaSiguiente()
 	{
-		Contador += paginacion.Pagina;
-		if (Contador >= totaldepaginas)
+		PagInicial = 0;
+		if (PagInicial < TotalPaginas)
 		{
-			Contador = 0;
+			PagInicial ++;
 		}
 
 		Listado = contexto.Proveedores
-			.Skip(Contador * paginacion.Mostrar)
-			.Take(paginacion.Mostrar)
-			.ToList();
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
 	}
+
+
+	private void PaginaAnterior()
+	{
+		PagInicial = 1;
+		if (PagInicial > 0)
+		{
+			PagInicial --;
+		}
+
+		Listado = contexto.Proveedores
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
+
 	private void Buscar()
 	{
 		if (Filtro == "0")
@@ -217,7 +222,6 @@
 			{
 				Listado = Listado.Where(p => p.Fecha.Date >= Desde.Date && p.Fecha.Date <= Hasta.Date).ToList();
 				FiltrarFecha = false;
-
 			}
 		}
 	}
