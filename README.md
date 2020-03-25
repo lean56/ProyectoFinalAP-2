@@ -21,7 +21,7 @@ Y las consultas con el siguiente:
 
 Los registros tienen la capacidad de validar los campos de manera correcta para asi poder tener integridad de los datos.
 
-En las consultas tenemos varias opciones de filtado de informacion, dependiendo de los datos que se quieran consultar, ademas tiene disponible la paginacion de la informacion, para asi evitar el exceso de información en una sola pagina.
+En las consultas tenemos varias opciones de filtrado de información, dependiendo de los datos que se quieran consultar, ademas tiene disponible la paginacion de la informacion, para asi evitar el exceso de información en una sola pagina.
 
 # Puntos fuertes
 Esta plataforma es totalmente responsiva, por ende se ve de manera maravillosa tanto en su ordenador, tenga la pantalla de cualquier tamaño, como en los dispositivos moviles.
