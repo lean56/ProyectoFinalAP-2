@@ -181,30 +181,32 @@
 
     private void PaginaSiguiente()
 	{
+       
 		PagInicial = 0;
 		if (PagInicial < TotalPaginas)
 		{
 			PagInicial ++;
 		}
-
-		Listado = contexto.FacturasConsulta
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
+                FacturaConsultaController facturaConsulta = new FacturaConsultaController();
+       
+        this.ListadoFacturas = contexto.Facturas.Skip(PagInicial *paginacion.Mostrar).Take(paginacion.Mostrar)
 		.ToList();
+
 	}
 
 
 	private void PaginaAnterior()
 	{
+        FacturaConsultaController facturaConsulta = new FacturaConsultaController();
+
+ 
 		PagInicial = 1;
 		if (PagInicial > 0)
 		{
 			PagInicial --;
 		}
 
-		Listado = contexto.FacturasConsulta
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
+		        this.ListadoFacturas = contexto.Facturas.Skip(PagInicial *paginacion.Mostrar).Take(paginacion.Mostrar)
 		.ToList();
 	}
 
