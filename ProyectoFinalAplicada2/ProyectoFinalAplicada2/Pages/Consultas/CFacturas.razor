@@ -2,13 +2,13 @@
 
 @page "/cFacturas"
 
-	<EditForm Model="Listado">
-		<center>
-			<h1>Consulta de Facturas</h1>
-		</center>
+    <EditForm Model="Listado">
+        <center>
+            <h1>Consulta de Facturas</h1>
+        </center>
 
-		<form>
-			<br />
+        <form>
+            <br />
 
             <div class="form-row">
 
@@ -82,7 +82,7 @@
                         else
                         {
 
-                            @foreach (var item in Listado)
+                            @foreach (var item in ListadoPaginado)
                             {
                                 <tr>
                                     <th>@item.FacturaId</th>
@@ -95,30 +95,32 @@
                         }
                     </tbody>
                 </table>
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" @onclick="PaginaAnterior">
-                                <span class="oi oi-media-skip-backward"></span>
-                            </a>
-                        </li>
-
-                        @for (int i = 1; i <= TotalPaginas; i++)
-                        {
-                            <li class="page-item disabled"><a class="page-link">@i</a></li>
-                        }
-
-                        <li class="page-item">
-                            <a class="page-link" @onclick="PaginaSiguiente">
-                                <span class="oi oi-media-skip-forward"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
-		</form>
-	</EditForm>
+        </form>
+
+        <div class="form-row col-12 justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaAnterior">
+                            <span class="oi oi-media-skip-backward"></span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Paginas; i++)
+                    {
+                        <li class="page-item disabled"><a class="page-link">@i</a></li>
+                    }
+
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaSiguiente">
+                            <span class="oi oi-media-skip-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </EditForm>
 
 @code {
     string Filtro;
@@ -127,11 +129,6 @@
     DateTime Hasta;
     bool BuscarPorFecha;
     string Mensaje;
-    double TotalPaginas = 0;
-
-	double contador = 0;
-
-	public int PagInicial;
 
     ClientesController clientesController = new ClientesController();
     Clientes Cliente = new Clientes();
@@ -140,15 +137,21 @@
     public List<Facturas> ListadoFacturas = new List<Facturas>();
 
     List<FacturasConsulta> Listado { get; set; }
+    List<FacturasConsulta> ListadoPaginado { get; set; }
 
-    
-	Contexto contexto = new Contexto();
+    double Paginas = 0;
+    double Elementos = 0;
+    int PaginaActual = 0;
+
+    Contexto contexto = new Contexto();
 	Paginacion paginacion = new Paginacion();
+
+    List<FacturasConsulta> ListadoTemporal = new List<FacturasConsulta>();
 
     protected override void OnInitialized()
     {
         Filtro = "0";
-       
+
         Criterio = string.Empty;
         Desde = DateTime.Now;
         Hasta = DateTime.Now;
@@ -159,12 +162,7 @@
 
     private void CargarLista()
     {
-        contador = contexto.Facturas.Count();
-        TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-        this.ListadoFacturas = contexto.Facturas.Take(paginacion.Mostrar).ToList();
-
-
-         //ListadoFacturas = facturaController.GetList(e => true);
+        ListadoFacturas = facturaController.GetList(e => true);
         Listado = new List<FacturasConsulta>();
         foreach (var item in ListadoFacturas)
         {
@@ -177,44 +175,74 @@
 
             Listado.Add(f);
         }
+
+        IniciarPaginacion();
+    }
+
+    public void IniciarPaginacion()
+    {
+        PaginaActual = 1;
+        Elementos = Listado.Count();
+        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
     }
 
     private void PaginaSiguiente()
-	{
-       
-		PagInicial = 0;
-		if (PagInicial < TotalPaginas)
-		{
-			PagInicial ++;
-		}
-                FacturaConsultaController facturaConsulta = new FacturaConsultaController();
-       
-        this.ListadoFacturas = contexto.Facturas.Skip(PagInicial *paginacion.Mostrar).Take(paginacion.Mostrar)
-		.ToList();
+    {
+        if (PaginaActual < Paginas)
+        {
+            PaginaActual++;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
-	}
+    private void PaginaAnterior()
+    {
+        if (PaginaActual > 1)
+        {
+            PaginaActual--;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
+    
+    public void FiltrarPorLaFecha()
+    {
+        if (Filtro == "0")
+            ListadoTemporal = Listado;
 
+        if (BuscarPorFecha == true && ListadoTemporal.Count > 0)
+        {
+            Listado = new List<FacturasConsulta>();
+            foreach (var item in ListadoTemporal)
+            {
+                if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
+                {
+                    Listado.Add(item);
+                }
+            }
+            BuscarPorFecha = false;
+        }
+        else
+        {
+            Listado = new List<FacturasConsulta>();
+            Listado = ListadoTemporal;
+        }
+        IniciarPaginacion();
+    }
 
-	private void PaginaAnterior()
-	{
-        FacturaConsultaController facturaConsulta = new FacturaConsultaController();
-
- 
-		PagInicial = 1;
-		if (PagInicial > 0)
-		{
-			PagInicial --;
-		}
-
-		        this.ListadoFacturas = contexto.Facturas.Skip(PagInicial *paginacion.Mostrar).Take(paginacion.Mostrar)
-		.ToList();
-	}
 
     private void Buscar()
     {
         if (Filtro == "0")
         {
             CargarLista();
+            FiltrarPorLaFecha();
         }
         else
         {
@@ -224,87 +252,72 @@
             }
             else
             {
-                    CargarLista();
-                    List<FacturasConsulta> ListadoTemporal = Listado;
-                    Mensaje = string.Empty;
-                    switch (Filtro)
-                    {
-                        case "0":
-                            ListadoFacturas = facturaController.GetList(e => true);
-                            break;
+                CargarLista();
+                ListadoTemporal = Listado;
+                Mensaje = string.Empty;
+                switch (Filtro)
+                {
+                    case "0":
+                        ListadoFacturas = facturaController.GetList(e => true);
+                        break;
 
-                       case "1":
-                            ListadoTemporal = new List<FacturasConsulta>();
-                            foreach (var item in ListadoFacturas)
-                            {
-                                if (Convert.ToString(item.FacturaId).Contains(Criterio))
-                                {
-                                    FacturasConsulta f = new FacturasConsulta();
-                                    f.FacturaId = item.FacturaId;
-                                    f.Fecha = item.Fecha;
-                                    Cliente = clientesController.Buscar(item.ClienteId);
-                                    f.Cliente = Cliente.Nombres;
-                                    f.Total = item.Total;
-
-                                    ListadoTemporal.Add(f);
-                                }
-                            }
-                            break;
-
-                        case "2":
-                            ListadoTemporal = new List<FacturasConsulta>();
-                            foreach (var item in ListadoFacturas)
-                            {
-                                Cliente = clientesController.Buscar(item.ClienteId);
-                                if (Cliente.Nombres.Contains(Criterio))
-                                {
-                                    FacturasConsulta f = new FacturasConsulta();
-                                    f.FacturaId = item.FacturaId;
-                                    f.Fecha = item.Fecha;
-                                    f.Cliente = Cliente.Nombres;
-                                    f.Total = item.Total;
-
-                                    ListadoTemporal.Add(f);
-                                }
-                            }
-                            break;
-
-                        case "3":
-                            ListadoTemporal = new List<FacturasConsulta>();
-                            foreach (var item in ListadoFacturas)
-                            {
-                                if (Convert.ToString(item.Total).Contains(Criterio))
-                                {
-                                    FacturasConsulta f = new FacturasConsulta();
-                                    f.FacturaId = item.FacturaId;
-                                    f.Fecha = item.Fecha;
-                                    Cliente = clientesController.Buscar(item.ClienteId);
-                                    f.Cliente = Cliente.Nombres;
-                                    f.Total = item.Total;
-
-                                    ListadoTemporal.Add(f);
-                                }
-                            }
-                            break;
-                    }
-                    if (BuscarPorFecha == true && ListadoTemporal.Count > 0)
-                    {
-                        Listado = new List<FacturasConsulta>();
-                        foreach (var item in ListadoTemporal)
+                    case "1":
+                        ListadoTemporal = new List<FacturasConsulta>();
+                        foreach (var item in ListadoFacturas)
                         {
-                            if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
+                            if (Convert.ToString(item.FacturaId).Contains(Criterio))
                             {
-                                Listado.Add(item);
+                                FacturasConsulta f = new FacturasConsulta();
+                                f.FacturaId = item.FacturaId;
+                                f.Fecha = item.Fecha;
+                                Cliente = clientesController.Buscar(item.ClienteId);
+                                f.Cliente = Cliente.Nombres;
+                                f.Total = item.Total;
+
+                                ListadoTemporal.Add(f);
                             }
                         }
-                        BuscarPorFecha = false;
-                    }
-                    else
-                    {
-                        Listado = new List<FacturasConsulta>();
-                        Listado = ListadoTemporal;
-                    }
+                        break;
+
+                    case "2":
+                        ListadoTemporal = new List<FacturasConsulta>();
+                        foreach (var item in ListadoFacturas)
+                        {
+                            Cliente = clientesController.Buscar(item.ClienteId);
+                            if (Cliente.Nombres.Contains(Criterio))
+                            {
+                                FacturasConsulta f = new FacturasConsulta();
+                                f.FacturaId = item.FacturaId;
+                                f.Fecha = item.Fecha;
+                                f.Cliente = Cliente.Nombres;
+                                f.Total = item.Total;
+
+                                ListadoTemporal.Add(f);
+                            }
+                        }
+                        break;
+
+                    case "3":
+                        ListadoTemporal = new List<FacturasConsulta>();
+                        foreach (var item in ListadoFacturas)
+                        {
+                            if (Convert.ToString(item.Total).Contains(Criterio))
+                            {
+                                FacturasConsulta f = new FacturasConsulta();
+                                f.FacturaId = item.FacturaId;
+                                f.Fecha = item.Fecha;
+                                Cliente = clientesController.Buscar(item.ClienteId);
+                                f.Cliente = Cliente.Nombres;
+                                f.Total = item.Total;
+
+                                ListadoTemporal.Add(f);
+                            }
+                        }
+                        break;
                 }
+
+                FiltrarPorLaFecha();
+            }
         }
     }
 }

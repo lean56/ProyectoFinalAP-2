@@ -1,102 +1,106 @@
 ﻿@page "/cUsuarios"
 
-<EditForm Model="Listado">
-    <center>
-        <h1>Consulta de Usuarios</h1>
-    </center>
+    <EditForm Model="Listado">
+        <center>
+            <h1>Consulta de Usuarios</h1>
+        </center>
 
-    <form>
-        <br />
-
-        <div class="form-row">
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
-
-            <!-- Filtro-->
-            <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
-                <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
-                    <option value="0">Todo</option>
-                    <option value="1">Codigo</option>
-                    <option value="2">Nombre</option>
-                    <option value="3">Apellido</option>
-                    <option value="4">Nivel de usuario</option>
-                    <option value="5">Usuario</option>
-                </select>
-            </div>
-
-            <!-- Criterio -->
-            <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
-                <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
-                <p class="validation-message"> @Mensaje </p>
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
-
+        <form>
             <br />
 
-            <!-- Filtrar por fecha -->
-            <div class="DivConsulta text-center     col-12">
-                <input class="ml-1" type="checkbox" @bind-value="FiltrarFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
-            </div>
+            <div class="form-row">
 
-            <div class="col-lg-1     col-xl-2" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-            <!-- Fecha desde-->
-            <div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
-                <label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
-                <InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
-            </div>
+                <!-- Filtro-->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                    <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+                    <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+                        <option value="0">Todo</option>
+                        <option value="1">Codigo</option>
+                        <option value="2">Nombre</option>
+                        <option value="3">Apellido</option>
+                        <option value="4">Nivel de usuario</option>
+                        <option value="5">Usuario</option>
+                    </select>
+                </div>
 
-            <!-- Fecha Hasta-->
-            <div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
-                <label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
-                <InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
-            </div>
+                <!-- Criterio -->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                    <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+                    <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+                    <p class="validation-message"> @Mensaje </p>
+                </div>
 
-            <!-- Boton Buscar-->
-            <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
-                <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
-            </div>
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                <br />
 
-            <table class="table" style="margin-top: 20px">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th>Nivel de Usuario</th>
-                        <th>Usuario</th>
-                        <th>Fecha</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Listado.Count == 0)
-                    {
+                <!-- Filtrar por fecha -->
+                <div class="DivConsulta text-center     col-12">
+                    <input class="ml-1" type="checkbox" @bind-value="FiltrarFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+                </div>
+
+                <div class="col-lg-1     col-xl-2" />
+
+                <!-- Fecha desde-->
+                <div class="form-inline DivConsulta    container     col-sm-5     col-md-5     col-lg-4          col-xl-3">
+                    <label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+                    <InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+                </div>
+
+                <!-- Fecha Hasta-->
+                <div class="form-inline DivConsulta     container     col-sm-5     col-md-5     col-lg-4     col-xl-3">
+                    <label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+                    <InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+                </div>
+
+                <!-- Boton Buscar-->
+                <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-2     col-xl-1">
+                    <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+                <table class="table" style="margin-top: 20px">
+                    <thead class="thead-light">
                         <tr>
-                            <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th>Nivel de Usuario</th>
+                            <th>Usuario</th>
+                            <th>Fecha</th>
+                            <th></th>
                         </tr>
-                    }
-                    else
-                    {
-
-                        @foreach (var item in Listado)
+                    </thead>
+                    <tbody>
+                        @if (ListadoPaginado.Count == 0)
                         {
                             <tr>
-                                <th>@item.UsuarioId</th>
-                                <th>@item.Nombres &nbsp; @item.Apellidos</th>
-                                <th>@item.NivelUsuario</th>
-                                <th>@item.Usuario</th>
-                                <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
-                                <td><a class="btn btn-sm btn-outline-primary" href="rUsuarios/@item.UsuarioId">Ver</a></td>
+                                <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
                             </tr>
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+
+                            @foreach (var item in ListadoPaginado)
+                            {
+                                <tr>
+                                    <th>@item.UsuarioId</th>
+                                    <th>@item.Nombres &nbsp; @item.Apellidos</th>
+                                    <th>@item.NivelUsuario</th>
+                                    <th>@item.Usuario</th>
+                                    <th>@item.FechaIngreso.ToString("dd/MM/yyyy")</th>
+                                    <td><a class="btn btn-sm btn-outline-primary" href="rUsuarios/@item.UsuarioId">Ver</a></td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <div class="form-row col-12 justify-content-center">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -105,7 +109,7 @@
                         </a>
                     </li>
 
-                    @for (int i = 1; i <= TotalPaginas; i++)
+                    @for (int i = 1; i <= Paginas; i++)
                     {
                         <li class="page-item disabled"><a class="page-link">@i</a></li>
                     }
@@ -118,12 +122,12 @@
                 </ul>
             </nav>
         </div>
-    </form>
-</EditForm>
+    </EditForm>
 
 @code {
 	public UsuariosController usuariosController = new UsuariosController();
 	private List<Usuarios> Listado { get; set; }
+    private List<Usuarios> ListadoPaginado { get; set; }
 
 	private string Criterio = string.Empty;
 	private string Filtro = string.Empty;
@@ -132,59 +136,71 @@
 	private DateTime Hasta = DateTime.Now;
 	private string Mensaje = string.Empty;
 
-    double TotalPaginas = 0;
-
-	double contador = 0;
-
-	public int PagInicial;
     Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
+    Paginacion paginacion = new Paginacion();
+
+    double Paginas = 0;
+    double Elementos = 0;
+    int PaginaActual = 0;
 
 	protected override void OnInitialized()
 	{
-		contador = contexto.Usuarios.Count();
-        TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-		this.Listado = contexto.Usuarios.Take(paginacion.Mostrar).ToList();
-		Filtro = "0";
-		Desde = DateTime.Now;
+        Listado = usuariosController.GetList(e => true);
+        Filtro = "0";
+        Desde = DateTime.Now;
 		Hasta = DateTime.Now;
+
+        IniciarPaginacion();
 	}
     
-	private void PaginaSiguiente()
-	{
-		PagInicial = 0;
-		if (PagInicial < TotalPaginas)
-		{
-			PagInicial ++;
-		}
+    public void IniciarPaginacion()
+    {
+        PaginaActual = 1;
+        Elementos = Listado.Count();
+        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
+    }
 
-		Listado = contexto.Usuarios
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    private void PaginaSiguiente()
+    {
+        if (PaginaActual < Paginas)
+        {
+            PaginaActual++;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
+    private void PaginaAnterior()
+    {
+        if (PaginaActual > 1)
+        {
+            PaginaActual--;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
-	private void PaginaAnterior()
-	{
-		PagInicial = 1;
-		if (PagInicial > 0)
-		{
-			PagInicial --;
-		}
-
-		Listado = contexto.Usuarios
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    public void FiltrarPorLaFecha()
+    {
+        if (FiltrarFecha == true && Listado.Count > 0)
+        {
+            Listado = Listado.Where(p => p.FechaIngreso.Date >= Desde.Date && p.FechaIngreso.Date <= Hasta.Date).ToList();
+            FiltrarFecha = false;
+        }
+        IniciarPaginacion();
+    }
 
 	private void Buscar()
 	{
 		if (Filtro == "0")
 		{
 			Listado = usuariosController.GetList(e => true);
-
+            FiltrarPorLaFecha();
 		}
 		else
 		{
@@ -219,13 +235,10 @@
                         Mensaje = "";
 						break;
 				}
-			}
-			if (FiltrarFecha == true  && Listado.Count > 0)
-			{
-				Listado = Listado.Where(p => p.FechaIngreso.Date >= Desde.Date && p.FechaIngreso.Date <= Hasta.Date).ToList();
-				FiltrarFecha = false;
 
-			}
+                FiltrarPorLaFecha();
+			
+            }
 		}
 	}
 }

@@ -1,71 +1,75 @@
 ﻿@page "/cCategorias"
 
-<EditForm Model="Listado">
-    <center>
-        <h1>Consulta de Categorias</h1>
-    </center>
+    <EditForm Model="Listado">
+        <center>
+            <h1>Consulta de Categorias</h1>
+        </center>
 
-    <form>
-        <br />
+        <form>
+            <br />
 
-        <div class="form-row">
+            <div class="form-row">
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <!-- Filtro-->
-            <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-4     col-xl-4">
-                <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
-                <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
-                    <option value="0">Todo</option>
-                    <option value="1">Codigo</option>
-                    <option value="2">Nombre</option>
-                </select>
-            </div>
+                <!-- Filtro-->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-4     col-xl-4">
+                    <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+                    <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+                        <option value="0">Todo</option>
+                        <option value="1">Codigo</option>
+                        <option value="2">Nombre</option>
+                    </select>
+                </div>
 
-            <!-- Criterio -->
-            <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-5">
-                <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
-                <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
-                <p class="validation-message"> @Mensaje </p>
-            </div>
+                <!-- Criterio -->
+                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+                    <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+                    <p class="validation-message"> @Mensaje </p>
+                </div>
 
 
-            <!-- Boton Buscar-->
-            <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-1     col-xl-1">
-                <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
-            </div>
+                <!-- Boton Buscar-->
+                <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-1     col-xl-1">
+                    <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+                </div>
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <table class="table" style="margin-top: 20px">
-                <thead class="thead-light">
-                    <tr>
-                        <th>Codigo</th>
-                        <th>Nombre</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if (Listado.Count == 0)
-                    {
+                <table class="table" style="margin-top: 20px">
+                    <thead class="thead-light">
                         <tr>
-                            <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+                            <th>Codigo</th>
+                            <th>Nombre</th>
+                            <th></th>
                         </tr>
-                    }
-                    else
-                    {
-
-                        @foreach (var item in Listado)
+                    </thead>
+                    <tbody>
+                        @if (ListadoPaginado.Count == 0)
                         {
                             <tr>
-                                <th>@item.CategoriaId</th>
-                                <th>@item.Nombre</th>
-                                <th><a class="btn btn-sm btn-outline-primary" href="rCategorias/@item.CategoriaId">Ver</a></th>
+                                <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
                             </tr>
                         }
-                    }
-                </tbody>
-            </table>
+                        else
+                        {
+
+                            @foreach (var item in ListadoPaginado)
+                            {
+                                <tr>
+                                    <th>@item.CategoriaId</th>
+                                    <th>@item.Nombre</th>
+                                    <th><a class="btn btn-sm btn-outline-primary" href="rCategorias/@item.CategoriaId">Ver</a></th>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </form>
+
+        <div class="form-row col-12 justify-content-center">
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -74,7 +78,7 @@
                         </a>
                     </li>
 
-                    @for (int i = 1; i <= TotalPaginas; i++)
+                    @for (int i = 1; i <= Paginas; i++)
                     {
                         <li class="page-item disabled"><a class="page-link">@i</a></li>
                     }
@@ -87,64 +91,64 @@
                 </ul>
             </nav>
         </div>
-    </form>
-</EditForm>
+    </EditForm>
 
 @code {
     public CategoriasController categoriasController = new CategoriasController();
     private List<Categorias> Listado { get; set; }
+    private List<Categorias> ListadoPaginado { get; set; }
 
     private string Criterio = string.Empty;
     private string Filtro = string.Empty;
     private string Mensaje = string.Empty;
 
     Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
+    Paginacion paginacion = new Paginacion();
 
-    
-	double TotalPaginas = 0;
-
-	double contador = 0;
-
-	public int PagInicial;
+    double Paginas = 0;
+    double Elementos = 0;
+    int PaginaActual = 0;
 
     protected override void OnInitialized()
     {
-		contador = contexto.Categorias.Count();
-		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-        this.Listado = contexto.Categorias.Take(paginacion.Mostrar).ToList();
-
+        Listado = categoriasController.GetList(e => true);
         Filtro = "0";
+
+        IniciarPaginacion();
+    }
+
+    public void IniciarPaginacion()
+    {
+        PaginaActual = 1;
+        Elementos = Listado.Count();
+        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
     }
 
     private void PaginaSiguiente()
-	{
-		PagInicial = 0;
-		if (PagInicial < TotalPaginas)
-		{
-			PagInicial ++;
-		}
-
-		Listado = contexto.Categorias
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    {
+        if (PaginaActual < Paginas)
+        {
+            PaginaActual++;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
 
-	private void PaginaAnterior()
-	{
-		PagInicial = 1;
-		if (PagInicial > 0)
-		{
-			PagInicial --;
-		}
-
-		Listado = contexto.Categorias
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    private void PaginaAnterior()
+    {
+        if (PaginaActual > 1)
+        {
+            PaginaActual--;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
 
 
@@ -153,6 +157,7 @@
         if (Filtro == "0")
         {
             Listado = categoriasController.GetList(e => true);
+            IniciarPaginacion();
         }
         else
         {
@@ -173,6 +178,7 @@
                         Listado = Listado.Where(e => e.Nombre.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
                 }
+                IniciarPaginacion();
             }
         }
     }
