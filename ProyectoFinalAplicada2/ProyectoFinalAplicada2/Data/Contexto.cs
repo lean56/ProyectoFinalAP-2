@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoFinalAplicada2.Models;
+using ProyectoFinalAplicada2.Models.ModelsForQueries;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,6 +18,7 @@ namespace ProyectoFinalAplicada2.Data
         public DbSet<Facturas> Facturas { get; set; }
         public DbSet<Proveedores> Proveedores { get; set; }
         public DbSet<Entradas> Entradas { get; set; }
+        public DbSet<FacturasConsulta> FacturasConsulta { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -96,6 +96,27 @@
 				}
 			</tbody>
 		</table>
+
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item">
+					<a class="page-link" @onclick="PaginaAnterior">
+						<span class="oi oi-media-skip-backward"></span>
+					</a>
+				</li>
+
+				@for (int i = 1; i <= TotalPaginas; i++)
+				{
+					<li class="page-item disabled"><a class="page-link">@i</a></li>
+				}
+
+				<li class="page-item">
+					<a class="page-link" @onclick="PaginaSiguiente">
+						<span class="oi oi-media-skip-forward"></span>
+					</a>
+				</li>
+			</ul>
+		</nav>
 	</div>
 </EditForm>
 
@@ -113,14 +134,54 @@
 	public DateTime DesdeFecha { get; set; }
 	public DateTime HastaFecha { get; set; }
 
+	double TotalPaginas = 0;
+
+	double contador = 0;
+
+	public int PagInicial;
+	
+	Contexto contexto = new Contexto();
+	Paginacion paginacion = new Paginacion();
 
 	protected override void OnInitialized()
 	{
-		lista = new List<Clientes>();
-		lista = controller.GetList(e => true);
+		contador = contexto.Clientes.Count();
+		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
+		this.lista = contexto.Clientes.Take(paginacion.Mostrar).ToList();
+
+
 		DesdeFecha = DateTime.Now;
 		HastaFecha = DateTime.Now;
 		Filtro = "Todo";
+	}
+
+	private void PaginaSiguiente()
+	{
+		PagInicial = 0;
+		if (PagInicial < TotalPaginas)
+		{
+			PagInicial ++;
+		}
+
+		lista = contexto.Clientes
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
+	}
+
+
+	private void PaginaAnterior()
+	{
+		PagInicial = 1;
+		if (PagInicial > 0)
+		{
+			PagInicial --;
+		}
+
+		lista = contexto.Clientes
+		.Skip(PagInicial * paginacion.Mostrar)
+		.Take(paginacion.Mostrar)
+		.ToList();
 	}
 
 	private void Buscar()

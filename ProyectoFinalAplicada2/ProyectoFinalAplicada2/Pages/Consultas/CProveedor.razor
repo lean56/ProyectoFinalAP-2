@@ -147,7 +147,6 @@
 	{
 		contador = contexto.Proveedores.Count();
 		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-		Listado = proveedoresController.GetList(e => true);
 		this.Listado = contexto.Proveedores.Take(paginacion.Mostrar).ToList();
 
 		Filtro = "0";
@@ -223,7 +222,6 @@
 			{
 				Listado = Listado.Where(p => p.Fecha.Date >= Desde.Date && p.Fecha.Date <= Hasta.Date).ToList();
 				FiltrarFecha = false;
-
 			}
 		}
 	}
