@@ -236,6 +236,15 @@
         }
     }
 
+    private bool ExisteProducto(int ProductoId)
+    {
+        bool paso = false;
+        if (Factura.Detalle.Any(p => p.ProductoId == ProductoId))
+            paso = true;
+
+        return paso;
+    }
+
     private void AgregarProducto()
     {
         if (ProductoSelect == null)
@@ -244,6 +253,12 @@
         }
         else
         {
+            if (ExisteProducto(Producto.ProductoId))
+            {
+                toastService.ShowError("Ya este producto esta agregado en la factura.", "Info");
+            }
+            else
+            {
             if (Cantidad <= 0)
             {
                 toastService.ShowInfo("La cantidad debe ser mayor a 0", "Info");
@@ -272,6 +287,7 @@
 
                     ProductoSelect = "0";
                     Cantidad = 0;
+                    }
                 }
             }
         }
@@ -323,7 +339,7 @@
             Limpiar();
             Factura = factura;
             ClienteSelect = Convert.ToString(Factura.ClienteId);
-			toastService.ShowSuccess("Factura encontrada.", "Exito");
+            toastService.ShowSuccess("Factura encontrada.", "Exito");
         }
         else
         {
