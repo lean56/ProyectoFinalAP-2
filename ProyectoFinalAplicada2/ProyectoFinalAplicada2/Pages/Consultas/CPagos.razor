@@ -169,7 +169,7 @@
             f.PagoId = item.PagoId;
             f.Fecha = item.Fecha;
             Cliente = clientesController.Buscar(item.ClienteId);
-            f.Cliente = Cliente.Nombres;
+            f.Cliente = (Cliente == null) ? "Cliente eliminado" : Cliente.Nombres;
             f.MontoPago = item.MontoPago;
 
             Listado.Add(f);
