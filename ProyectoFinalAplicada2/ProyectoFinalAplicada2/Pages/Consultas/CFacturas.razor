@@ -2,13 +2,13 @@
 
 @page "/cFacturas"
 
-	<EditForm Model="Listado">
-		<center>
-			<h1>Consulta de Facturas</h1>
-		</center>
+    <EditForm Model="Listado">
+        <center>
+            <h1>Consulta de Facturas</h1>
+        </center>
 
-		<form>
-			<br />
+        <form>
+            <br />
 
             <div class="form-row">
 
@@ -95,30 +95,32 @@
                         }
                     </tbody>
                 </table>
-
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item">
-                            <a class="page-link" @onclick="PaginaAnterior">
-                                <span class="oi oi-media-skip-backward"></span>
-                            </a>
-                        </li>
-
-                        @for (int i = 1; i <= TotalPaginas; i++)
-                        {
-                            <li class="page-item disabled"><a class="page-link">@i</a></li>
-                        }
-
-                        <li class="page-item">
-                            <a class="page-link" @onclick="PaginaSiguiente">
-                                <span class="oi oi-media-skip-forward"></span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
-		</form>
-	</EditForm>
+        </form>
+
+        <div class="form-row col-12 justify-content-center">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaAnterior">
+                            <span class="oi oi-media-skip-backward"></span>
+                        </a>
+                    </li>
+
+                    @for (int i = 1; i <= Paginas; i++)
+                    {
+                        <li class="page-item disabled"><a class="page-link">@i</a></li>
+                    }
+
+                    <li class="page-item">
+                        <a class="page-link" @onclick="PaginaSiguiente">
+                            <span class="oi oi-media-skip-forward"></span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </EditForm>
 
 @code {
     string Filtro;
@@ -127,11 +129,6 @@
     DateTime Hasta;
     bool BuscarPorFecha;
     string Mensaje;
-    double TotalPaginas = 0;
-
-    double contador = 0;
-
-    public int PagInicial;
 
     ClientesController clientesController = new ClientesController();
     Clientes Cliente = new Clientes();
@@ -142,9 +139,14 @@
     List<FacturasConsulta> Listado { get; set; }
     List<FacturasConsulta> ListadoPaginado { get; set; }
 
+    double Paginas = 0;
+    double Elementos = 0;
+    int PaginaActual = 0;
 
     Contexto contexto = new Contexto();
-    Paginacion paginacion = new Paginacion();
+	Paginacion paginacion = new Paginacion();
+
+    List<FacturasConsulta> ListadoTemporal = new List<FacturasConsulta>();
 
     protected override void OnInitialized()
     {
@@ -174,45 +176,73 @@
             Listado.Add(f);
         }
 
-        contador = Listado.Count();
-        TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-        this.ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
+        IniciarPaginacion();
+    }
+
+    public void IniciarPaginacion()
+    {
+        PaginaActual = 1;
+        Elementos = Listado.Count();
+        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
     }
 
     private void PaginaSiguiente()
     {
-        PagInicial = 0;
-        if (PagInicial < TotalPaginas)
+        if (PaginaActual < Paginas)
         {
-            PagInicial ++;
+            PaginaActual++;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
         }
-
-        ListadoPaginado = Listado
-        .Skip(PagInicial * paginacion.Mostrar)
-        .Take(paginacion.Mostrar)
-        .ToList();
     }
-
 
     private void PaginaAnterior()
     {
-        PagInicial = 1;
-        if (PagInicial > 0)
+        if (PaginaActual > 1)
         {
-            PagInicial --;
+            PaginaActual--;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
         }
-
-        Listado = contexto.FacturasConsulta
-        .Skip(PagInicial * paginacion.Mostrar)
-        .Take(paginacion.Mostrar)
-        .ToList();
     }
+    
+    public void FiltrarPorLaFecha()
+    {
+        if (Filtro == "0")
+            ListadoTemporal = Listado;
+
+        if (BuscarPorFecha == true && ListadoTemporal.Count > 0)
+        {
+            Listado = new List<FacturasConsulta>();
+            foreach (var item in ListadoTemporal)
+            {
+                if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
+                {
+                    Listado.Add(item);
+                }
+            }
+            BuscarPorFecha = false;
+        }
+        else
+        {
+            Listado = new List<FacturasConsulta>();
+            Listado = ListadoTemporal;
+        }
+        IniciarPaginacion();
+    }
+
 
     private void Buscar()
     {
         if (Filtro == "0")
         {
             CargarLista();
+            FiltrarPorLaFecha();
         }
         else
         {
@@ -223,7 +253,7 @@
             else
             {
                 CargarLista();
-                List<FacturasConsulta> ListadoTemporal = Listado;
+                ListadoTemporal = Listado;
                 Mensaje = string.Empty;
                 switch (Filtro)
                 {
@@ -285,23 +315,8 @@
                         }
                         break;
                 }
-                if (BuscarPorFecha == true && ListadoTemporal.Count > 0)
-                {
-                    Listado = new List<FacturasConsulta>();
-                    foreach (var item in ListadoTemporal)
-                    {
-                        if (item.Fecha.Date >= Desde.Date && item.Fecha.Date <= Hasta.Date)
-                        {
-                            Listado.Add(item);
-                        }
-                    }
-                    BuscarPorFecha = false;
-                }
-                else
-                {
-                    Listado = new List<FacturasConsulta>();
-                    Listado = ListadoTemporal;
-                }
+
+                FiltrarPorLaFecha();
             }
         }
     }
