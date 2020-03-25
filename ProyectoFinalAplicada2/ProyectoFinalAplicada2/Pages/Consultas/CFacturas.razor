@@ -170,7 +170,7 @@
             f.FacturaId = item.FacturaId;
             f.Fecha = item.Fecha;
             Cliente = clientesController.Buscar(item.ClienteId);
-            f.Cliente = Cliente.Nombres;
+            f.Cliente = (Cliente == null) ? "Cliente eliminado" : Cliente.Nombres;
             f.Total = item.Total;
 
             Listado.Add(f);

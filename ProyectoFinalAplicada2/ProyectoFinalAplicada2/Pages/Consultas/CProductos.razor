@@ -132,69 +132,69 @@
 	</EditForm>
 
 @code {
-	string Filtro;
-	string Criterio;
-	DateTime Desde;
-	DateTime Hasta;
-	bool BuscarPorFecha;
-	string Mensaje;
+    string Filtro;
+    string Criterio;
+    DateTime Desde;
+    DateTime Hasta;
+    bool BuscarPorFecha;
+    string Mensaje;
 
-	CategoriasController categoriasController = new CategoriasController();
-	Categorias Categoria = new Categorias();
+    CategoriasController categoriasController = new CategoriasController();
+    Categorias Categoria = new Categorias();
 
-	ProveedoresController proveedoresController = new ProveedoresController();
-	Proveedores Proveedor = new Proveedores();
+    ProveedoresController proveedoresController = new ProveedoresController();
+    Proveedores Proveedor = new Proveedores();
 
-	ProductosController ProductoController = new ProductosController();
-	public List<Productos> ListadoProductos = new List<Productos>();
+    ProductosController ProductoController = new ProductosController();
+    public List<Productos> ListadoProductos = new List<Productos>();
 
-	List<ProductosConsulta> Listado { get; set; }
-	List<ProductosConsulta> ListadoPaginado { get; set; }
+    List<ProductosConsulta> Listado { get; set; }
+    List<ProductosConsulta> ListadoPaginado { get; set; }
 
-	double Paginas = 0;
+    double Paginas = 0;
     double Elementos = 0;
     int PaginaActual = 0;
 
     Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
+    Paginacion paginacion = new Paginacion();
 
     List<ProductosConsulta> ListadoTemporal = new List<ProductosConsulta>();
 
-	protected override void OnInitialized()
-	{
-		Filtro = "0";
-		Criterio = string.Empty;
-		Desde = DateTime.Now;
-		Hasta = DateTime.Now;
-		BuscarPorFecha = false;
-		Mensaje = string.Empty;
-		CargarLista();
-	}
+    protected override void OnInitialized()
+    {
+        Filtro = "0";
+        Criterio = string.Empty;
+        Desde = DateTime.Now;
+        Hasta = DateTime.Now;
+        BuscarPorFecha = false;
+        Mensaje = string.Empty;
+        CargarLista();
+    }
 
-	private void CargarLista()
-	{
-		ListadoProductos = ProductoController.GetList(e => true);
-		Listado = new List<ProductosConsulta>();
-		foreach (var item in ListadoProductos)
-		{
-			ProductosConsulta p = new ProductosConsulta();
-			p.ProductoId = item.ProductoId;
-			p.Descrpcion = item.Descripcion;
-			p.FechaCreacion = item.FechaCreacion;
-			Categoria = categoriasController.Buscar(item.CategoriaId);
-			p.Categoria = Categoria.Nombre;
-			Proveedor = proveedoresController.Buscar(item.ProveedorId);
-			p.Proveedor = Proveedor.Nombre;
-			p.Precio = item.Precio;
-			p.Cantidad = item.Cantidad;
+    private void CargarLista()
+    {
+        ListadoProductos = ProductoController.GetList(e => true);
+        Listado = new List<ProductosConsulta>();
+        foreach (var item in ListadoProductos)
+        {
+            ProductosConsulta p = new ProductosConsulta();
+            p.ProductoId = item.ProductoId;
+            p.Descrpcion = item.Descripcion;
+            p.FechaCreacion = item.FechaCreacion;
+            Categoria = categoriasController.Buscar(item.CategoriaId);
+            p.Categoria = (Categoria == null) ? "Categoria Eliminada" : Categoria.Nombre ;
+            Proveedor = proveedoresController.Buscar(item.ProveedorId);
+            p.Proveedor = (Proveedor == null) ? "Proveedor Eliminado" : Proveedor.Nombre;
+            p.Precio = item.Precio;
+            p.Cantidad = item.Cantidad;
 
-			Listado.Add(p);
-		}
-		
+            Listado.Add(p);
+        }
+
         IniciarPaginacion();
-	}
+    }
 
-	 public void IniciarPaginacion()
+    public void IniciarPaginacion()
     {
         PaginaActual = 1;
         Elementos = Listado.Count();
@@ -226,7 +226,7 @@
         }
     }
 
-	public void FiltrarPorLaFecha()
+    public void FiltrarPorLaFecha()
     {
         if (Filtro == "0")
             ListadoTemporal = Listado;
@@ -251,181 +251,181 @@
         IniciarPaginacion();
     }
 
-	private void Buscar()
-	{
-		if (Filtro == "0")
-		{
-			CargarLista();
-			FiltrarPorLaFecha();
-		}
-		else
-		{
-			if (Criterio == "")
-			{
-				Mensaje = "Agregue el criterio de busqueda.";
-			}
-			else
-			{
-				CargarLista();
-				List<ProductosConsulta> ListadoTemporal = Listado;
-				Mensaje = string.Empty;
-				switch (Filtro)
-				{
-					case "0":
-						ListadoProductos = ProductoController.GetList(e => true);
-						break;
+    private void Buscar()
+    {
+        if (Filtro == "0")
+        {
+            CargarLista();
+            FiltrarPorLaFecha();
+        }
+        else
+        {
+            if (Criterio == "")
+            {
+                Mensaje = "Agregue el criterio de busqueda.";
+            }
+            else
+            {
+                CargarLista();
+                List<ProductosConsulta> ListadoTemporal = Listado;
+                Mensaje = string.Empty;
+                switch (Filtro)
+                {
+                    case "0":
+                        ListadoProductos = ProductoController.GetList(e => true);
+                        break;
 
-					case "1":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
-						{
-							if (Convert.ToString(item.ProductoId).Contains(Criterio))
-							{
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								Categoria = categoriasController.Buscar(item.CategoriaId);
-								p.Categoria = Categoria.Nombre;
-								Proveedor = proveedoresController.Buscar(item.ProveedorId);
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                    case "1":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
+                        {
+                            if (Convert.ToString(item.ProductoId).Contains(Criterio))
+                            {
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                Categoria = categoriasController.Buscar(item.CategoriaId);
+                                p.Categoria = Categoria.Nombre;
+                                Proveedor = proveedoresController.Buscar(item.ProveedorId);
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
-							}
-						}
-						break;
+                                ListadoTemporal.Add(p);
+                            }
+                        }
+                        break;
 
-					case "2":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
-						{
-							if (item.Descripcion.Contains(Criterio))
-							{
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								Categoria = categoriasController.Buscar(item.CategoriaId);
-								p.Categoria = Categoria.Nombre;
-								Proveedor = proveedoresController.Buscar(item.ProveedorId);
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                    case "2":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
+                        {
+                            if (item.Descripcion.Contains(Criterio))
+                            {
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                Categoria = categoriasController.Buscar(item.CategoriaId);
+                                p.Categoria = Categoria.Nombre;
+                                Proveedor = proveedoresController.Buscar(item.ProveedorId);
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
-							}
-						}
-						break;
+                                ListadoTemporal.Add(p);
+                            }
+                        }
+                        break;
 
-					case "3":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
+                    case "3":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
                         {
                             Categoria = categoriasController.Buscar(item.CategoriaId);
                             if (Categoria.Nombre.Contains(Criterio))
                             {
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								p.Categoria = Categoria.Nombre;
-								Proveedor = proveedoresController.Buscar(item.ProveedorId);
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                p.Categoria = Categoria.Nombre;
+                                Proveedor = proveedoresController.Buscar(item.ProveedorId);
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
+                                ListadoTemporal.Add(p);
                             }
                         }
-						break;
+                        break;
 
-					case "4":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
+                    case "4":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
                         {
                             Proveedor = proveedoresController.Buscar(item.ProveedorId);
                             if (Proveedor.Nombre.Contains(Criterio))
                             {
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								Categoria = categoriasController.Buscar(item.CategoriaId);
-								p.Categoria = Categoria.Nombre;
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                Categoria = categoriasController.Buscar(item.CategoriaId);
+                                p.Categoria = Categoria.Nombre;
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
+                                ListadoTemporal.Add(p);
                             }
                         }
-						break;
+                        break;
 
-					case "5":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
-						{
-							if (Convert.ToString(item.Cantidad).Contains(Criterio))
-							{
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								Categoria = categoriasController.Buscar(item.CategoriaId);
-								p.Categoria = Categoria.Nombre;
-								Proveedor = proveedoresController.Buscar(item.ProveedorId);
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                    case "5":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
+                        {
+                            if (Convert.ToString(item.Cantidad).Contains(Criterio))
+                            {
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                Categoria = categoriasController.Buscar(item.CategoriaId);
+                                p.Categoria = Categoria.Nombre;
+                                Proveedor = proveedoresController.Buscar(item.ProveedorId);
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
-							}
-						}
-						break;
+                                ListadoTemporal.Add(p);
+                            }
+                        }
+                        break;
 
-					case "6":
-						ListadoTemporal = new List<ProductosConsulta>();
-						foreach (var item in ListadoProductos)
-						{
-							if (Convert.ToString(item.Precio).Contains(Criterio))
-							{
-								ProductosConsulta p = new ProductosConsulta();
-								p.ProductoId = item.ProductoId;
-								p.Descrpcion = item.Descripcion;
-								p.FechaCreacion = item.FechaCreacion;
-								Categoria = categoriasController.Buscar(item.CategoriaId);
-								p.Categoria = Categoria.Nombre;
-								Proveedor = proveedoresController.Buscar(item.ProveedorId);
-								p.Proveedor = Proveedor.Nombre;
-								p.Precio = item.Precio;
-								p.Cantidad = item.Cantidad;
+                    case "6":
+                        ListadoTemporal = new List<ProductosConsulta>();
+                        foreach (var item in ListadoProductos)
+                        {
+                            if (Convert.ToString(item.Precio).Contains(Criterio))
+                            {
+                                ProductosConsulta p = new ProductosConsulta();
+                                p.ProductoId = item.ProductoId;
+                                p.Descrpcion = item.Descripcion;
+                                p.FechaCreacion = item.FechaCreacion;
+                                Categoria = categoriasController.Buscar(item.CategoriaId);
+                                p.Categoria = Categoria.Nombre;
+                                Proveedor = proveedoresController.Buscar(item.ProveedorId);
+                                p.Proveedor = Proveedor.Nombre;
+                                p.Precio = item.Precio;
+                                p.Cantidad = item.Cantidad;
 
-								ListadoTemporal.Add(p);
-							}
-						}
-						break;
-				}
-				if (BuscarPorFecha == true)
-				{
-					Listado = new List<ProductosConsulta>();
-					foreach (var item in ListadoTemporal)
-					{
-						if (item.FechaCreacion.Date >= Desde.Date && item.FechaCreacion.Date <= Hasta.Date)
-						{
-							Listado.Add(item);
-						}
-					}
-					BuscarPorFecha = false;
-				}
-				else
-				{
-					Listado = new List<ProductosConsulta>();
-					Listado = ListadoTemporal;
-				}
-			}
-		}
-	}
+                                ListadoTemporal.Add(p);
+                            }
+                        }
+                        break;
+                }
+                if (BuscarPorFecha == true)
+                {
+                    Listado = new List<ProductosConsulta>();
+                    foreach (var item in ListadoTemporal)
+                    {
+                        if (item.FechaCreacion.Date >= Desde.Date && item.FechaCreacion.Date <= Hasta.Date)
+                        {
+                            Listado.Add(item);
+                        }
+                    }
+                    BuscarPorFecha = false;
+                }
+                else
+                {
+                    Listado = new List<ProductosConsulta>();
+                    Listado = ListadoTemporal;
+                }
+            }
+        }
+    }
 }
 
