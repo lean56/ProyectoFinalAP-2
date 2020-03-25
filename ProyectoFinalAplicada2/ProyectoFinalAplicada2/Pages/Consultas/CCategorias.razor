@@ -46,7 +46,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Listado.Count == 0)
+                    @if (ListadoPaginado.Count == 0)
                     {
                         <tr>
                             <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
@@ -55,7 +55,7 @@
                     else
                     {
 
-                        @foreach (var item in Listado)
+                        @foreach (var item in ListadoPaginado)
                         {
                             <tr>
                                 <th>@item.CategoriaId</th>
@@ -66,6 +66,7 @@
                     }
                 </tbody>
             </table>
+
             <nav aria-label="Page navigation example">
                 <ul class="pagination">
                     <li class="page-item">
@@ -74,7 +75,7 @@
                         </a>
                     </li>
 
-                    @for (int i = 1; i <= TotalPaginas; i++)
+                    @for (int i = 1; i <= Paginas; i++)
                     {
                         <li class="page-item disabled"><a class="page-link">@i</a></li>
                     }
@@ -86,6 +87,7 @@
                     </li>
                 </ul>
             </nav>
+
         </div>
     </form>
 </EditForm>
@@ -93,58 +95,59 @@
 @code {
     public CategoriasController categoriasController = new CategoriasController();
     private List<Categorias> Listado { get; set; }
+    private List<Categorias> ListadoPaginado { get; set; }
 
     private string Criterio = string.Empty;
     private string Filtro = string.Empty;
     private string Mensaje = string.Empty;
 
     Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
+    Paginacion paginacion = new Paginacion();
 
-    
-	double TotalPaginas = 0;
-
-	double contador = 0;
-
-	public int PagInicial;
+    double Paginas = 0;
+    double Elementos = 0;
+    int PaginaActual = 0;
 
     protected override void OnInitialized()
     {
-		contador = contexto.Categorias.Count();
-		TotalPaginas = Math.Ceiling(contador / paginacion.Mostrar);
-        this.Listado = contexto.Categorias.Take(paginacion.Mostrar).ToList();
-
+        Listado = categoriasController.GetList(e => true);
         Filtro = "0";
+
+        IniciarPaginacion();
+    }
+
+    public void IniciarPaginacion()
+    {
+        PaginaActual = 1;
+        Elementos = Listado.Count();
+        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
     }
 
     private void PaginaSiguiente()
-	{
-		PagInicial = 0;
-		if (PagInicial < TotalPaginas)
-		{
-			PagInicial ++;
-		}
-
-		Listado = contexto.Categorias
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    {
+        if (PaginaActual < Paginas)
+        {
+            PaginaActual++;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
 
-	private void PaginaAnterior()
-	{
-		PagInicial = 1;
-		if (PagInicial > 0)
-		{
-			PagInicial --;
-		}
-
-		Listado = contexto.Categorias
-		.Skip(PagInicial * paginacion.Mostrar)
-		.Take(paginacion.Mostrar)
-		.ToList();
-	}
+    private void PaginaAnterior()
+    {
+        if (PaginaActual > 1)
+        {
+            PaginaActual--;
+            ListadoPaginado = Listado
+                .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                .Take(paginacion.Mostrar)
+                .ToList();
+        }
+    }
 
 
 
@@ -153,6 +156,7 @@
         if (Filtro == "0")
         {
             Listado = categoriasController.GetList(e => true);
+            IniciarPaginacion();
         }
         else
         {
@@ -173,6 +177,7 @@
                         Listado = Listado.Where(e => e.Nombre.ToUpper().Contains(Criterio.ToUpper())).ToList();
                         break;
                 }
+                IniciarPaginacion();
             }
         }
     }
