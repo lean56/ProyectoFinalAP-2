@@ -22,4 +22,8 @@
     <Folder Include="wwwroot\focus-free\assets\js\lib\New folder\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\Source\Img1.jfif" />
+  </ItemGroup>
+
 </Project>
