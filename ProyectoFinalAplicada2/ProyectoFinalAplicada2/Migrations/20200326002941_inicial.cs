@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ProyectoFinalAplicada2.Migrations
 {
-    public partial class Inicial : Migration
+    public partial class inicial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,7 +12,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     CategoriaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Nombre = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
@@ -25,7 +25,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     ClienteId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Nombres = table.Column<string>(nullable: true),
                     Cedula = table.Column<string>(maxLength: 13, nullable: false),
@@ -45,7 +45,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     EntradaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
@@ -58,7 +58,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     FacturaId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ClienteId = table.Column<int>(nullable: false),
                     Usuario = table.Column<string>(nullable: true),
                     ProductoId = table.Column<int>(nullable: false),
@@ -71,11 +71,26 @@ namespace ProyectoFinalAplicada2.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "FacturasConsulta",
+                columns: table => new
+                {
+                    FacturaId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Fecha = table.Column<DateTime>(nullable: false),
+                    Cliente = table.Column<string>(nullable: true),
+                    Total = table.Column<decimal>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_FacturasConsulta", x => x.FacturaId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Pagos",
                 columns: table => new
                 {
                     PagoId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false),
                     ClienteId = table.Column<int>(nullable: false),
                     MontoPago = table.Column<decimal>(nullable: false)
@@ -90,7 +105,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     ProductoId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FechaCreacion = table.Column<DateTime>(nullable: false),
                     Descripcion = table.Column<string>(nullable: false),
                     ProveedorId = table.Column<int>(nullable: false),
@@ -110,7 +125,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     ProveedorId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Fecha = table.Column<DateTime>(nullable: false),
                     Nombre = table.Column<string>(nullable: false),
                     Telefono = table.Column<string>(maxLength: 10, nullable: false),
@@ -126,7 +141,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     UsuarioId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FechaIngreso = table.Column<DateTime>(nullable: false),
                     Nombres = table.Column<string>(nullable: false),
                     Apellidos = table.Column<string>(nullable: false),
@@ -145,7 +160,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     EntradaDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     EntradaId = table.Column<int>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(nullable: true),
@@ -167,7 +182,7 @@ namespace ProyectoFinalAplicada2.Migrations
                 columns: table => new
                 {
                     FacturaDetalleId = table.Column<int>(nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FacturaId = table.Column<int>(nullable: false),
                     ProductoId = table.Column<int>(nullable: false),
                     Descripcion = table.Column<string>(nullable: true),
@@ -210,6 +225,9 @@ namespace ProyectoFinalAplicada2.Migrations
 
             migrationBuilder.DropTable(
                 name: "FacturaDetalles");
+
+            migrationBuilder.DropTable(
+                name: "FacturasConsulta");
 
             migrationBuilder.DropTable(
                 name: "Pagos");

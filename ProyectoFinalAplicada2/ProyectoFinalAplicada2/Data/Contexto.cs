@@ -22,7 +22,8 @@ namespace ProyectoFinalAplicada2.Data
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlite(@"Data Source = Database/ProyectoFinalDb.db");
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer(@"Server=.\SQLEXPRESS; Database=SoftBussinesDB; trusted_connection=true");
         }
     }
 }
