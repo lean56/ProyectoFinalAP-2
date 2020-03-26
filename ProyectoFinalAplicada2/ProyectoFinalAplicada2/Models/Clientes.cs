@@ -14,7 +14,7 @@ namespace ProyectoFinalAplicada2.Models
         public DateTime Fecha { get; set; }
         public string Nombres { get; set; }
         [Required(ErrorMessage = "La Cedula es obligatoria.")]
-        [StringLength(maximumLength: 13, MinimumLength = 13, ErrorMessage = "Cedula invalida.")]
+        [StringLength(maximumLength: 11, MinimumLength = 11, ErrorMessage = "Cedula invalida.")]
         public string Cedula { get; set; }
         [DataType(DataType.PhoneNumber, ErrorMessage = "Número de Teléfono Invalido.")]
         [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Número de Teléfono Invalido.")]

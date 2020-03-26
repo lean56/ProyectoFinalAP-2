@@ -49,7 +49,7 @@
 				<!-- Cedula -->
 				<div class="form-group col-md-6   col-lg-5">
 					<label for="Cedula">Cedula</label>
-					<InputText @bind-Value="@Cliente.Cedula" class="form-control" placeholder="000-0000000-0" />
+					<InputText @bind-Value="@Cliente.Cedula" class="form-control" placeholder="05600000000" />
 					<ValidationMessage For="@(()=>Cliente.Cedula)" />
 					<p class="validation-message"> @MensajeCedula </p>
 				</div>
@@ -106,7 +106,7 @@
 			</div>
 		</form>
 
-		@*<ValidationSummary />*@
+		<ValidationSummary />
 		<!-- Botones-->
 		<div class="text-center">
 			<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
@@ -168,7 +168,7 @@
 
 		if (ExisteCedula())
 		{
-			MensajeCedula = "Existe un cliente con ests cedula, debe ingresar otra.";
+			MensajeCedula = "Existe un cliente con esta cedula, debe ingresar otra.";
 			return;
 		}
 
@@ -244,7 +244,7 @@
 
 	public bool ValidaCedula(string cedula)
 	{
-		cedula = cedula.Replace("-", "");
+		//cedula = cedula.Replace("-", "");
 		//Declaración de variables a nivel de método o función.
 		int verificador = 0;
 		int digito = 0;
