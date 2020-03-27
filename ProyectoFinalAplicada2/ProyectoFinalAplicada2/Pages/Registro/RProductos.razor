@@ -52,15 +52,22 @@
 
             <!-- Proveedor -->
             <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Categoria">Proveedor</label>
+                <label for="Proveedor">Proveedor</label>
                 <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control " @onchange="SeleccionarProveedor" @onclick="SeleccionarProveedor">
                     <option value="0" disabled selected>Seleccione un Proveedor</option>
-                    @foreach (var item in ListadoProveedores)
+                    @if (ListadoProveedores.Count <= 0)
                     {
-                        <option value="@item.ProveedorId">@item.Nombre</option>
+                        <option value=""disabled>No Hay Proveedores Registrado</option>
+                    }
+                    else
+                    {
+                        @foreach (var item in ListadoProveedores)
+                        {
+                            <option value="@item.ProveedorId">@item.Nombre</option>
+                        }
                     }
                 </InputSelect>
-                <ValidationMessage For="@(()=>Producto.CategoriaId)" />
+                <ValidationMessage For="@(()=>Producto.ProveedorId)" />
             </div>
 
             <!-- Categoria -->
@@ -68,11 +75,18 @@
                 <label for="Categoria">Categoría</label>
                 <InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
                     <option value="0" disabled selected>Seleccione una Categoría</option>
-                    @foreach (var item in ListadoCategorias)
+                    @if (ListadoCategorias.Count <= 0)
                     {
-                        <option value="@item.CategoriaId">@item.Nombre</option>
+                        <option value="" disabled>No Hay Categoria Registrada</option>
                     }
-                </InputSelect>
+                    else
+                    {
+                        @foreach (var item in ListadoCategorias)
+                        {
+                            <option value="@item.CategoriaId">@item.Nombre</option>
+                        }
+                    }
+                    </InputSelect>
                 <ValidationMessage For="@(()=>Producto.CategoriaId)" />
             </div>
 
@@ -90,7 +104,7 @@
             <!-- Ganancia -->
             <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
                 <label for="Ganancia">% Ganancia</label>
-                <InputNumber @bind-Value="@Producto.Ganancia" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
+                <input type="number" @bind="@Producto.Ganancia"  max="100" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
                 <ValidationMessage For="@(()=>Producto.Ganancia)" />
             </div>
 
@@ -116,7 +130,7 @@
         </div>
 	</form>
 
-	<ValidationSummary />
+	@*<ValidationSummary />*@
 	<!-- Botones-->
 	<div class="text-center">
 		<button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>

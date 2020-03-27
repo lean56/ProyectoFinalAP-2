@@ -11,6 +11,7 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int EntradaId { get; set; }
+        [Required(ErrorMessage = "La fecha esta fuera de rango.")]
         public DateTime Fecha { get; set; }
 
         [ForeignKey("EntradaId")]

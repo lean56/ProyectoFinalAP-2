@@ -20,14 +20,14 @@ namespace ProyectoFinalAplicada2.Models
         [Required]
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar una categoría.")]
         public int CategoriaId { get; set; }
-        [Required]
-        [Range(minimum:1,maximum:999999999999,ErrorMessage = "El costo debe ser mayor a 0.")]
+        [Required(ErrorMessage ="El Costo es obligatorio.")]
+        [Range(minimum:1,maximum:999999999999,ErrorMessage = "El Costo esta fuera del rango")]
         public decimal Costo { get; set; }
         [Required]
-        [Range(minimum: 1, maximum: 999999999, ErrorMessage = "El porciento de ganancia debe ser mayor al 1%")]
+        [Range(minimum: 1, maximum: 100, ErrorMessage = "El porciento de ganancia debe ser mayor al 1%   y/o   menor al 100%")]
         public decimal Ganancia { get; set; }
         [Required]
-        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El precio debe ser mayor a 0.")]
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El Precio esta fuera del rango.")]
         public decimal Precio { get; set; }
         public int Cantidad { get; set; }
 

@@ -45,11 +45,18 @@
                 <label for="ClienteId">Cliente</label>
                 <InputSelect @bind-Value="@ClienteSeleccionado" class="form-control" @onclick="SeleccionarCliente" @onchange="SeleccionarCliente">
                     <option value="0" disabled selected>Seleccione un Cliente</option>
-                    @foreach (var item in ListadoClientes)
+                    @if (ListadoClientes.Count == 0)
                     {
-                        <option value="@item.ClienteId">@item.Nombres</option>
+                        <option value="" disabled>No hay Cliente Registrado</option>
                     }
-                </InputSelect>
+                    else
+                    {
+                        @foreach (var item in ListadoClientes)
+                        {
+                            <option value="@item.ClienteId">@item.Nombres</option>
+                        }
+                    }
+                    </InputSelect>
                 <ValidationMessage For="(() => Pago.ClienteId)" />
             </div>
 
@@ -69,7 +76,7 @@
         </div>
     </form>
 
-    <ValidationSummary />
+    @*<ValidationSummary />*@
     <!-- Botones-->
     <div class="text-center">
         <button type="button" class="btn btn-warning" @onclick="Limpiar"><span class="oi oi-file" style="color: white; text-decoration-color:white"/>&nbsp;Limpiar</button>
@@ -138,9 +145,23 @@
 
     private void Guardar()
     {
+        if (Cliente.Deuda <= 0)
+        {
+            toastService.ShowInfo("Este cliente no tiene deuda.", "Info");
+
+        } else
         if (Pago.MontoPago > Cliente.Deuda)
         {
             Mensaje = "El pago es mayor a la Deuda, El Balance es: " + Cliente.Deuda;
+
+        } else if (Pago.MontoPago <=0)
+        {
+            toastService.ShowError("El Monto debe ser mayor a 0.", "Fallo");
+
+        }
+        else if (Pago.MontoPago >=999999999)
+        {
+            toastService.ShowError("El Monto esta fuera del rango.", "Fallo");
 
         }
         else
@@ -154,7 +175,6 @@
             else
             {
                 toastService.ShowError("Error al guardar el Pago.", "Fallo");
-
             }
         }
 

@@ -13,6 +13,8 @@ namespace ProyectoFinalAplicada2.Models
         public int EntradaId { get; set; }
         public int ProductoId { get; set; }
         public string Descripcion { get; set; }
+        [Range(minimum: 1, maximum: 9999999, ErrorMessage = "La Cantidad esta fuera del rango")]
+
         public int Cantidad { get; set; }
 
         public EntradasDetalles()

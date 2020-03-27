@@ -31,7 +31,7 @@
             <!-- Fecha -->
             <div class="form-group col-sm-4     col-md-5     col-lg-3     col-xl-3     ">
                 <label for="FechaIngreso">Fecha</label>
-                <InputDate @bind-Value="@Entrada.Fecha" class="form-control" disabled />
+                <InputDate @bind-Value="@Entrada.Fecha" class="form-control" />
             </div>
 
             <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
@@ -43,15 +43,13 @@
                 <div class="input-group ">
 
                     <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
-
+                        <option value="0" disabled selected>Seleccione un Producto</option>
                         @if (ListadoProductos.Count == 0)
                         {
-                            <option value="">No hay Producto Registrado</option>
+                            <option value="" disabled>No hay Producto Registrado</option>
                         }
                         else
                         {
-                            <option value="0" disabled selected>Seleccione un Producto</option>
-
                             @foreach (var item in ListadoProductos)
                             {
                                 <option value="@item.ProductoId">@item.Descripcion</option>
@@ -111,7 +109,6 @@
         </div>
     </form>
 
-    <ValidationSummary />
     <div class="text-center">
         <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
         <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
@@ -265,9 +262,13 @@
             {
                 toastService.ShowInfo("Este Producto ya esta agregado", "Info");
             }
-            else if (Cantidad < 1)
+            else if (Cantidad <=0)
             {
                 toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
+            }else if (Cantidad >= 1234567890)
+            {
+                toastService.ShowError("La catidad esta fuera del rango!", "Fallo");
+                return;
             }
             else
             {
