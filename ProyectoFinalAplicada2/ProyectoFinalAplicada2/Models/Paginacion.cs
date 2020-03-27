@@ -12,7 +12,7 @@ namespace ProyectoFinalAplicada2.Models
         public Paginacion()
         {
             Pagina = 1;
-            Mostrar = 2;
+            Mostrar = 5;
         }
 
     }

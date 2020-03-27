@@ -15,7 +15,7 @@ namespace ProyectoFinalAplicada2.Models
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar un cliente.")]
         public int ClienteId { get; set; }
         [Required]
-        [Range(minimum: 0, maximum: 9999999, ErrorMessage = "El monto a pagar esta fuera del rango")]
+        [Range(minimum: 0, maximum: 9999999999999, ErrorMessage = "El monto a pagar debe ser mayor a 0")]
         public decimal MontoPago { get; set; }
 
         public Pagos()

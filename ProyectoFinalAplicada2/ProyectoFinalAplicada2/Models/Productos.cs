@@ -11,8 +11,9 @@ namespace ProyectoFinalAplicada2.Models
         [Key]
         public int ProductoId { get; set; }
         public DateTime FechaCreacion { get; set; }
-        [StringLength(maximumLength: 25, MinimumLength = 5, ErrorMessage = "La Descripcion esta fuera del rango, Muy corta o muy larga.")]
         [Required(ErrorMessage = "La descripción es obligatoria.")]
+        [MinLength(3, ErrorMessage = "Este descripcion es muy corta, debe elegir una descripcion más larga.")]
+        [MaxLength(25, ErrorMessage = "Este descripcion es muy larga, debe elegir una descripcion más corta.")]
         public string Descripcion { get; set; }
         [Required]
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar un proveedor.")]

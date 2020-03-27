@@ -12,6 +12,7 @@ namespace ProyectoFinalAplicada2.Models
         [Key]
         public int FacturaId { get; set; }
         public int ClienteId { get; set; }
+        [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "Debe seleccionar un Cliente.")]
         public string Usuario { get; set; }
         public int ProductoId { get; set; }
         //[Range(minimum:1,maximum:1000000,ErrorMessage ="El total debe se mayor a cero")]
