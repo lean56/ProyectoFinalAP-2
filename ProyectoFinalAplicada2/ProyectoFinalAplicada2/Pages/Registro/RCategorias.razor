@@ -5,14 +5,14 @@
 <EditForm Model="Categoria" OnValidSubmit="Guardar">
 	<DataAnnotationsValidator />
 
-	<div class="container center">
+    <div class="container center">
 
-		<center>
-			<h1>Registro de Categorias</h1>
-		</center>
+        <center>
+            <h1>Registro de Categorias</h1>
+        </center>
 
-		<form>
-			<div class="form-row justify-content-center">
+        <form>
+            <div class="form-row justify-content-center">
 
                 <div class="form-group">
                     <label for="Categoriaid">Codigo de Categoria</label>
@@ -29,38 +29,39 @@
                     <p class="validation-message"> @MensajeNombre </p>
                 </div>
 
-			</div>
-		</form>
-		<div class="text-center">
-			<button type="button" class="btn btn-warning " @onclick="Limpiar" style="color: white"><span class="oi oi-file" />Limpiar</button>
-			<button type="submit" class="btn btn-success "><span class="oi oi-data-transfer-download"></span>Guardar</button>
-			<button type="button" class="btn btn-danger " data-toggle="modal" data-target="#exampleModal"><span class="oi oi-trash" />Eliminar</button>
+            </div>
+        </form>
+        <div class="text-center">
+            <button type="button" class="btn btn-warning " @onclick="Limpiar" style="color: white"><span class="oi oi-file" />Limpiar</button>
+            <button type="submit" class="btn btn-success "><span class="oi oi-data-transfer-download"></span>Guardar</button>
+            <button type="button" class="btn btn-danger " data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-trash" />Eliminar</button>
 
 
-			<!-- Modal-->
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title">Confirmacion</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							¿Está seguro de que desea eliminar esta Categoria?
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
-							<button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!--fin de modal-->
-		</div>
+            <!-- Modal-->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title"  id="exampleModalCenterTitle">Confirmacion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro de que desea eliminar esta Categoria?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--fin de modal-->
+        </div>
 
-	</div>
+
+    </div>
 </EditForm>
 
 
