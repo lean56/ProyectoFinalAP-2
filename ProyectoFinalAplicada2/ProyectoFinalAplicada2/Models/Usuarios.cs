@@ -39,6 +39,7 @@ namespace ProyectoFinalAplicada2.Models
         {
             UsuarioId = 0;
             Nombres = string.Empty;
+            Apellidos = string.Empty;
             Email = string.Empty;
             NivelUsuario = string.Empty;
             Usuario = string.Empty;
