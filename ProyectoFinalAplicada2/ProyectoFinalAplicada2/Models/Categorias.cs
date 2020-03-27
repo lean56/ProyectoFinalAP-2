@@ -11,6 +11,7 @@ namespace ProyectoFinalAplicada2.Models
         [Key]
         public int CategoriaId { get; set; }
         [Required(ErrorMessage = "El nombre no puede estar vacio")]
+        [StringLength(maximumLength: 20, MinimumLength = 5, ErrorMessage = "El Nombre esta fuera del rango, Muy corto o muy largo.")]
         public string Nombre { get; set; }
 
         public Categorias()

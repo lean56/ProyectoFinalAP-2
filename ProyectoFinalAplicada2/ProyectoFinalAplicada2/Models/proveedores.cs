@@ -12,6 +12,7 @@ namespace ProyectoFinalAplicada2.Models
         public int ProveedorId { get; set; }
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
+        [StringLength(maximumLength: 25, MinimumLength = 5, ErrorMessage = "El Nombre esta fuera del rango, Muy corto o muy largo.")]
         public string Nombre { get; set; }
         [DataType(DataType.PhoneNumber, ErrorMessage = "Número de Teléfono Invalido.")]
         [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Número de Teléfono Invalido.")]

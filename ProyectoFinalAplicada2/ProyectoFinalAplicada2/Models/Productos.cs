@@ -11,6 +11,7 @@ namespace ProyectoFinalAplicada2.Models
         [Key]
         public int ProductoId { get; set; }
         public DateTime FechaCreacion { get; set; }
+        [StringLength(maximumLength: 25, MinimumLength = 5, ErrorMessage = "La Descripcion esta fuera del rango, Muy corta o muy larga.")]
         [Required(ErrorMessage = "La descripción es obligatoria.")]
         public string Descripcion { get; set; }
         [Required]
@@ -23,7 +24,7 @@ namespace ProyectoFinalAplicada2.Models
         [Range(minimum:1,maximum:999999999999,ErrorMessage = "El costo debe ser mayor a 0.")]
         public decimal Costo { get; set; }
         [Required]
-        [Range(minimum: 1, maximum: 999999999, ErrorMessage = "El prociento de ganancia debe ser mayor al 1%")]
+        [Range(minimum: 1, maximum: 999999999, ErrorMessage = "El porciento de ganancia debe ser mayor al 1%")]
         public decimal Ganancia { get; set; }
         [Required]
         [Range(minimum: 1, maximum: 999999999999, ErrorMessage = "El precio debe ser mayor a 0.")]

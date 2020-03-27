@@ -12,20 +12,22 @@ namespace ProyectoFinalAplicada2.Models
         public int UsuarioId { get; set; }
         public DateTime FechaIngreso { get; set; }
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
+        [StringLength(maximumLength: 15, MinimumLength = 5, ErrorMessage = "El Nombre esta fuera del rango, Muy corto o muy largo.")]
         public string  Nombres { get; set; }
         [Required(ErrorMessage = "El Apellido es obligatorio.")]
+        [StringLength(maximumLength: 15, MinimumLength = 5, ErrorMessage = "El Apellido esta fuera del rango, Muy corto o muy largo.")]
         public string Apellidos { get; set; }
         [Required(ErrorMessage = "El Email es obligatorio")]
         [EmailAddress(ErrorMessage ="Debe ingresar un Email valido.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "El Usuario es obligatorio.")]
-        [MinLength(3, ErrorMessage = "El nombre de usuario debe tener al menos 3 caracteres.")]
+        [StringLength(maximumLength: 15, MinimumLength = 5, ErrorMessage = "El Nombre de usuario esta fuera del rango, muy corto o muy largo!!!")]
         public string Usuario { get; set; }
         [Required(ErrorMessage = "Debe elegir un nivel de usuario.")]
         [MinLength(5, ErrorMessage = "Debe elegir un nivel de usuario.")]
         public string  NivelUsuario { get; set; }
         [Required(ErrorMessage = "Debe ingresar una contraseña")]
-        [MinLength(5, ErrorMessage = "La contraseña debe contener al menos 5 caracteres.")]
+        [StringLength(maximumLength: 10, MinimumLength = 5, ErrorMessage = "La contraseña debe contener al menos 5 caracteres.")]
         public string Contrasena { get; set; }
 
         public Usuarios()

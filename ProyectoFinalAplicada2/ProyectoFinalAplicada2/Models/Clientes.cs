@@ -10,8 +10,9 @@ namespace ProyectoFinalAplicada2.Models
     {
         [Key]
         public int ClienteId { get; set; }
-        [Required(ErrorMessage = "El Nombre es obligatorio.")]
         public DateTime Fecha { get; set; }
+        [Required(ErrorMessage = "El Nombre es obligatorio.")]
+        [StringLength(maximumLength: 25, MinimumLength = 5, ErrorMessage = "El Nombre esta fuera del rango, Muy corto o muy largo.")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "La Cedula es obligatoria.")]
         [StringLength(maximumLength: 11, MinimumLength = 11, ErrorMessage = "Cedula invalida.")]
@@ -28,6 +29,7 @@ namespace ProyectoFinalAplicada2.Models
         [EmailAddress(ErrorMessage = "Debe ingresar un Email valido.")]
         public string Email { get; set; }
         [Required(ErrorMessage = "La Dirección es obligatoria.")]
+        [StringLength(maximumLength: 25, MinimumLength = 5, ErrorMessage = "La Dirección esta fuera del rango, Muy corta o muy larga.")]
         public string Direccion { get; set; }
         public decimal Deuda { get; set; }
 
