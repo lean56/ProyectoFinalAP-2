@@ -13,16 +13,12 @@ namespace ProyectoFinalAplicada2.Models
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
         [MinLength(3, ErrorMessage = "Este nombre es muy corto, debe elegir un nombre más largo.")]
-        [MaxLength(20, ErrorMessage = "Este nombre es muy largo, debe elegir un nombre más corto.")]
+        [MaxLength(50, ErrorMessage = "Este nombre es muy largo, debe elegir un nombre más corto.")]
         public string Nombres { get; set; }
         [Required(ErrorMessage = "La Cedula es obligatoria.")]
         [StringLength(maximumLength: 11, MinimumLength = 11, ErrorMessage = "Cedula invalida.")]
         public string Cedula { get; set; }
-        [StringLength(maximumLength: 10, MinimumLength = 0, ErrorMessage = "Número de Teléfono Invalido.")]
         public string Telefono { get; set; }
-        [DataType(DataType.PhoneNumber, ErrorMessage = "Número de celular Invalido.")]
-        [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Número de celular Invalido.")]
-        [Required(ErrorMessage = "El Celular es obligatorio.")]
         public string Celular { get; set; }
         [Required(ErrorMessage = "El Email es obligatorio")]
         [EmailAddress(ErrorMessage = "Debe ingresar un Email valido.")]

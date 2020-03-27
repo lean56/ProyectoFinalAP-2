@@ -96,6 +96,14 @@
                     </tbody>
                 </table>
             </div>
+
+            <br />
+
+            <div class="form-inline justify-content-end">
+                <label>Total:&nbsp;</label>
+                <InputNumber @bind-Value="@Total" class="form-control" disabled />
+            </div>
+
         </form>
 
         <div class="form-row col-12 justify-content-center">
@@ -129,6 +137,7 @@
     DateTime Hasta;
     bool BuscarPorFecha;
     string Mensaje;
+    decimal Total = 0;
 
     ClientesController clientesController = new ClientesController();
     Clientes Cliente = new Clientes();
@@ -144,7 +153,7 @@
     int PaginaActual = 0;
 
     Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
+    Paginacion paginacion = new Paginacion();
 
     List<FacturasConsulta> ListadoTemporal = new List<FacturasConsulta>();
 
@@ -176,6 +185,7 @@
             Listado.Add(f);
         }
 
+        CagarTotal();
         IniciarPaginacion();
     }
 
@@ -210,7 +220,7 @@
                 .ToList();
         }
     }
-    
+
     public void FiltrarPorLaFecha()
     {
         if (Filtro == "0")
@@ -233,9 +243,19 @@
             Listado = new List<FacturasConsulta>();
             Listado = ListadoTemporal;
         }
+        CagarTotal();
         IniciarPaginacion();
     }
 
+    public void CagarTotal()
+    {
+        Total = 0;
+        if(Listado != null)
+            foreach (var item in Listado)
+            {
+                Total += item.Total;
+            }
+    }
 
     private void Buscar()
     {
