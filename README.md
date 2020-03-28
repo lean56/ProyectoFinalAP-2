@@ -15,9 +15,9 @@ Este sistema consta tanto de un conjunto de registros con el siguiente diseño:
 
 Y las consultas con el siguiente:
 
-![cCategorias](https://user-images.githubusercontent.com/39072094/77585445-e4cf8880-6eba-11ea-89d3-adad2d0cb403.png)
+![cCategorias](https://user-images.githubusercontent.com/39072094/77808889-a1fce480-7063-11ea-88c0-5e997c954b5c.png)
 
-![cProveedores](https://user-images.githubusercontent.com/39072094/77585462-ec8f2d00-6eba-11ea-87cf-e6589c009be4.png)
+![cProveedores](https://user-images.githubusercontent.com/39072094/77808868-8e517e00-7063-11ea-9ad5-dd5eb9c246f2.png)
 
 Los registros tienen la capacidad de validar los campos de manera correcta para asi poder tener integridad de los datos.
 
