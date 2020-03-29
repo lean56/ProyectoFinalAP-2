@@ -23,8 +23,8 @@ namespace ProyectoFinalAplicada2.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=JMP-PC\SQLEXPRESS; Database=SoftBussinesDB; trusted_connection=true");
-            //optionsBuilder.UseSqlServer(@"Server= .\SQLEXPRESS; Database=SoftBussinesDB; trusted_connection=true");
+            //optionsBuilder.UseSqlServer(@"Server=JMP-PC\SQLEXPRESS; Database=SoftBussinesDB; trusted_connection=true");
+            optionsBuilder.UseSqlServer(@"Server= .\SQLEXPRESS; Database=SoftBussinesDB; trusted_connection=true");
         }
     }
 }
