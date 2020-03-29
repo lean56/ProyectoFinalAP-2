@@ -14,7 +14,9 @@ using Microsoft.Extensions.Logging;
 
 namespace ProyectoFinalAplicada2.Areas.Identity.Pages.Account
 {
-    [AllowAnonymous]
+    //[Authorize(Roles = "Admin")]
+    //[Area("Identity")]
+
     public class LoginModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;

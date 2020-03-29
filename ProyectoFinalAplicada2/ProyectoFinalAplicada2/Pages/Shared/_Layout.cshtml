@@ -1,45 +1,104 @@
-﻿@using Microsoft.AspNetCore.Hosting
-@using Microsoft.AspNetCore.Mvc.ViewEngines
-@inject IWebHostEnvironment Environment
-@inject ICompositeViewEngine Engine
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    var userImagen = UserManager.GetUserName(User) + ".png";
+}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ProyectoFinalAplicada2</title>
-    <link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css3/site.css" />
+    <title>@ViewData["Title"] - Sistem Ventas</title>
     <link rel="stylesheet" href="~/materialize/css/materialize.css" />
-
+    <link rel="stylesheet" href="~/css/site1.css" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-light navbar-toggleable-sm bg-white border-bottom box-shadow mb-3 cyan darken-2">
+    <nav>
+        <div class="nav-wrapper cyan darken-2">
+            <a href="#!" class="brand-logo center">
+               SoftBusiness
+            </a>
+            @*@if (SignInManager.IsSignedIn(User))
+                {
+                    <div id="menuNavBar1">
+                        <ul class="right hide-on-med-and-down">
+                            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="SessionClose">
+                                Salir
+                            </a>
+                        </ul>
 
-            <div class="container">
-                <a class="brand-logo center">
-                    SoftBusiness
-                </a><br /><br /><br /><br /><br /><br />
-            </div>
-        </nav>
-    </header>
-    <br /><br />
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div><br /><br /><br />
-    <footer class="footer border-top text-muted">
-        <div class="container center">
-            &copy; 2020 - Proyecto Final Aplicada 2 -  Todos los derecho reservados
+                        <a href"#" data-target="slide-out" class="btn-floating btn-large waves-effect waves-light cyan darken-2 sidenav-trigger"></a>
+                    </div>
+                }*@
         </div>
-    </footer>
-    <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/Identity/js/site.js" asp-append-version="true"></script>
-    <script src="~/materialize/js/materialize.js" asp-append-version="true"></script>
+    </nav>
 
-    @RenderSection("Scripts", required: false)
+    <ul id="slide-out" class="sidenav">
+
+        <li>
+            <a>Registro de Usuarios</a>
+        </li>
+        <li>
+            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="Index" onclick="">Registro de Usuarios</a>
+        </li>
+        <li>
+            <a asp-area="Cajas" asp-controller="Cajas" asp-action="Index" onclick="" id="">Registro de Usuarios</a>
+        </li>
+        <li>
+            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="SessionClose">
+                Salir
+            </a>
+        </li>
+    </ul>
+
+
+    <li>
+        <a>Registro de Usuarios</a>
+
+    </li>
+    <li>
+        <a>Registro de Usuarios</a>
+
+    </li>
+    <li>
+        <a>Registro de Usuarios</a>
+
+    </li>
+    <li>
+        <a>Registro de Usuarios</a>
+
+    </li>
+
+    <div class="container body-content">
+        <div class="form-group">
+            @RenderBody()
+        </div>
+       
+            <hr />
+            <footer>
+                <p>&copy; 2020 - Sistem Ventas</p>
+            </footer>
+        </div>
+
+        @*<footer class="border-top footer text-muted">
+            <div class="container">
+                &copy; 2020 - Sistem_Venta - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>*@
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/js/Config.js" asp-append-version="true"></script>
+        <script src="~/js/Funciones.js" asp-append-version="true"></script>
+        <script src="~/js/UploadImage.js" asp-append-version="true"></script>
+        <script src="~/js/Principal.js" asp-append-version="true"></script>
+        <script src="~/js/Usuarios.js" asp-append-version="true"></script>
+        <script src="~/js/Compras.js" asp-append-version="true"></script>
+        <script src="~/js/Ventas.js" asp-append-version="true"></script>
+        <script src="~/js/Clientes.js" asp-append-version="true"></script>
+        <script src="~/js/Proveedores.js" asp-append-version="true"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        <script src="~/materialize/js/materialize.js" asp-append-version="true"></script>
+
+        @RenderSection("Scripts", required: false)
 </body>
 </html>

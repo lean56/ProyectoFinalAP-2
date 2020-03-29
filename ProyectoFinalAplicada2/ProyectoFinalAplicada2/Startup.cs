@@ -112,6 +112,14 @@ namespace ProyectoFinalAplicada2
             //    app.UseCookiePolicy();
             //    app.UseAuthentication();
             app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapBlazorHub();
+
+            //    endpoints.MapControllerRoute(
+            //        name: "default",
+            //        pattern: "{controller=Identity/Account}/{Login}");
+            //    endpoints.MapRazorPages();
+            //});
             {
                 endpoints.MapBlazorHub();
 
@@ -120,12 +128,6 @@ namespace ProyectoFinalAplicada2
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapBlazorHub();
-            //    endpoints.MapFallbackToPage("/_Host");
-            //   // endpoints.MapControllerRoute(" default ", " {controller = Home} / {action = Index} / {id?} ");
-            //});
         }
     }
 }
