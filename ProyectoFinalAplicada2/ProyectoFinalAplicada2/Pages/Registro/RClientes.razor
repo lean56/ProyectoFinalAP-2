@@ -32,7 +32,7 @@
 				<!-- Fecha -->
 				<div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
 					<label for="Fecha">Fecha</label>
-					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" disabled />
+					<InputDate @bind-Value="@Cliente.Fecha" class="form-control" />
 				</div>
 
 				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
@@ -49,7 +49,7 @@
 				<!-- Cedula -->
 				<div class="form-group col-md-6   col-lg-5">
 					<label for="Cedula">Cedula</label>
-					<InputText @bind-Value="@Cliente.Cedula" class="form-control" placeholder="05600000000" />
+					<InputText @bind-Value="@Cliente.Cedula" class="form-control" placeholder="05600000000 (Sin Guiones)" />
 					<ValidationMessage For="@(()=>Cliente.Cedula)" />
 					<p class="validation-message"> @MensajeCedula </p>
 				</div>
@@ -62,14 +62,14 @@
 				<div class="form-group col-md-6   col-lg-5">
 					<label for="Telefono">Teléfono</label>
 					<InputText @bind-Value="@Cliente.Telefono" class="form-control" placeholder="8098098098 (Sin Guiones)" />
-					<ValidationMessage For="@(()=>Cliente.Telefono)" />
+					<p class="validation-message"> @MensajeTelefono </p>
 				</div>
 
 				<!-- Celular -->
 				<div class="form-group col-md-6   col-lg-5">
 					<label for="Celular">Celular</label>
 					<InputText @bind-Value="@Cliente.Celular" class="form-control" placeholder="8098098098 (Sin Guiones)" />
-					<ValidationMessage For="@(()=>Cliente.Celular)" />
+					<p class="validation-message"> @MensajeCelular </p>
 				</div>
 
 				<div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
@@ -143,208 +143,240 @@
 
 
 @code {
-	[Parameter]
-	public int ClienteId { get; set; }
+    [Parameter]
+    public int ClienteId { get; set; }
 
-	ClientesController clientesController = new ClientesController();
-	Clientes Cliente = new Clientes();
+    ClientesController clientesController = new ClientesController();
+    Clientes Cliente = new Clientes();
 
-	string MensajeCedula = string.Empty;
+    string MensajeCedula = string.Empty;
+    string MensajeTelefono = string.Empty;
+    string MensajeCelular = string.Empty;
 
-	protected override void OnInitialized()
-	{
-		Cliente = new Clientes();
-		Limpiar();
+    protected override void OnInitialized()
+    {
+        Cliente = new Clientes();
+        Limpiar();
 
-		if (ClienteId != 0)
-		{
-			Cliente.ClienteId = ClienteId;
-			Buscar();
-		}
-	}
+        if (ClienteId != 0)
+        {
+            Cliente.ClienteId = ClienteId;
+            Buscar();
+        }
+    }
 
-	private void Guardar()
-	{
+    private void Guardar()
+    {
 
-		LimpiarMensajes();
+        LimpiarMensajes();
 
-		if (ExisteCedula())
-		{
-			MensajeCedula = "Existe un cliente con esta cedula, debe ingresar otra.";
-			return;
-		}
+        if (ExisteCedula())
+        {
+            MensajeCedula = "Existe un cliente con esta cedula, debe ingresar otra.";
+            return;
+        }
 
-		if (!ValidaCedula(Cliente.Cedula))
-		{
-			toastService.ShowError("Cedula incorrecta", "Fallo");
+        if (ValidarContactos())
+            return;
 
-		}
-		else
-		{
-			if (clientesController.Guardar(Cliente))
-			{
-				Limpiar();
-				toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
+        if (!ValidaCedula(Cliente.Cedula))
+        {
+            toastService.ShowError("Cedula incorrecta", "Fallo");
 
-			}
-			else
-			{
-				toastService.ShowError("Error al guardar el Cliente", "Fallo");
-			}
-		}
+        }
+        else
+        {
+            if (clientesController.Guardar(Cliente))
+            {
+                Limpiar();
+                toastService.ShowSuccess("Cliente guardado correctamente", "Exito");
 
-	}
+            }
+            else
+            {
+                toastService.ShowError("Error al guardar el Cliente", "Fallo");
+            }
+        }
 
-	private void Buscar()
-	{
-		Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
+    }
 
-		if (ClienteTemporal != null)
-		{
-			Limpiar();
-			Cliente = ClienteTemporal;
-			toastService.ShowSuccess("Cliente encontrado.", "Exito");
+    private void Buscar()
+    {
+        Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
 
-		}
-		else
-		{
-			Limpiar();
-			toastService.ShowError("El Cliente no fue encontrado.", "Fallo");
+        if (ClienteTemporal != null)
+        {
+            Limpiar();
+            Cliente = ClienteTemporal;
+            toastService.ShowSuccess("Cliente encontrado.", "Exito");
 
-		}
-	}
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("El Cliente no fue encontrado.", "Fallo");
 
-	private void Eliminar()
-	{
-		Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
+        }
+    }
 
-		if (ClienteTemporal != null)
-		{
-			if (Cliente.Deuda > 0)
-			{
-				toastService.ShowWarning("No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda, "Error");
-			}
-			else
-			{
-				if (clientesController.Eliminar(Cliente.ClienteId))
-				{
-					Limpiar();
-					toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
-				}
-				else
-				{
-					toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
-				}
-			}
-		}
-		else
-		{
-			Limpiar();
-			toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
-		}
-	}
+    private void Eliminar()
+    {
+        Clientes ClienteTemporal = clientesController.Buscar(Cliente.ClienteId);
 
-	public bool ValidaCedula(string cedula)
-	{
-		//cedula = cedula.Replace("-", "");
-		//Declaración de variables a nivel de método o función.
-		int verificador = 0;
-		int digito = 0;
-		int digitoVerificador = 0;
-		int digitoImpar = 0;
-		int sumaPar = 0;
-		int sumaImpar = 0;
-		int longitud = Convert.ToInt32(cedula.Length);
-		/*Control de errores en el código*/
-		try
-		{
-			//verificamos que la longitud del parametro sea igual a 11
-			if (longitud == 11)
-			{
-				digitoVerificador = Convert.ToInt32(cedula.Substring(10, 1));
-				//recorremos en un ciclo for cada dígito de la cédula
-				for (int i = 9; i >= 0; i--)
-				{
-					//si el digito no es par multiplicamos por 2
-					digito = Convert.ToInt32(cedula.Substring(i, 1));
-					if ((i % 2) != 0)
-					{
-						digitoImpar = digito* 2;
-						//si el digito obtenido es mayor a 10, restamos 9
-						if (digitoImpar >= 10)
-						{
-							digitoImpar = digitoImpar - 9;
-						}
-						sumaImpar = sumaImpar + digitoImpar;
-					}
-					/*En los demás casos sumamos el dígito y lo aculamos 
+        if (ClienteTemporal != null)
+        {
+            if (Cliente.Deuda > 0)
+            {
+                toastService.ShowWarning("No se puede Eliminar, Este Cliente tiene un balance pendiente de:" + Cliente.Deuda, "Error");
+            }
+            else
+            {
+                if (clientesController.Eliminar(Cliente.ClienteId))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Cliente eliminado correctamente.", "Exito");
+                }
+                else
+                {
+                    toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
+                }
+            }
+        }
+        else
+        {
+            Limpiar();
+            toastService.ShowError("Error al eliminar el Cliente.", "Fallo");
+        }
+    }
+
+    public bool ValidarContactos()
+    {
+        bool paso = false;
+
+        if(Cliente.Telefono != "" && Cliente.Telefono.Length > 10  || Cliente.Telefono != "" && Cliente.Telefono.Length < 10)
+        {
+            MensajeTelefono = "Debe ingresar un numero de telefono valido.";
+            paso = true;
+        }
+
+        if(Cliente.Celular != "" && Cliente.Celular.Length > 10  || Cliente.Celular!= "" && Cliente.Celular.Length < 10)
+        {
+            MensajeCelular = "Debe ingresar un numero de celular valido.";
+            paso = true;
+        }
+
+        if(Cliente.Celular == "" && Cliente.Telefono == "")
+        {
+            MensajeTelefono = "Debe ingresar un numero de telefono o celular.";
+            paso = true;
+        }
+
+        return paso;
+    }
+
+    public bool ValidaCedula(string cedula)
+    {
+        //cedula = cedula.Replace("-", "");
+        //Declaración de variables a nivel de método o función.
+        int verificador = 0;
+        int digito = 0;
+        int digitoVerificador = 0;
+        int digitoImpar = 0;
+        int sumaPar = 0;
+        int sumaImpar = 0;
+        int longitud = Convert.ToInt32(cedula.Length);
+        /*Control de errores en el código*/
+        try
+        {
+            //verificamos que la longitud del parametro sea igual a 11
+            if (longitud == 11)
+            {
+                digitoVerificador = Convert.ToInt32(cedula.Substring(10, 1));
+                //recorremos en un ciclo for cada dígito de la cédula
+                for (int i = 9; i >= 0; i--)
+                {
+                    //si el digito no es par multiplicamos por 2
+                    digito = Convert.ToInt32(cedula.Substring(i, 1));
+                    if ((i % 2) != 0)
+                    {
+                        digitoImpar = digito* 2;
+                        //si el digito obtenido es mayor a 10, restamos 9
+                        if (digitoImpar >= 10)
+                        {
+                            digitoImpar = digitoImpar - 9;
+                        }
+                        sumaImpar = sumaImpar + digitoImpar;
+                    }
+                    /*En los demás casos sumamos el dígito y lo aculamos 
 					en la variable */
-					else
-					{
-						sumaPar = sumaPar + digito;
-					}
-				}
-				/*Obtenemos el verificador restandole a 10 el modulo 10 
+                    else
+                    {
+                        sumaPar = sumaPar + digito;
+                    }
+                }
+                /*Obtenemos el verificador restandole a 10 el modulo 10 
 				de la suma total de los dígitos*/
-				verificador = 10 - ((sumaPar + sumaImpar) % 10);
-				/*si el verificador es igual a 10 y el dígito verificador
+                verificador = 10 - ((sumaPar + sumaImpar) % 10);
+                /*si el verificador es igual a 10 y el dígito verificador
 				es igual a cero o el verificador y el dígito verificador 
 				son iguales retorna verdadero*/
-				if (((verificador == 10) && (digitoVerificador == 0))
-				|| (verificador == digitoVerificador))
-				{
-					return true;
-				}
-			}
-			else
-			{
-				Console.WriteLine("La cédula debe contener once(11) digitos");
-			}
-		}
-		catch
-		{
-			Console.WriteLine("No se pudo validar la cédula");
-		}
-		return false;
-	}
+                if (((verificador == 10) && (digitoVerificador == 0))
+                || (verificador == digitoVerificador))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                Console.WriteLine("La cédula debe contener once(11) digitos");
+            }
+        }
+        catch
+        {
+            Console.WriteLine("No se pudo validar la cédula");
+        }
+        return false;
+    }
 
 
 
-	public bool ExisteCedula() //Valida si la cedula existe y lo tiene otro cliente 
-	{
-		bool paso = false;
-		var Listado = new List<Clientes>();
+    public bool ExisteCedula() //Valida si la cedula existe y lo tiene otro cliente 
+    {
+        bool paso = false;
+        var Listado = new List<Clientes>();
 
-		Listado = clientesController.GetList(p => p.Cedula == Cliente.Cedula);
+        Listado = clientesController.GetList(p => p.Cedula == Cliente.Cedula);
 
-		if (Listado.Count == 1)
-		{
-			if(Cliente.ClienteId == 0)
-				return paso = true;
+        if (Listado.Count == 1)
+        {
+            if(Cliente.ClienteId == 0)
+                return paso = true;
 
-			Clientes ClienteTemporal = new Clientes();
-			ClienteTemporal = Listado[0];
-			if (ClienteTemporal.Cedula != Cliente.Cedula)
-			{
-				paso = true;
-			}
-		}
-		else if (Listado.Count > 1)
-		{
-			paso = true;
-		}
+            Clientes ClienteTemporal = new Clientes();
+            ClienteTemporal = Listado[0];
+            if (ClienteTemporal.Cedula != Cliente.Cedula)
+            {
+                paso = true;
+            }
+        }
+        else if (Listado.Count > 1)
+        {
+            paso = true;
+        }
 
-		return paso;
-	}
+        return paso;
+    }
 
-	private void Limpiar()
-	{
-		this.Cliente = new Clientes();
-		LimpiarMensajes();
-	}
+    private void Limpiar()
+    {
+        this.Cliente = new Clientes();
+        LimpiarMensajes();
+    }
 
-	public void LimpiarMensajes()
-	{
-		MensajeCedula = string.Empty;
-	}
+    public void LimpiarMensajes()
+    {
+        MensajeCedula = string.Empty;
+        MensajeTelefono = string.Empty;
+        MensajeCelular = string.Empty;
+    }
 }

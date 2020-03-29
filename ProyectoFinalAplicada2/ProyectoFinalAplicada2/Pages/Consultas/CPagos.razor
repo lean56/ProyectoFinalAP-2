@@ -7,8 +7,8 @@
 			<h1>Consulta de Pagos</h1>
 		</center>
 
-		<form>
-			<br />
+        <form>
+            <br />
 
             <div class="form-row">
 
@@ -96,7 +96,14 @@
                     </tbody>
                 </table>
             </div>
-		</form>
+
+            <br />
+
+            <div class="form-inline justify-content-end">
+                <label>Total:&nbsp;</label>
+                <InputNumber @bind-Value="@Total" class="form-control" disabled />
+            </div>
+        </form>
 
 		<div class="form-row col-12 justify-content-center">
 			<nav aria-label="Page navigation example">
@@ -129,6 +136,7 @@
     DateTime Hasta;
     bool BuscarPorFecha;
     string Mensaje;
+    decimal Total = 0;
 
     ClientesController clientesController = new ClientesController();
     Clientes Cliente = new Clientes();
@@ -175,6 +183,7 @@
             Listado.Add(f);
         }
 
+        CagarTotal();
         IniciarPaginacion();
     }
 
@@ -232,7 +241,19 @@
             Listado = new List<PagosConsulta>();
             Listado = ListadoTemporal;
         }
+
+        CagarTotal();
         IniciarPaginacion();
+    }
+
+    public void CagarTotal()
+    {
+        Total = 0;
+        if(Listado != null)
+            foreach (var item in Listado)
+            {
+                Total += item.MontoPago;
+            }
     }
 
     private void Buscar()
