@@ -20,137 +20,144 @@
             </form>*@
     </Authorized>
     <NotAuthorized>
-        <a href="Identity/Account/Register">Register</a>
-        <a href="Identity/Account/Login">Log in</a>
+        @*<a href="Identity/Account/Register">Register</a>
+        <a href="Identity/Account/Login">Log in</a>*@
     </NotAuthorized>
 </AuthorizeView>
+
+
+
 
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <ul class="nav flex-column">
 
-        <li class="nav-item px-3">
-            <NavLink class="nav-link" href="index" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Pagina Principal
-            </NavLink>
-        </li>
-        
-        <li class="nav-item dropdown px-3">
-            @*Dropdown de los registros*@
+        <AuthorizeView>
+            <Authorized>
+                <li class="nav-item px-3">
+                    <NavLink class="nav-link" href="index" Match="NavLinkMatch.All">
+                        <span class="oi oi-home" aria-hidden="true"></span> Pagina Principal
+                    </NavLink>
+                </li>
 
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="oi oi-spreadsheet" aria-hidden="true"></span> Registros
-            </NavLink>
+                <li class="nav-item dropdown px-3">
+                    @*Dropdown de los registros*@
 
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <NavLink class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-spreadsheet" aria-hidden="true"></span> Registros
+                    </NavLink>
 
-                <NavLink class="nav-link" href="/rUsuarios">
-                    <span aria-hidden="true" class="oi oi-person" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Usuarios</p>
-                </NavLink>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="/rUsuarios">
+                            <span aria-hidden="true" class="oi oi-person" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Usuarios</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rClientes">
-                    <span aria-hidden="true" class="oi oi-people" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Clientes</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rClientes">
+                            <span aria-hidden="true" class="oi oi-people" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Clientes</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rProveedores">
-                    <span aria-hidden="true" class="oi oi-collapse-right" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px"> Registro de Proveedores</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rProveedores">
+                            <span aria-hidden="true" class="oi oi-collapse-right" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px"> Registro de Proveedores</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rCategorias">
-                    <span aria-hidden="true" class="oi oi-inbox" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Categorías</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rCategorias">
+                            <span aria-hidden="true" class="oi oi-inbox" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Categorías</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rProductos">
-                    <span aria-hidden="true" class="oi oi-tags" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Productos</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rProductos">
+                            <span aria-hidden="true" class="oi oi-tags" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Productos</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rEntradas">
-                    <span aria-hidden="true" class="oi oi-plus" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Entrada de Productos</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rEntradas">
+                            <span aria-hidden="true" class="oi oi-plus" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Entrada de Productos</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rFacturas">
-                    <span aria-hidden="true" class="oi oi-document" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Facturas</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-                <div class="dropdown-divider"></div>
+                        <NavLink class="nav-link" href="rFacturas">
+                            <span aria-hidden="true" class="oi oi-document" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Facturas</p>
+                        </NavLink>
 
-                <NavLink class="nav-link" href="rPagos">
-                    <span aria-hidden="true" class="oi oi-dollar" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Pagos</p>
-                </NavLink>
+                        <div class="dropdown-divider"></div>
 
-            </div>
-        </li>
+                        <NavLink class="nav-link" href="rPagos">
+                            <span aria-hidden="true" class="oi oi-dollar" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Registro de Pagos</p>
+                        </NavLink>
+
+                    </div>
+                </li>
 
 
-        <li class="nav-item dropdown px-3">
-            @*Dropdown de las Consultas*@
+                <li class="nav-item dropdown px-3">
+                    @*Dropdown de las Consultas*@
 
-            <NavLink class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Consultas
-            </NavLink>
+                    <NavLink class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <span class="oi oi-list-rich" aria-hidden="true"></span> Consultas
+                    </NavLink>
 
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                <NavLink class="nav-link" href="cUsuarios">
-                    <span aria-hidden="true" class="oi oi-person" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Usuarios</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cUsuarios">
+                            <span aria-hidden="true" class="oi oi-person" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Usuarios</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cCliente">
-                    <span aria-hidden="true" class="oi oi-people" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Clientes</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cCliente">
+                            <span aria-hidden="true" class="oi oi-people" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Clientes</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cProveedores">
-                    <span aria-hidden="true" class="oi oi-collapse-right" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px"> Consulta de Proveedores</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cProveedores">
+                            <span aria-hidden="true" class="oi oi-collapse-right" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px"> Consulta de Proveedores</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cCategorias">
-                    <span aria-hidden="true" class="oi oi-inbox" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Categorías</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cCategorias">
+                            <span aria-hidden="true" class="oi oi-inbox" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Categorías</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cProductos">
-                    <span aria-hidden="true" class="oi oi-tags" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Productos</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cProductos">
+                            <span aria-hidden="true" class="oi oi-tags" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Productos</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cEntradas">
-                    <span aria-hidden="true" class="oi oi-plus" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Con. de Entrada de Produ.</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cEntradas">
+                            <span aria-hidden="true" class="oi oi-plus" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Con. de Entrada de Produ.</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cFacturas">
-                    <span aria-hidden="true" class="oi oi-document" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Facturas</p>
-                </NavLink>
+                        <NavLink class="nav-link" href="cFacturas">
+                            <span aria-hidden="true" class="oi oi-document" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Facturas</p>
+                        </NavLink>
 
-                <div class="dropdown-divider"></div>
+                        <div class="dropdown-divider"></div>
 
-                <NavLink class="nav-link" href="cPagos">
-                    <span aria-hidden="true" class="oi oi-dollar" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Pagos</p>
-                </NavLink>
-            </div>
-        </li>
+                        <NavLink class="nav-link" href="cPagos">
+                            <span aria-hidden="true" class="oi oi-dollar" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Pagos</p>
+                        </NavLink>
+                    </div>
+                </li>
 
-        <br /> <br /> <br /> <br /> <br /> <br />
+                <br /> <br /> <br /> <br /> <br /> <br />
+            </Authorized>
+        </AuthorizeView>
 
         <AuthorizeView>
             <Authorized>
