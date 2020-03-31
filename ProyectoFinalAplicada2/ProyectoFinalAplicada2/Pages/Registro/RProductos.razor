@@ -1,274 +1,279 @@
 ﻿@page "/rProductos"
 @page "/rProductos/{ProductoId:int}"
 @inject IToastService toastService
-
 <EditForm Model="Producto" OnValidSubmit="Guardar">
-	<DataAnnotationsValidator />
+        <DataAnnotationsValidator />
 
-	<center>
-		<h1>Registro de Productos</h1>
-	</center>
+        <center>
+            <h1>Registro de Productos</h1>
+        </center>
 
-	<form>
-        <div class="form-row">
+        <form>
+            <div class="form-row">
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <!-- Producto ID -->
-            <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-                <label for="ProductoId " class="col-auto">Código</label>
-                <div class="input-group ">
-                    <InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                <!-- Producto ID -->
+                <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+                    <label for="ProductoId " class="col-auto">Código</label>
+                    <div class="input-group ">
+                        <InputNumber @bind-Value="@Producto.ProductoId" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!--Division del codigo del producto y la fecha-->
+                <div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
+
+                <!-- Fecha -->
+                <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
+                    <label for="FechaIngreso">Fecha</label>
+                    <InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" />
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <!-- Descripcion -->
+                <div class="form-group col-md-12     col-lg-10     col-xl-10">
+                    <label for="Descripcion">Descripción</label>
+                    <InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
+                    <ValidationMessage For="@(()=>Producto.Descripcion)" />
+                    <p class="validation-message"> @MensajeDescripcion </p>
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <!-- Proveedor -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Proveedor">Proveedor</label>
+                    <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control " @onchange="SeleccionarProveedor" @onclick="SeleccionarProveedor">
+                        <option value="0" disabled selected>Seleccione un Proveedor</option>
+                        @if (ListadoProveedores.Count <= 0)
+                        {
+                            <option value=""disabled>No Hay Proveedores Registrado</option>
+                        }
+                        else
+                        {
+                            @foreach (var item in ListadoProveedores)
+                            {
+                                <option value="@item.ProveedorId">@item.Nombre</option>
+                            }
+                        }
+                    </InputSelect>
+                    <ValidationMessage For="@(()=>Producto.ProveedorId)" />
+                </div>
+
+                <!-- Categoria -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Categoria">Categoría</label>
+                    <InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
+                        <option value="0" disabled selected>Seleccione una Categoría</option>
+                        @if (ListadoCategorias.Count <= 0)
+                        {
+                            <option value="" disabled>No Hay Categoria Registrada</option>
+                        }
+                        else
+                        {
+                            @foreach (var item in ListadoCategorias)
+                            {
+                                <option value="@item.CategoriaId">@item.Nombre</option>
+                            }
+                        }
+                        </InputSelect>
+                    <ValidationMessage For="@(()=>Producto.CategoriaId)" />
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <!-- Costo -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Costo">Costo</label>
+                    <InputNumber @bind-Value="@Producto.Costo" class="form-control" step="10" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
+                    <ValidationMessage For="@(()=>Producto.Costo)" />
+                </div>
+
+                <!-- Ganancia -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Ganancia">% Ganancia</label>
+                    <input type="number" @bind="@Producto.Ganancia"  max="100" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
+                    <ValidationMessage For="@(()=>Producto.Ganancia)" />
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+                <!-- Precio -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Precio">Precio</label>
+                    <InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
+                    <ValidationMessage For="@(()=>Producto.Precio)" />
+                </div>
+
+                <!-- Cantidad -->
+                <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
+                    <label for="Cantidad">Cantidad</label>
+                    <InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
+                </div>
+
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+
+            </div>
+        </form>
+
+        @*<ValidationSummary />*@
+        <!-- Botones-->
+    <div class="text-center">
+        <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+        <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+        <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+
+
+        <!-- Modal-->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalCenterTitle">Confirmacion</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Está seguro de que desea eliminar este Producto?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                        <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
                     </div>
                 </div>
             </div>
-
-            <!--Division del codigo del producto y la fecha-->
-            <div class="col-sm-3     col-md-3     col-lg-4     col-xl-4" />
-
-            <!-- Fecha -->
-            <div class="form-group col-sm-4     col-md-4     col-lg-3     col-xl-3     ">
-                <label for="FechaIngreso">Fecha</label>
-                <InputDate @bind-Value="@Producto.FechaCreacion" class="form-control" />
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <!-- Descripcion -->
-            <div class="form-group col-md-12     col-lg-10     col-xl-10">
-                <label for="Descripcion">Descripción</label>
-                <InputText @bind-Value="@Producto.Descripcion" class="form-control" placeholder="Descripcion" />
-                <ValidationMessage For="@(()=>Producto.Descripcion)" />
-                <p class="validation-message"> @MensajeDescripcion </p>
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <!-- Proveedor -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Proveedor">Proveedor</label>
-                <InputSelect @bind-Value="@ProveedorSeleccionado" class="form-control " @onchange="SeleccionarProveedor" @onclick="SeleccionarProveedor">
-                    <option value="0" disabled selected>Seleccione un Proveedor</option>
-                    @if (ListadoProveedores.Count <= 0)
-                    {
-                        <option value=""disabled>No Hay Proveedores Registrado</option>
-                    }
-                    else
-                    {
-                        @foreach (var item in ListadoProveedores)
-                        {
-                            <option value="@item.ProveedorId">@item.Nombre</option>
-                        }
-                    }
-                </InputSelect>
-                <ValidationMessage For="@(()=>Producto.ProveedorId)" />
-            </div>
-
-            <!-- Categoria -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Categoria">Categoría</label>
-                <InputSelect @bind-Value="@CategoriaSeleccionada" class="form-control " @onchange="SeleccionarCategoria" @onclick="SeleccionarCategoria">
-                    <option value="0" disabled selected>Seleccione una Categoría</option>
-                    @if (ListadoCategorias.Count <= 0)
-                    {
-                        <option value="" disabled>No Hay Categoria Registrada</option>
-                    }
-                    else
-                    {
-                        @foreach (var item in ListadoCategorias)
-                        {
-                            <option value="@item.CategoriaId">@item.Nombre</option>
-                        }
-                    }
-                    </InputSelect>
-                <ValidationMessage For="@(()=>Producto.CategoriaId)" />
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <!-- Costo -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Costo">Costo</label>
-                <InputNumber @bind-Value="@Producto.Costo" class="form-control" step="10" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
-                <ValidationMessage For="@(()=>Producto.Costo)" />
-            </div>
-
-            <!-- Ganancia -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Ganancia">% Ganancia</label>
-                <input type="number" @bind="@Producto.Ganancia"  max="100" class="form-control" @onfocusin="CalcularPrecio" @onfocusout="CalcularPrecio" @onkeydown="CalcularPrecio" />
-                <ValidationMessage For="@(()=>Producto.Ganancia)" />
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
-            <!-- Precio -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Precio">Precio</label>
-                <InputNumber @bind-Value="@Producto.Precio" class="form-control" disabled />
-                <ValidationMessage For="@(()=>Producto.Precio)" />
-            </div>
-
-            <!-- Cantidad -->
-            <div class="form-group container col-sm-6     col-md-6     col-lg-5     col-xl-5">
-                <label for="Cantidad">Cantidad</label>
-                <InputNumber @bind-Value="@Producto.Cantidad" class="form-control" disabled />
-            </div>
-
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
-
         </div>
-	</form>
-
-	@*<ValidationSummary />*@
-	<!-- Botones-->
-<div class="text-center">
-    <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
-    <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
-    <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-trash" />&nbsp;Eliminar</button>
-
-
-    <!-- Modal-->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalCenterTitle">Confirmacion</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    ¿Está seguro de que desea eliminar este Producto?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
-                    <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
-                </div>
-            </div>
-        </div>
+        <!--fin de modal-->
     </div>
-    <!--fin de modal-->
-</div>
 
-</EditForm>
+    </EditForm>
 
-@code{
-    [Parameter]
-    public int ProductoId { get; set; }
+    @code{
+        [Parameter]
+        public int ProductoId { get; set; }
 
-    ProductosController productosController = new ProductosController();
-    private Productos Producto = new Productos();
+        ProductosController productosController = new ProductosController();
+        private Productos Producto = new Productos();
 
-    ProveedoresController proveedoresController = new ProveedoresController();
-    private Proveedores Proveedor = new Proveedores();
-    private List<Proveedores> ListadoProveedores{ get; set; }
-    private string ProveedorSeleccionado = string.Empty;
+        ProveedoresController proveedoresController = new ProveedoresController();
+        private Proveedores Proveedor = new Proveedores();
+        private List<Proveedores> ListadoProveedores{ get; set; }
+        private string ProveedorSeleccionado = string.Empty;
 
-    CategoriasController categoriasController = new CategoriasController();
-    private Categorias Categoria = new Categorias();
-    private List<Categorias> ListadoCategorias { get; set; }
-    private string CategoriaSeleccionada = string.Empty;
+        CategoriasController categoriasController = new CategoriasController();
+        private Categorias Categoria = new Categorias();
+        private List<Categorias> ListadoCategorias { get; set; }
+        private string CategoriaSeleccionada = string.Empty;
 
-    private string MensajeDescripcion;
+        private string MensajeDescripcion;
 
 
-    protected override void OnInitialized()
-    {
-        Producto = new Productos();
-        ListadoProveedores = proveedoresController.GetList(e => true);
-        ListadoCategorias = categoriasController.GetList(e => true);
-        Limpiar();
-
-        if (ProductoId != 0)
+        protected override void OnInitialized()
         {
-            Producto.ProductoId = ProductoId;
-            Buscar();
-        }
-    }
-
-    private void SeleccionarProveedor()
-    {
-        Producto.ProveedorId = Convert.ToInt32(ProveedorSeleccionado);
-    }
-
-    private void SeleccionarCategoria()
-    {
-        Producto.CategoriaId = Convert.ToInt32(CategoriaSeleccionada);
-    }
-
-    public void Guardar()
-    {
-
-        LimpiarMensajes();
-
-        if (ExisteDescripcion())
-        {
-            MensajeDescripcion = "Existe un producto con esta descripción, debe ingresar otra.";
-            return;
-        }
-
-        SeleccionarProveedor();
-        SeleccionarCategoria();
-        CalcularPrecio();
-        if (productosController.Guardar(Producto))
-        {
+            Producto = new Productos();
+            ListadoProveedores = proveedoresController.GetList(e => true);
+            ListadoCategorias = categoriasController.GetList(e => true);
             Limpiar();
-            toastService.ShowSuccess("Producto guardado correctamente.", "Exito");
 
+            if (ProductoId != 0)
+            {
+                Producto.ProductoId = ProductoId;
+                Buscar();
+            }
         }
-        else
-        {
-            toastService.ShowError("Error al guardar el Producto.", "Fallo");
 
+        private void SeleccionarProveedor()
+        {
+            Producto.ProveedorId = Convert.ToInt32(ProveedorSeleccionado);
         }
-    }
 
-    public void Buscar()
-    {
-        Productos ProductoTemporal = productosController.Buscar(Producto.ProductoId);
-
-        if (ProductoTemporal != null)
+        private void SeleccionarCategoria()
         {
-            Limpiar();
-            Producto = ProductoTemporal;
-            ProveedorSeleccionado = Producto.ProveedorId.ToString();
-            CategoriaSeleccionada = Producto.CategoriaId.ToString();
+            Producto.CategoriaId = Convert.ToInt32(CategoriaSeleccionada);
+        }
+
+        public void Guardar()
+        {
+
+            LimpiarMensajes();
+
+            if (ExisteDescripcion())
+            {
+                MensajeDescripcion = "Existe un producto con esta descripción, debe ingresar otra.";
+                return;
+            }
+
+            SeleccionarProveedor();
+            SeleccionarCategoria();
             CalcularPrecio();
-            toastService.ShowSuccess("Producto encontrado.", "Exito");
-
-        }
-        else
-        {
-
-            Limpiar();
-            toastService.ShowError("El Producto no fue encontrado.", "Fallo");
-
-        }
-    }
-
-    public void Eliminar()
-    {
-        Productos ProductoTemporal = productosController.Buscar(Producto.ProductoId);
-
-        if (ProductoTemporal != null)
-        {
-            if (productosController.Eliminar(Producto.ProductoId))
+            if (productosController.Guardar(Producto))
             {
                 Limpiar();
-                toastService.ShowSuccess("Producto eliminado correctamente.", "Exito");
-                CalcularPrecio();
+                toastService.ShowSuccess("Producto guardado correctamente.", "Exito");
 
+            }
+            else
+            {
+                toastService.ShowError("Error al guardar el Producto.", "Fallo");
+
+            }
+        }
+
+        public void Buscar()
+        {
+            Productos ProductoTemporal = productosController.Buscar(Producto.ProductoId);
+
+            if (ProductoTemporal != null)
+            {
+                Limpiar();
+                Producto = ProductoTemporal;
+                ProveedorSeleccionado = Producto.ProveedorId.ToString();
+                CategoriaSeleccionada = Producto.CategoriaId.ToString();
+                CalcularPrecio();
+                toastService.ShowSuccess("Producto encontrado.", "Exito");
+
+            }
+            else
+            {
+
+                Limpiar();
+                toastService.ShowError("El Producto no fue encontrado.", "Fallo");
+
+            }
+        }
+
+        public void Eliminar()
+        {
+            Productos ProductoTemporal = productosController.Buscar(Producto.ProductoId);
+
+            if (ProductoTemporal != null)
+            {
+                if (productosController.Eliminar(Producto.ProductoId))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Producto eliminado correctamente.", "Exito");
+                    CalcularPrecio();
+
+                }
+                else
+                {
+                    toastService.ShowError("Error al eliminar el Producto.", "Fallo");
+
+                }
             }
             else
             {
@@ -276,55 +281,49 @@
 
             }
         }
-        else
+
+        public bool ExisteDescripcion() //Valida si la descripcion existe y lo tiene otro producto
         {
-            toastService.ShowError("Error al eliminar el Producto.", "Fallo");
+            bool paso = false;
+            var Listado = new List<Productos>();
 
-        }
-    }
+            Listado = productosController.GetList(p => p.Descripcion == Producto.Descripcion);
 
-    public bool ExisteDescripcion() //Valida si la descripcion existe y lo tiene otro producto
-    {
-        bool paso = false;
-        var Listado = new List<Productos>();
+            if (Listado.Count == 1)
+            {
+                if(Producto.ProductoId == 0)
+                    return paso = true;
 
-        Listado = productosController.GetList(p => p.Descripcion == Producto.Descripcion);
-
-        if (Listado.Count == 1)
-        {
-            if(Producto.ProductoId == 0)
-				return paso = true;
-
-            Productos ProductoTemporal = new Productos();
-            ProductoTemporal = Listado[0];
-            if (ProductoTemporal.ProductoId != Producto.ProductoId)
+                Productos ProductoTemporal = new Productos();
+                ProductoTemporal = Listado[0];
+                if (ProductoTemporal.ProductoId != Producto.ProductoId)
+                {
+                    paso = true;
+                }
+            }
+            else if (Listado.Count > 1)
             {
                 paso = true;
             }
+
+            return paso;
         }
-        else if (Listado.Count > 1)
+
+        public void CalcularPrecio()
         {
-            paso = true;
+            Producto.Precio = Producto.Costo + (Producto.Costo * (Producto.Ganancia / 100));
         }
 
-        return paso;
-    }
+        public void Limpiar()
+        {
+            this.Producto = new Productos();
+            ProveedorSeleccionado = "0";
+            CategoriaSeleccionada = "0";
+            LimpiarMensajes();
+        }
 
-    public void CalcularPrecio()
-    {
-        Producto.Precio = Producto.Costo + (Producto.Costo * (Producto.Ganancia / 100));
+        public void LimpiarMensajes()
+        {
+            MensajeDescripcion = string.Empty;
+        }
     }
-
-    public void Limpiar()
-    {
-        this.Producto = new Productos();
-        ProveedorSeleccionado = "0";
-        CategoriaSeleccionada = "0";
-        LimpiarMensajes();
-    }
-
-    public void LimpiarMensajes()
-    {
-        MensajeDescripcion = string.Empty;
-    }
-}

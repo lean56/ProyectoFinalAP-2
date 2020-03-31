@@ -13,7 +13,7 @@ namespace ProyectoFinalAplicada2.Models
         public DateTime Fecha { get; set; }
         [Required(ErrorMessage = "El Nombre es obligatorio.")]
         [MinLength(3, ErrorMessage = "Este nombre es muy corto, debe elegir un nombre más largo.")]
-        [MaxLength(20, ErrorMessage = "Este nombre es muy largo, debe elegir un nombre más corto.")]
+        [MaxLength(40, ErrorMessage = "Este nombre es muy largo, debe elegir un nombre más corto.")]
         public string Nombre { get; set; }
         [DataType(DataType.PhoneNumber, ErrorMessage = "Número de Teléfono Invalido.")]
         [StringLength(maximumLength: 10, MinimumLength = 10, ErrorMessage = "Número de Teléfono Invalido.")]

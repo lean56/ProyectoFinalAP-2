@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
@@ -84,7 +83,7 @@ namespace ProyectoFinalAplicada2.Controllers
                 {
                     if (!Entrada.Detalle.Any(d => d.EntradaDetalleId == item.EntradaDetalleId))
                     {
-                        contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad; 
+                        contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad;
                         contexto.Entry(item).State = EntityState.Deleted;
                     }
                 }

@@ -1,293 +1,292 @@
 ﻿@page "/rEntradas"
 @page "/rEntradas/{EntradaId:int}"
 @inject IToastService toastService
-
 <EditForm Model="Entrada" OnValidSubmit="Guardar">
-    <DataAnnotationsValidator />
+        <DataAnnotationsValidator />
 
-    <center>
-        <h1>Entrada de Productos</h1>
-    </center>
+        <center>
+            <h1>Entrada de Productos</h1>
+        </center>
 
-    <form>
-        <div class="form-row">
+        <form>
+            <div class="form-row">
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <!-- EntradaId -->
-            <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
-                <label for="EntradaId " class="col-auto">Código</label>
-                <div class="input-group ">
-                    <InputNumber @bind-Value="@Entrada.EntradaId" class="form-control" />
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                <!-- EntradaId -->
+                <div class="form-group col-sm-5     col-md-5     col-lg-3     col-xl-3     ">
+                    <label for="EntradaId " class="col-auto">Código</label>
+                    <div class="input-group ">
+                        <InputNumber @bind-Value="@Entrada.EntradaId" class="form-control" />
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-primary" @onclick="Buscar"><span class="oi oi-magnifying-glass" />&nbsp;&nbsp;Buscar</button>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <!--Division del codigo del cliente y la fecha-->
-            <div class="col-sm-3     col-md-2     col-lg-4     col-xl-4" />
+                <!--Division del codigo del cliente y la fecha-->
+                <div class="col-sm-3     col-md-2     col-lg-4     col-xl-4" />
 
-            <!-- Fecha -->
-            <div class="form-group col-sm-4     col-md-5     col-lg-3     col-xl-3     ">
-                <label for="FechaIngreso">Fecha</label>
-                <InputDate @bind-Value="@Entrada.Fecha" class="form-control" />
-            </div>
+                <!-- Fecha -->
+                <div class="form-group col-sm-4     col-md-5     col-lg-3     col-xl-3     ">
+                    <label for="FechaIngreso">Fecha</label>
+                    <InputDate @bind-Value="@Entrada.Fecha" class="form-control" />
+                </div>
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
+                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-1" />
 
-            <div class="form-group col-sm-5     col-md-5     col-lg-4     col-xl-4">
-                <label for="producto" class="col-auto">Producto</label>
-                <div class="input-group ">
+                <div class="form-group col-sm-5     col-md-5     col-lg-4     col-xl-4">
+                    <label for="producto" class="col-auto">Producto</label>
+                    <div class="input-group ">
 
-                    <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
-                        <option value="0" disabled selected>Seleccione un Producto</option>
-                        @if (ListadoProductos.Count == 0)
-                        {
-                            <option value="" disabled>No hay Producto Registrado</option>
-                        }
-                        else
-                        {
-                            @foreach (var item in ListadoProductos)
+                        <InputSelect @bind-Value="@ProductoSeleccionado" class="form-control" @onchange="CargarProducto" @onclick="CargarProducto">
+                            <option value="0" disabled selected>Seleccione un Producto</option>
+                            @if (ListadoProductos.Count == 0)
                             {
-                                <option value="@item.ProductoId">@item.Descripcion</option>
+                                <option value="" disabled>No hay Producto Registrado</option>
                             }
-                        }
-                    </InputSelect>
-                </div>
-            </div>
-
-            <div class="col-sm-3    col-md-2    col-lg-3     col-xl-3" />
-
-            <div class="form-group col-sm-4     col-md-5     col-lg-3   col-xl-3">
-                <label class="col-auto" for="Cantidad">Cantidad</label>
-                <div class="input-group ">
-                    <InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-success" @onclick="AgregarProducto"><span class="oi oi-plus" />&nbsp;Agregar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="form-group col-sm-0     col-md-0     col-lg-1   col-xl-1" />
-
-            <div class="col-sm-0    col-md-0    col-lg-1     col-xl-1" />
-
-            <div class="col-md-12     col-lg-10  no-padding">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th>Codigo</th>
-                                    <th>Descripcion</th>
-                                    <th>Cantidad</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Entrada.Detalle)
+                            else
+                            {
+                                @foreach (var item in ListadoProductos)
                                 {
-                                    <tr>
-                                        <th>@item.ProductoId</th>
-                                        <th>@item.Descripcion</th>
-                                        <th>@item.Cantidad</th>
-                                        <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
-                                    </tr>
+                                    <option value="@item.ProductoId">@item.Descripcion</option>
                                 }
-                            </tbody>
-                        </table>
+                            }
+                        </InputSelect>
                     </div>
                 </div>
-                <p class="validation-message"><center>@Mensaje</center></p>
+
+                <div class="col-sm-3    col-md-2    col-lg-3     col-xl-3" />
+
+                <div class="form-group col-sm-4     col-md-5     col-lg-3   col-xl-3">
+                    <label class="col-auto" for="Cantidad">Cantidad</label>
+                    <div class="input-group ">
+                        <InputNumber @bind-Value="@Cantidad" class="form-control"></InputNumber>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-success" @onclick="AgregarProducto"><span class="oi oi-plus" />&nbsp;Agregar</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group col-sm-0     col-md-0     col-lg-1   col-xl-1" />
+
+                <div class="col-sm-0    col-md-0    col-lg-1     col-xl-1" />
+
+                <div class="col-md-12     col-lg-10  no-padding">
+                    <div class="card">
+                        <div class="card-body">
+                            <table class="table">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Codigo</th>
+                                        <th>Descripcion</th>
+                                        <th>Cantidad</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Entrada.Detalle)
+                                    {
+                                        <tr>
+                                            <th>@item.ProductoId</th>
+                                            <th>@item.Descripcion</th>
+                                            <th>@item.Cantidad</th>
+                                            <th><button type="button" class="btn btn-outline-danger btn-sm" @onclick="(()=> EliminarProducto(item))">Eliminar</button></th>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <p class="validation-message"><center>@Mensaje</center></p>
+                </div>
+
+                <div class="col-sm-0    col-md-0    col-lg-1     col-xl-1" />
+
             </div>
+        </form>
 
-            <div class="col-sm-0    col-md-0    col-lg-1     col-xl-1" />
-
-        </div>
-    </form>
-
-    <div class="text-center">
-        <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
-        <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
-        <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-trash" />&nbsp;Eliminar</button>
+        <div class="text-center">
+            <button type="button" class="btn btn-warning BotonRegistro" @onclick="Limpiar"><span class="oi oi-file" />&nbsp;Limpiar</button>
+            <button type="submit" class="btn btn-success BotonRegistro"><span class="oi oi-data-transfer-download"></span>&nbsp;Guardar</button>
+            <button type="button" class="btn btn-danger BotonRegistro" data-toggle="modal" data-target="#exampleModalCenter"><span class="oi oi-trash" />&nbsp;Eliminar</button>
 
 
-        <!-- Modal-->
-        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalCenterTitle">Confirmacion</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        ¿Está seguro de que desea eliminar esta Entrada?
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
-                        <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+            <!-- Modal-->
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Confirmacion</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Está seguro de que desea eliminar esta Entrada?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">¡No lo estoy!</button>
+                            <button type="button" data-dismiss="modal" class="btn btn-outline-danger" @onclick="Eliminar">¡Si lo estoy!</button>
+                        </div>
                     </div>
                 </div>
             </div>
+            <!--fin de modal-->
         </div>
-        <!--fin de modal-->
-    </div>
 
 
-</EditForm>
+    </EditForm>
 
-@code {
-    [Parameter]
-    public int EntradaId { get; set; }
+    @code {
+        [Parameter]
+        public int EntradaId { get; set; }
 
-    Entradas Entrada { get; set; }
-    EntradasController entradasController = new EntradasController();
+        Entradas Entrada { get; set; }
+        EntradasController entradasController = new EntradasController();
 
-    Productos Producto { get; set; }
-    ProductosController productosController = new ProductosController();
-    List<Productos> ListadoProductos = new List<Productos>();
+        Productos Producto { get; set; }
+        ProductosController productosController = new ProductosController();
+        List<Productos> ListadoProductos = new List<Productos>();
 
-    int Cantidad = 0;
-    string mensaje = string.Empty;
-    string ProductoSeleccionado = "0";
+        int Cantidad = 0;
+        string mensaje = string.Empty;
+        string ProductoSeleccionado = "0";
 
-    string Mensaje = string.Empty;
+        string Mensaje = string.Empty;
 
-    protected override void OnInitialized()
-    {
-        ListadoProductos = productosController.GetList(e => true);
-        Entrada = new Entradas();
-        Producto = new Productos();
-
-        if (EntradaId != 0)
+        protected override void OnInitialized()
         {
-            Entrada.EntradaId = EntradaId;
-            Buscar();
-        }
-    }
+            ListadoProductos = productosController.GetList(e => true);
+            Entrada = new Entradas();
+            Producto = new Productos();
 
-    public void Guardar()
-    {
-        LimpiarMensajes();
-
-        if (Entrada.Detalle.Count <= 0)
-        {
-            Mensaje = "Debe ingresar algun producto a la entrada.";
-        }
-        else
-        {
-            if (entradasController.Guardar(Entrada))
+            if (EntradaId != 0)
             {
-                Limpiar();
-                toastService.ShowSuccess("Entrada guardada correctamente", "Exito");
+                Entrada.EntradaId = EntradaId;
+                Buscar();
+            }
+        }
 
+        public void Guardar()
+        {
+            LimpiarMensajes();
+
+            if (Entrada.Detalle.Count <= 0)
+            {
+                Mensaje = "Debe ingresar algun producto a la entrada.";
             }
             else
             {
-                toastService.ShowError("Error al guardar la entrada", "Fallo");
-            }
-        }
-    }
-
-    public void Buscar()
-    {
-        Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
-
-        if (EntradaTemporal != null)
-        {
-            Limpiar();
-            Entrada = EntradaTemporal;
-            toastService.ShowSuccess("Entrada encontrada.", "Exito");
-
-        }
-        else
-        {
-            Limpiar();
-            toastService.ShowError("La entrada no fue encontrada.", "Fallo");
-
-        }
-    }
-
-    public void Eliminar()
-    {
-        Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
-
-        if (EntradaTemporal != null)
-        {
-            if (entradasController.Eliminar(Entrada.EntradaId))
-            {
-                Limpiar();
-                toastService.ShowSuccess("Entrada eliminada correctamente.", "Exito");
-            }
-            else
-            {
-                toastService.ShowError("Error al eliminar la entrada.", "Fallo");
-            }
-        }
-    }
-
-    public void Limpiar()
-    {
-        this.Entrada = new Entradas();
-        ProductoSeleccionado = "0";
-        Cantidad = 0;
-        LimpiarMensajes();
-    }
-
-    public void LimpiarMensajes()
-    {
-        Mensaje = string.Empty;
-    }
-
-    private void CargarProducto()
-    {
-        Producto = productosController.Buscar(Convert.ToInt32(ProductoSeleccionado));
-    }
-
-    private void AgregarProducto()
-    {
-
-        if (ProductoSeleccionado == "0")
-        {
-            toastService.ShowInfo("Debe seleccionar un Producto!", "Info");
-        }
-        else
-        {
-            if (Entrada.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
-            {
-                toastService.ShowInfo("Este Producto ya esta agregado", "Info");
-            }
-            else if (Cantidad <=0)
-            {
-                toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
-            }else if (Cantidad >= 1234567890)
-            {
-                toastService.ShowError("La catidad esta fuera del rango!", "Fallo");
-                return;
-            }
-            else
-            {
-                mensaje = string.Empty;
-                Entrada.Detalle.Add(new EntradasDetalles()
+                if (entradasController.Guardar(Entrada))
                 {
-                    EntradaId = Entrada.EntradaId,
-                    ProductoId = Producto.ProductoId,
-                    Descripcion = Producto.Descripcion,
-                    Cantidad = Cantidad,
-                });
-                ProductoSeleccionado = "0";
-                Cantidad = 0;
+                    Limpiar();
+                    toastService.ShowSuccess("Entrada guardada correctamente", "Exito");
+
+                }
+                else
+                {
+                    toastService.ShowError("Error al guardar la entrada", "Fallo");
+                }
             }
         }
-    }
 
-    private void EliminarProducto(EntradasDetalles detalle)
-    {
-        Entrada.Detalle.Remove(detalle);
+        public void Buscar()
+        {
+            Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
+
+            if (EntradaTemporal != null)
+            {
+                Limpiar();
+                Entrada = EntradaTemporal;
+                toastService.ShowSuccess("Entrada encontrada.", "Exito");
+
+            }
+            else
+            {
+                Limpiar();
+                toastService.ShowError("La entrada no fue encontrada.", "Fallo");
+
+            }
+        }
+
+        public void Eliminar()
+        {
+            Entradas EntradaTemporal = entradasController.Buscar(Entrada.EntradaId);
+
+            if (EntradaTemporal != null)
+            {
+                if (entradasController.Eliminar(Entrada.EntradaId))
+                {
+                    Limpiar();
+                    toastService.ShowSuccess("Entrada eliminada correctamente.", "Exito");
+                }
+                else
+                {
+                    toastService.ShowError("Error al eliminar la entrada.", "Fallo");
+                }
+            }
+        }
+
+        public void Limpiar()
+        {
+            this.Entrada = new Entradas();
+            ProductoSeleccionado = "0";
+            Cantidad = 0;
+            LimpiarMensajes();
+        }
+
+        public void LimpiarMensajes()
+        {
+            Mensaje = string.Empty;
+        }
+
+        private void CargarProducto()
+        {
+            Producto = productosController.Buscar(Convert.ToInt32(ProductoSeleccionado));
+        }
+
+        private void AgregarProducto()
+        {
+
+            if (ProductoSeleccionado == "0")
+            {
+                toastService.ShowInfo("Debe seleccionar un Producto!", "Info");
+            }
+            else
+            {
+                if (Entrada.Detalle.Any(i => i.ProductoId == Producto.ProductoId))
+                {
+                    toastService.ShowInfo("Este Producto ya esta agregado", "Info");
+                }
+                else if (Cantidad <=0)
+                {
+                    toastService.ShowError("La catidad debe ser mayor a 0!", "Fallo");
+                }else if (Cantidad >= 1234567890)
+                {
+                    toastService.ShowError("La catidad esta fuera del rango!", "Fallo");
+                    return;
+                }
+                else
+                {
+                    mensaje = string.Empty;
+                    Entrada.Detalle.Add(new EntradasDetalles()
+                    {
+                        EntradaId = Entrada.EntradaId,
+                        ProductoId = Producto.ProductoId,
+                        Descripcion = Producto.Descripcion,
+                        Cantidad = Cantidad,
+                    });
+                    ProductoSeleccionado = "0";
+                    Cantidad = 0;
+                }
+            }
+        }
+
+        private void EliminarProducto(EntradasDetalles detalle)
+        {
+            Entrada.Detalle.Remove(detalle);
+        }
     }
-}

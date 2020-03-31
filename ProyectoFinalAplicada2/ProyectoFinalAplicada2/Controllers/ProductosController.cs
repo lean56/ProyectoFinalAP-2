@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
@@ -13,20 +12,20 @@ namespace ProyectoFinalAplicada2.Controllers
     {
         public bool Guardar(Productos producto)
         {
-			Contexto contexto = new Contexto();
-			bool paso = false;
-			try
-			{
-				if (producto.ProductoId == 0)
-				{
-					paso = Insertar(producto);
+            Contexto contexto = new Contexto();
+            bool paso = false;
+            try
+            {
+                if (producto.ProductoId == 0)
+                {
+                    paso = Insertar(producto);
 
-				}
-				else
-				{
-					paso = Modificar(producto);
+                }
+                else
+                {
+                    paso = Modificar(producto);
 
-				}
+                }
             }
             catch (Exception)
             {

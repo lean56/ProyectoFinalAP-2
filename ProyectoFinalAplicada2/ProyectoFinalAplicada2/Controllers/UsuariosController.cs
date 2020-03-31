@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
@@ -76,7 +75,7 @@ namespace ProyectoFinalAplicada2.Controllers
             try
             {
                 Usuarios UsuarioTemporal = contexto.Usuarios.Find(usuario.UsuarioId);
-                if(UsuarioTemporal != null)
+                if (UsuarioTemporal != null)
                 {
                     contexto = new Contexto();
                     contexto.Entry(usuario).State = EntityState.Modified;
@@ -162,12 +161,12 @@ namespace ProyectoFinalAplicada2.Controllers
             catch (Exception)
             {
                 throw;
-            
+
             }
             finally
             {
                 contexto.Dispose();
-            
+
             }
 
             return ListadoUsuarios;

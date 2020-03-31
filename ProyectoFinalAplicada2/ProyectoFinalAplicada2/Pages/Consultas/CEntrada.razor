@@ -1,217 +1,216 @@
 ﻿@page "/cEntradas"
+<EditForm Model="Listado">
+            <center>
+                <h1>Consulta de Entradas</h1>
+            </center>
 
-    <EditForm Model="Listado">
-        <center>
-            <h1>Consulta de Entradas</h1>
-        </center>
-
-        <form>
-            <br />
-
-            <div class="form-row">
-
-                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
-
-                <!-- Filtro-->
-                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                    <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
-                    <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
-                        <option value="0">Todo</option>
-                        <option value="1">Codigo</option>
-                    </select>
-                </div>
-
-                <!-- Criterio -->
-                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                    <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
-                    <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
-                    <p class="validation-message"> @Mensaje </p>
-                </div>
-
-                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
-
+            <form>
                 <br />
 
-                <!-- Filtrar por fecha -->
-                <div class="DivConsulta text-center     col-12">
-                    <input class="ml-1" type="checkbox" @bind-value="FiltrarFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
-                </div>
+                <div class="form-row">
 
-                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                    <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-                <!-- Fecha desde-->
-                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                    <label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
-                    <InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
-                </div>
+                    <!-- Filtro-->
+                    <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                        <label for="Filtro" class="LabelConsulta     col-sm-3     col-md-2">Filtro: </label>
+                        <select class="form-control     col-sm-8     col-md-9" @bind="Filtro">
+                            <option value="0">Todo</option>
+                            <option value="1">Codigo</option>
+                        </select>
+                    </div>
 
-                <!-- Fecha Hasta-->
-                <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
-                    <label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
-                    <InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
-                </div>
+                    <!-- Criterio -->
+                    <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                        <label for="Criterio" class="LabelConsulta     col-sm-3      col-md-2">Criterio: </label>
+                        <InputText @bind-Value="@Criterio" class="form-control     col-sm-8     col-md-9" placeholder="Criterio" />
+                        <p class="validation-message"> @Mensaje </p>
+                    </div>
 
-                <!-- Boton Buscar-->
-                <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-1     col-xl-1">
-                    <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
-                </div>
+                    <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
 
-                <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+                    <br />
 
-                <table class="table" style="margin-top: 20px">
-                    <thead class="thead-light">
-                        <tr>
-                            <th>Codigo</th>
-                            <th>Fecha</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (ListadoPaginado.Count == 0)
-                        {
+                    <!-- Filtrar por fecha -->
+                    <div class="DivConsulta text-center     col-12">
+                        <input class="ml-1" type="checkbox" @bind-value="FiltrarFecha" style="margin-top:15px">&nbsp;&nbsp;Filtrar por Fecha
+                    </div>
+
+                    <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+                    <!-- Fecha desde-->
+                    <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                        <label for="Desde" class="LabelConsulta     col-sm-3     col-md-2">Desde: </label>
+                        <InputDate @bind-Value="@Desde" class="form-control     col-sm-8     col-md-9" />
+                    </div>
+
+                    <!-- Fecha Hasta-->
+                    <div class="form-inline DivConsulta col-sm-12     col-md-6     col-lg-5     col-xl-4">
+                        <label for="Hasta" class="LabelConsulta     col-sm-3     col-md-2">Hasta: </label>
+                        <InputDate @bind-Value="@Hasta" class="form-control     col-sm-8     col-md-9" />
+                    </div>
+
+                    <!-- Boton Buscar-->
+                    <div class="DivConsulta text-center     container     col-sm-12     col-md-12          col-lg-1     col-xl-1">
+                        <button type="button" class="btn btn-primary" @onclick="Buscar">@*<span class="oi oi-magnifying-glass" />*@ Buscar</button>
+                    </div>
+
+                    <div class="col-sm-0     col-md-0     col-lg-1     col-xl-2" />
+
+                    <table class="table" style="margin-top: 20px">
+                        <thead class="thead-light">
                             <tr>
-                                <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
+                                <th>Codigo</th>
+                                <th>Fecha</th>
+                                <th></th>
                             </tr>
-                        }
-                        else
-                        {
-
-                            @foreach (var item in ListadoPaginado)
+                        </thead>
+                        <tbody>
+                            @if (ListadoPaginado.Count == 0)
                             {
                                 <tr>
-                                    <th>@item.EntradaId</th>
-                                    <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
-                                    <th><a class="btn btn-light" href="rEntradas/@item.EntradaId">Ver</a></th>
+                                    <th colspan="12" style="color:black; text-align: center">"No hay datos que mostrar"</th>
                                 </tr>
                             }
+                            else
+                            {
+
+                                @foreach (var item in ListadoPaginado)
+                                {
+                                    <tr>
+                                        <th>@item.EntradaId</th>
+                                        <th>@item.Fecha.ToString("dd/MM/yyyy")</th>
+                                        <th><a class="btn btn-light" href="rEntradas/@item.EntradaId">Ver</a></th>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+
+            <div class="form-row col-12 justify-content-center">
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" @onclick="PaginaAnterior">
+                                <span class="oi oi-media-skip-backward"></span>
+                            </a>
+                        </li>
+
+                        @for (int i = 1; i <= Paginas; i++)
+                        {
+                            <li class="page-item disabled"><a class="page-link">@i</a></li>
                         }
-                    </tbody>
-                </table>
+
+                        <li class="page-item">
+                            <a class="page-link" @onclick="PaginaSiguiente">
+                                <span class="oi oi-media-skip-forward"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
             </div>
-        </form>
+        </EditForm>
 
-        <div class="form-row col-12 justify-content-center">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
-                    <li class="page-item">
-                        <a class="page-link" @onclick="PaginaAnterior">
-                            <span class="oi oi-media-skip-backward"></span>
-                        </a>
-                    </li>
+    @code {
+        public EntradasController entradasController = new EntradasController();
+        private List<Entradas> Listado { get; set; }
+        private List<Entradas> ListadoPaginado { get; set; }
 
-                    @for (int i = 1; i <= Paginas; i++)
-                    {
-                        <li class="page-item disabled"><a class="page-link">@i</a></li>
-                    }
+        private string Criterio = string.Empty;
+        private string Filtro = string.Empty;
+        private bool FiltrarFecha = false;
+        private DateTime Desde = DateTime.Now;
+        private DateTime Hasta = DateTime.Now;
+        private string Mensaje = string.Empty;
 
-                    <li class="page-item">
-                        <a class="page-link" @onclick="PaginaSiguiente">
-                            <span class="oi oi-media-skip-forward"></span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
-    </EditForm>
 
-@code {
-    public EntradasController entradasController = new EntradasController();
-    private List<Entradas> Listado { get; set; }
-    private List<Entradas> ListadoPaginado { get; set; }
+        double Paginas = 0;
+        double Elementos = 0;
+        int PaginaActual = 0;
 
-    private string Criterio = string.Empty;
-    private string Filtro = string.Empty;
-    private bool FiltrarFecha = false;
-    private DateTime Desde = DateTime.Now;
-    private DateTime Hasta = DateTime.Now;
-    private string Mensaje = string.Empty;
+        Contexto contexto = new Contexto();
+        Paginacion paginacion = new Paginacion();
 
-    
-    double Paginas = 0;
-    double Elementos = 0;
-    int PaginaActual = 0;
-
-    Contexto contexto = new Contexto();
-	Paginacion paginacion = new Paginacion();
-
-    protected override void OnInitialized()
-    {
-        Listado = entradasController.GetList(e => true);
-        Filtro = "0";
-        Desde = DateTime.Now;
-        Hasta = DateTime.Now;
-
-        IniciarPaginacion();
-    }
-
-    public void IniciarPaginacion()
-    {
-        PaginaActual = 1;
-        Elementos = Listado.Count();
-        Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
-        ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
-    }
-
-    private void PaginaSiguiente()
-    {
-        if (PaginaActual < Paginas)
-        {
-            PaginaActual++;
-            ListadoPaginado = Listado
-                .Skip((PaginaActual - 1) * paginacion.Mostrar)
-                .Take(paginacion.Mostrar)
-                .ToList();
-        }
-    }
-
-    private void PaginaAnterior()
-    {
-        if (PaginaActual > 1)
-        {
-            PaginaActual--;
-            ListadoPaginado = Listado
-                .Skip((PaginaActual - 1) * paginacion.Mostrar)
-                .Take(paginacion.Mostrar)
-                .ToList();
-        }
-    }
-
-    public void FiltrarPorLaFecha()
-    {
-        if (FiltrarFecha == true && Listado.Count > 0)
-        {
-            Listado = Listado.Where(p => p.Fecha.Date >= Desde.Date && p.Fecha.Date <= Hasta.Date).ToList();
-            FiltrarFecha = false;
-        }
-        IniciarPaginacion();
-    }
-
-    private void Buscar()
-    {
-        if (Filtro == "0")
+        protected override void OnInitialized()
         {
             Listado = entradasController.GetList(e => true);
-            FiltrarPorLaFecha();
+            Filtro = "0";
+            Desde = DateTime.Now;
+            Hasta = DateTime.Now;
+
+            IniciarPaginacion();
         }
-        else
+
+        public void IniciarPaginacion()
         {
-            if (Criterio == "")
+            PaginaActual = 1;
+            Elementos = Listado.Count();
+            Paginas = Math.Ceiling(Elementos / paginacion.Mostrar);
+            ListadoPaginado = Listado.Take(paginacion.Mostrar).ToList();
+        }
+
+        private void PaginaSiguiente()
+        {
+            if (PaginaActual < Paginas)
             {
-                Mensaje = "Agregue el criterio de busqueda.";
+                PaginaActual++;
+                ListadoPaginado = Listado
+                    .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                    .Take(paginacion.Mostrar)
+                    .ToList();
+            }
+        }
+
+        private void PaginaAnterior()
+        {
+            if (PaginaActual > 1)
+            {
+                PaginaActual--;
+                ListadoPaginado = Listado
+                    .Skip((PaginaActual - 1) * paginacion.Mostrar)
+                    .Take(paginacion.Mostrar)
+                    .ToList();
+            }
+        }
+
+        public void FiltrarPorLaFecha()
+        {
+            if (FiltrarFecha == true && Listado.Count > 0)
+            {
+                Listado = Listado.Where(p => p.Fecha.Date >= Desde.Date && p.Fecha.Date <= Hasta.Date).ToList();
+                FiltrarFecha = false;
+            }
+            IniciarPaginacion();
+        }
+
+        private void Buscar()
+        {
+            if (Filtro == "0")
+            {
+                Listado = entradasController.GetList(e => true);
+                FiltrarPorLaFecha();
             }
             else
             {
-                Listado = entradasController.GetList(e => true);
-                switch (Filtro)
+                if (Criterio == "")
                 {
-                    case "1":
-                        Listado = Listado.Where(e => e.EntradaId.ToString().Contains(Criterio.ToString())).ToList();
-                        Mensaje = "";
-                        break;
+                    Mensaje = "Agregue el criterio de busqueda.";
                 }
-                FiltrarPorLaFecha();
-            }
+                else
+                {
+                    Listado = entradasController.GetList(e => true);
+                    switch (Filtro)
+                    {
+                        case "1":
+                            Listado = Listado.Where(e => e.EntradaId.ToString().Contains(Criterio.ToString())).ToList();
+                            Mensaje = "";
+                            break;
+                    }
+                    FiltrarPorLaFecha();
+                }
 
+            }
         }
     }
-}

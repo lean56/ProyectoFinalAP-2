@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Threading.Tasks;
 
 namespace ProyectoFinalAplicada2.Controllers
 {
@@ -42,7 +41,7 @@ namespace ProyectoFinalAplicada2.Controllers
 
             try
             {
-                if(contexto.Facturas.Add(Factura) != null)
+                if (contexto.Facturas.Add(Factura) != null)
                 {
                     foreach (var item in Factura.Detalle)
                     {
@@ -78,33 +77,33 @@ namespace ProyectoFinalAplicada2.Controllers
                 Cliente.Deuda -= FacturaAnterior.Total;
                 clientesController.Guardar(Cliente);
 
-                    contexto = new Contexto();
-                    foreach (var item in FacturaAnterior.Detalle)
+                contexto = new Contexto();
+                foreach (var item in FacturaAnterior.Detalle)
+                {
+                    if (!Factura.Detalle.Any(d => d.FacturaDetalleId == item.FacturaDetalleId))
                     {
-                        if (!Factura.Detalle.Any(d => d.FacturaDetalleId == item.FacturaDetalleId))
-                        {
-                            contexto.Productos.Find(item.ProductoId).Cantidad += item.Cantidad;
-                            contexto.Entry(item).State = EntityState.Deleted;
-                        }
+                        contexto.Productos.Find(item.ProductoId).Cantidad += item.Cantidad;
+                        contexto.Entry(item).State = EntityState.Deleted;
                     }
+                }
 
-                    foreach (var item in Factura.Detalle)
+                foreach (var item in Factura.Detalle)
+                {
+                    if (item.FacturaDetalleId == 0)
                     {
-                        if (item.FacturaDetalleId == 0)
-                        {
-                            contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad;
-                            contexto.Entry(item).State = EntityState.Added;
+                        contexto.Productos.Find(item.ProductoId).Cantidad -= item.Cantidad;
+                        contexto.Entry(item).State = EntityState.Added;
 
-                        }
-                        else
-                        {
-                            contexto.Entry(item).State = EntityState.Modified;
-
-                        }
                     }
-                    contexto.Clientes.Find(Factura.ClienteId).Deuda += Factura.Total;
-                    contexto.Entry(Factura).State = EntityState.Modified;
-                    paso = contexto.SaveChanges() > 0;
+                    else
+                    {
+                        contexto.Entry(item).State = EntityState.Modified;
+
+                    }
+                }
+                contexto.Clientes.Find(Factura.ClienteId).Deuda += Factura.Total;
+                contexto.Entry(Factura).State = EntityState.Modified;
+                paso = contexto.SaveChanges() > 0;
 
             }
             catch (Exception)
