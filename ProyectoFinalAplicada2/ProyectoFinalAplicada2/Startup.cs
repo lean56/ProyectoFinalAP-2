@@ -73,6 +73,7 @@ namespace ProyectoFinalAplicada2
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
 
+
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -93,40 +94,20 @@ namespace ProyectoFinalAplicada2
             app.UseAuthentication();
             app.UseAuthorization();
 
-            //    if (env.IsDevelopment())
-            //    {
-            //        app.UseDeveloperExceptionPage();
-            //    }
-            //    else
-            //    {
-            //        app.UseExceptionHandler("/Error");
-
-            //        app.UseHsts();
-            //    }
-            //    app.UseHttpsRedirection();
-            //    app.UseStaticFiles();
-            //    app.UseRouting();
-
-            //    app.UseHttpsRedirection();
-            //    app.UseStaticFiles();
-            //    app.UseCookiePolicy();
-            //    app.UseAuthentication();
-            app.UseEndpoints(endpoints =>
+            //app.UseEndpoints(endpoints =>
             //{
             //    endpoints.MapBlazorHub();
 
             //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller=Identity/Account}/{Login}");
+            //       name: "default",
+            //        pattern: "{controller=Home}/{action=Index}/{id?}");
             //    endpoints.MapRazorPages();
             //});
+            app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
-
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                endpoints.MapFallbackToPage("/_Host");
             });
         }
     }

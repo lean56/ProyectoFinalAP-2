@@ -7,7 +7,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <a href="Identity/Account/Manage">
+        <a >
             <span aria-hidden="true" class="mdi:location-exit" style="color:white"></span><p style="color:white; font-size:18px; vertical-align:central; margin-top: 18px">
 
                 Bienvenido, @context.User.Identity.Name!
@@ -27,11 +27,11 @@
     <ul class="nav flex-column">
 
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+            <NavLink class="nav-link" href="index" Match="NavLinkMatch.All">
                 <span class="oi oi-home" aria-hidden="true"></span> Pagina Principal
             </NavLink>
         </li>
-
+        
         <li class="nav-item dropdown px-3">
             @*Dropdown de los registros*@
 
@@ -145,27 +145,19 @@
                 <NavLink class="nav-link" href="cPagos">
                     <span aria-hidden="true" class="oi oi-dollar" style="color:white"></span><p style="color:white; font-size:14px; vertical-align:central; margin-top: 18px">Consulta de Pagos</p>
                 </NavLink>
-
-                <NavLink class="nav-link" href="Identity/Account/Login">
-                </NavLink>
             </div>
         </li>
 
-
-        <br /><br /> <br /> <br /> <br /> <br />
+        <br /> <br /> <br /> <br /> <br /> <br />
 
         <AuthorizeView>
             <Authorized>
-
                 <form method="post" action="Identity/Account/LogOut">
                     <button type="submit" class="nav-link btn btn-link">
-                        <span aria-hidden="true" class="mdi:location-exit" style="color:white"></span><p style="color:white; font-size:18px; vertical-align:central; margin-top: 18px">
-                            Salir
-                        </p>
+                        <img src="SignOut.png">
+
                     </button>
                 </form>
-                <span class="iconify" data-icon="mdi:location-exit" data-inline="false"></span>
-
             </Authorized>
         </AuthorizeView>
 

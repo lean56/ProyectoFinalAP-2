@@ -11,8 +11,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using ProyectoFinalAplicada2.Models;
 
 namespace ProyectoFinalAplicada2.Areas.Identity.Pages.Account
 {
@@ -43,53 +45,25 @@ namespace ProyectoFinalAplicada2.Areas.Identity.Pages.Account
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        public class InputModel
+        public class InputModel : InputModelRegistrar
         {
-            //[Required]
+            [TempData]
+            public string ErrorMessage { get; set; }
+            //[Required(ErrorMessage = "Campo obligatorio")]
             //[EmailAddress]
             //[Display(Name = "Email")]
             //public string Email { get; set; }
 
-            //[Required]
-            //[StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            //[Required(ErrorMessage = "Campo obligatorio")]
+            //[StringLength(100, ErrorMessage = " El {0} debe tener al menos {2}  y un máximo de {1} caracteres de longitud.", MinimumLength = 6)]
             //[DataType(DataType.Password)]
-            //[Display(Name = "Password")]
+            //[Display(Name = "Contraseña")]
             //public string Password { get; set; }
 
             //[DataType(DataType.Password)]
-            //[Display(Name = "Confirm password")]
-            //[Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            //[Display(Name = "Confirmar contraseña")]
+            //[Compare("Password", ErrorMessage = "La contraseña y la contraseña de confirmación no coinciden.")]
             //public string ConfirmPassword { get; set; }
-
-
-
-            [Key]
-            public int UsuarioId { get; set; }
-            public DateTime FechaIngreso { get; set; }
-            [Required(ErrorMessage = "El Nombre es obligatorio.")]
-            [MinLength(3, ErrorMessage = "Este nombre es muy corto, debe elegir un nombre más largo.")]
-            [MaxLength(20, ErrorMessage = "Este nombre es muy largo, debe elegir un nombre más corto.")]
-            public string Nombres { get; set; }
-            [Required(ErrorMessage = "El Apellido es obligatorio.")]
-            [MinLength(3, ErrorMessage = "El o los apellidos son muy cortos.")]
-            [MaxLength(20, ErrorMessage = "El o los apellidos son muy largos.")]
-            public string Apellidos { get; set; }
-            [Required(ErrorMessage = "El Email es obligatorio")]
-            [EmailAddress(ErrorMessage = "Debe ingresar un Email valido.")]
-            [MaxLength(40, ErrorMessage = "Este correo es muy largo.")]
-            public string Email { get; set; }
-            [Required(ErrorMessage = "El Usuario es obligatorio.")]
-            [MinLength(3, ErrorMessage = "El usuario es muy corto, bebe contener al menos 3 caracteres.")]
-            [MaxLength(20, ErrorMessage = "El Usuario es muy largo.")]
-            public string Usuario { get; set; }
-            //[Required(ErrorMessage = "Debe elegir un nivel de usuario.")]
-            //[MinLength(5, ErrorMessage = "Debe elegir un nivel de usuario.")]
-            public string NivelUsuario { get; set; }
-            [Required(ErrorMessage = "Debe ingresar una contraseña")]
-            [MinLength(5, ErrorMessage = "La contraseña debe contener al menos 5 caracteres.")]
-            [MaxLength(30, ErrorMessage = "La contraseña es muy larga.")]
-            public string Contrasena { get; set; }
-
 
         }
 
@@ -106,7 +80,7 @@ namespace ProyectoFinalAplicada2.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
-                var result = await _userManager.CreateAsync(user, Input.Contrasena);
+                var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
@@ -141,5 +115,7 @@ namespace ProyectoFinalAplicada2.Areas.Identity.Pages.Account
             // If we got this far, something failed, redisplay form
             return Page();
         }
+
+       
     }
 }

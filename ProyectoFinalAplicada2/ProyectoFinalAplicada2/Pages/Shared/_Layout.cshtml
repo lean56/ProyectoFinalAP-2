@@ -1,104 +1,49 @@
-﻿@using Microsoft.AspNetCore.Identity;
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
-@{
-    var userImagen = UserManager.GetUserName(User) + ".png";
-}
+﻿@using Microsoft.AspNetCore.Hosting
+@using Microsoft.AspNetCore.Mvc.ViewEngines
+@inject IWebHostEnvironment Environment
+@inject ICompositeViewEngine Engine
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Sistem Ventas</title>
+    <title>@ViewData["Title"] - BlazorApp3</title>
+    @*<link rel="stylesheet" href="~/Identity/lib/bootstrap/dist/css/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/Identity/css/site.css" />*@
     <link rel="stylesheet" href="~/materialize/css/materialize.css" />
-    <link rel="stylesheet" href="~/css/site1.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-    <nav>
-        <div class="nav-wrapper cyan darken-2">
-            <a href="#!" class="brand-logo center">
-               SoftBusiness
-            </a>
-            @*@if (SignInManager.IsSignedIn(User))
-                {
-                    <div id="menuNavBar1">
-                        <ul class="right hide-on-med-and-down">
-                            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="SessionClose">
-                                Salir
-                            </a>
-                        </ul>
-
-                        <a href"#" data-target="slide-out" class="btn-floating btn-large waves-effect waves-light cyan darken-2 sidenav-trigger"></a>
-                    </div>
-                }*@
-        </div>
-    </nav>
-
-    <ul id="slide-out" class="sidenav">
-
-        <li>
-            <a>Registro de Usuarios</a>
-        </li>
-        <li>
-            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="Index" onclick="">Registro de Usuarios</a>
-        </li>
-        <li>
-            <a asp-area="Cajas" asp-controller="Cajas" asp-action="Index" onclick="" id="">Registro de Usuarios</a>
-        </li>
-        <li>
-            <a asp-area="Usuarios" asp-controller="Usuarios" asp-action="SessionClose">
-                Salir
-            </a>
-        </li>
-    </ul>
-
-
-    <li>
-        <a>Registro de Usuarios</a>
-
-    </li>
-    <li>
-        <a>Registro de Usuarios</a>
-
-    </li>
-    <li>
-        <a>Registro de Usuarios</a>
-
-    </li>
-    <li>
-        <a>Registro de Usuarios</a>
-
-    </li>
-
-    <div class="container body-content">
-        <div class="form-group">
-            @RenderBody()
-        </div>
-       
-            <hr />
-            <footer>
-                <p>&copy; 2020 - Sistem Ventas</p>
-            </footer>
-        </div>
-
-        @*<footer class="border-top footer text-muted">
-            <div class="container">
-                &copy; 2020 - Sistem_Venta - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <header>
+        <nav>
+            <div class="nav-wrapper cyan darken-2">
+                <a class="brand-logo center">
+                   SoftBusiness
+                </a>
+                <div id="menuNavBar1">
+      
+                    <a href"#" data-target="slide-out" class="btn-floating btn-large waves-effect waves-light cyan darken-2 sidenav-trigger"></a>
+                </div>
             </div>
-        </footer>*@
-        <script src="~/lib/jquery/dist/jquery.min.js"></script>
-        <script src="~/js/Config.js" asp-append-version="true"></script>
-        <script src="~/js/Funciones.js" asp-append-version="true"></script>
-        <script src="~/js/UploadImage.js" asp-append-version="true"></script>
-        <script src="~/js/Principal.js" asp-append-version="true"></script>
-        <script src="~/js/Usuarios.js" asp-append-version="true"></script>
-        <script src="~/js/Compras.js" asp-append-version="true"></script>
-        <script src="~/js/Ventas.js" asp-append-version="true"></script>
-        <script src="~/js/Clientes.js" asp-append-version="true"></script>
-        <script src="~/js/Proveedores.js" asp-append-version="true"></script>
-        <script src="~/js/site.js" asp-append-version="true"></script>
-        <script src="~/materialize/js/materialize.js" asp-append-version="true"></script>
+        </nav>
+    </header>
 
-        @RenderSection("Scripts", required: false)
+    <div class="container">
+        <main role="main" class="center">
+            @RenderBody()
+        </main>
+    </div>
+    <br />    <br />    <br />
+    <footer class="footer border-top text-muted">
+        <div class="container center">
+            &copy; 2020 - SoftBusiness - Todos los derechos reservados
+        </div>
+    </footer>
+    <script src="~/Identity/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/Identity/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Identity/js/site.js" asp-append-version="true"></script>
+    <script src="~/materialize/js/materialize.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

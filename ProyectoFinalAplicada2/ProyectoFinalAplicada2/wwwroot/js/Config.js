@@ -1,1 +1,0 @@
-﻿const URL = "https://localhost:44349/";
